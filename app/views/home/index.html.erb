@@ -7,7 +7,7 @@
 
 <% @tracks.each do |track| %>
   <tr>
-    <td><%= link_to track.name, track, :class => 'btn' %></td>
+    <td><%= link_to track.name, track_meets_path(:track_id => track.id), :class => 'btn' %></td>
   </tr>
 <% end %>
 </table>

@@ -1,4 +1,5 @@
 class Track < ActiveRecord::Base
-  scope :open, where(:open => true)
+  has_many :meets, :dependent => :destroy
+  scope :active, where(:open => true)
   attr_accessible :description, :name, :open, :owner_id, :public
 end

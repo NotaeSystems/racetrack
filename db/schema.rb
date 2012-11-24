@@ -11,7 +11,27 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124135914) do
+ActiveRecord::Schema.define(:version => 20121124191639) do
+
+  create_table "cards", :force => true do |t|
+    t.string   "name"
+    t.integer  "meet_id"
+    t.boolean  "open"
+    t.text     "description"
+    t.boolean  "completed"
+    t.datetime "completed_date"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "horses", :force => true do |t|
+    t.string   "name"
+    t.integer  "race_id"
+    t.text     "description"
+    t.integer  "finish"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "meets", :force => true do |t|
     t.string   "name"
@@ -22,6 +42,19 @@ ActiveRecord::Schema.define(:version => 20121124135914) do
     t.datetime "completed_date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "races", :force => true do |t|
+    t.string   "name"
+    t.integer  "card_id"
+    t.boolean  "open"
+    t.datetime "start_betting_time"
+    t.datetime "post_time"
+    t.text     "description"
+    t.boolean  "completed"
+    t.datetime "completed_date"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
   end
 
   create_table "roles", :force => true do |t|

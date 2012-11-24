@@ -1,35 +1,38 @@
+<h1><%=@track.name %></h1>
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Name:</b>
-  <%= @meet.name %>
-</p>
 
-<p>
-  <b>Track:</b>
-  <%= @meet.track_id %>
+<h2>  <%= @meet.name %></h2>
 </p>
-
-<p>
-  <b>Open:</b>
-  <%= @meet.open %>
-</p>
-
 <p>
   <b>Description:</b>
   <%= @meet.description %>
 </p>
 
-<p>
-  <b>Completed:</b>
-  <%= @meet.completed %>
-</p>
+<h3>Cards</h3>
 
-<p>
-  <b>Completed date:</b>
-  <%= @meet.completed_date %>
-</p>
+<table>
 
 
-<%= link_to 'Edit', edit_meet_path(@meet) %> |
-<%= link_to 'Back', meets_path %>
+<% @cards.each do |card| %>
+  <tr>
+    <td><%= link_to card.name, card_path(card), :class => 'btn' %></td>
+    <td><%= card.description %></td>
+    <%if current_user.is_track_owner?(@track) %>
+
+      <td><%= link_to 'Edit', edit_card_path(card), :class => 'btn' %></td>
+      <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn' %></td>
+    <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+
+
+<%if current_user.is_track_owner?(@track) %>
+<%= link_to "New Card for #{@meet.name}", new_card_path(:meet_id => @meet.id), :class => 'btn'  %>
+  <%= link_to "Edit Meet-#{@meet.name}", edit_meet_path(@meet), :class => 'btn' %> |
+<%end%>

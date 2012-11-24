@@ -1,4 +1,6 @@
 class Meet < ActiveRecord::Base
-  scope :open, where(:open => true)
+  has_many :cards
+  belongs_to :track
+  scope :active, where(:open => true)
   attr_accessible :completed, :completed_date, :description, :name, :open, :track_id
 end

@@ -2,8 +2,9 @@ class MeetsController < ApplicationController
   # GET /meets
   # GET /meets.json
   def index
-    @meets = Meet.all
-
+    track_id = params[:track_id]
+    @track = Track.where("id = ?",track_id).first
+    @meets = @track.meets.active
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meets }
@@ -13,8 +14,11 @@ class MeetsController < ApplicationController
   # GET /meets/1
   # GET /meets/1.json
   def show
-    @meet = Meet.find(params[:id])
 
+   
+    @meet = Meet.find(params[:id])
+    @track = @meet.track
+    @cards = @meet.cards
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meet }

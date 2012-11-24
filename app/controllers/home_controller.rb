@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @tracks = Track.open
+    @tracks = Track.active
   end
 end
