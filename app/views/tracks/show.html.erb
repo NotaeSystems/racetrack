@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+
+ <h1> <%= @track.name %> </h1>
+
+<p>
+  <%= @track.description %>
+</p>
+
+<%if current_user.is_track_owner?(@track) %>
+
+  <%= link_to 'Edit', edit_track_path(@track) %> |
+  <%= link_to 'Back', tracks_path %>
+<%end%>
