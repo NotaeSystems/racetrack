@@ -1,0 +1,31 @@
+<h1>Listing credits</h1>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Meet</th>
+    <th>Amount</th>
+    <th>Description</th>
+    <th>Credit type</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @credits.each do |credit| %>
+  <tr>
+    <td><%= credit.user_id %></td>
+    <td><%= credit.meet_id %></td>
+    <td><%= credit.amount %></td>
+    <td><%= credit.description %></td>
+    <td><%= credit.credit_type %></td>
+    <td><%= link_to 'Show', credit %></td>
+    <td><%= link_to 'Edit', edit_credit_path(credit) %></td>
+    <td><%= link_to 'Destroy', credit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Credit', new_credit_path %>

@@ -1,6 +1,6 @@
 <h1>Listing horses</h1>
 
-<table>
+<table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>Name</th>
     <th>Race</th>
@@ -18,13 +18,13 @@
     <td><%= horse.description %></td>
     <td><%= horse.finish %></td>
     <td><%= link_to 'Show', horse %></td>
-    <td><%= link_to 'Edit', edit_horse_path(horse) %></td>
-    <td><%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
   </tr>
 <% end %>
 </table>
 
 <br />
 <%if current_user.is_track_owner?(@track) %>
-  <%= link_to 'New Horse', new_horse_path, %>
+  <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-mini btn-warning' %>
 <%end%>

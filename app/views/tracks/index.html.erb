@@ -1,6 +1,6 @@
 <h1>Listing tracks</h1>
 
-<table>
+<table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>Name</th>
     <th>Owner</th>
@@ -14,13 +14,13 @@
 
 <% @tracks.each do |track| %>
   <tr>
-    <td><%= track.name %></td>
-    <td><%= track.owner_id %></td>
+    <td><%= link_to track.name , edit_track_path(track), :class => 'btn'%></td>
+    <td><%= track.owner.name %></td>
     <td><%= track.public %></td>
     <td><%= track.open %></td>
     <td><%= track.description %></td>
     <td><%= link_to 'Show', track %></td>
-    <td><%= link_to 'Edit', edit_track_path(track) %></td>
+    <td><%= link_to 'Edit', edit_track_path(track), :class => 'btn' %></td>
     <td><%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
 <% end %>
@@ -28,4 +28,4 @@
 
 <br />
 
-<%= link_to 'New Track', new_track_path %>
+<%= link_to 'New Track', new_track_path, :class => 'btn' %>

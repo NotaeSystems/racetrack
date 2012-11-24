@@ -1,4 +1,8 @@
 Myapp::Application.routes.draw do
+  resources :bets
+
+  resources :credits
+
   resources :horses
 
   resources :races

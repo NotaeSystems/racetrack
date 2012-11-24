@@ -9,6 +9,6 @@
 
 <%if current_user.is_track_owner?(@track) %>
 
-  <%= link_to 'Edit', edit_track_path(@track) %> |
-  <%= link_to 'Back', tracks_path %>
+  <%= link_to 'Edit', edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
+
 <%end%>

@@ -11,7 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124191639) do
+ActiveRecord::Schema.define(:version => 20121124230109) do
+
+  create_table "bets", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "horse_id"
+    t.integer  "amount"
+    t.string   "bet_type"
+    t.integer  "meet_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "race_id"
+  end
 
   create_table "cards", :force => true do |t|
     t.string   "name"
@@ -22,6 +33,16 @@ ActiveRecord::Schema.define(:version => 20121124191639) do
     t.datetime "completed_date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+  end
+
+  create_table "credits", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "meet_id"
+    t.integer  "amount"
+    t.text     "description"
+    t.string   "credit_type"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "horses", :force => true do |t|
