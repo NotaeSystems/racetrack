@@ -8,7 +8,7 @@
 
     <td><%= meet.description %></td>
 
-<%if current_user.is_track_owner?(@track) %>
+<%if user_is_track_owner?(@track) %>
     <td><%= link_to 'Edit Meet', edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
     <td><%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
 <%end%>
@@ -17,6 +17,6 @@
 </table>
 
 <br />
-<%if current_user.is_track_owner?(@track) %>
+<%if user_is_track_owner?(@track) %>
   <%= link_to 'New Meet', new_meet_path, :class => 'btn btn-mini btn-warning' %>
 <%end%>

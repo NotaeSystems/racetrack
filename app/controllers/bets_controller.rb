@@ -1,6 +1,7 @@
 class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
+
   def index
     @bets = Bet.all
 
@@ -24,15 +25,24 @@ class BetsController < ApplicationController
   # GET /bets/new
   # GET /bets/new.json
   def new
-    @horse = Horse.find(params[:horse_id])
-    @bet = Bet.new
-    @bet.horse_id = @horse.id
-    @bet.user_id = current_user.id
-    @bet.meet_id = @horse.race.card.meet.id
-    @bet.race_id = @horse.race.id
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @bet }
+
+      @horse = Horse.find(params[:horse_id])
+    if current_user
+      @bet = Bet.new
+      @bet.horse_id = @horse.id
+      @bet.user_id = current_user.id
+      @bet.meet_id = @horse.race.card.meet.id
+      @bet.race_id = @horse.race.id
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @bet }
+      end
+   else
+
+      respond_to do |format|
+        format.html{ redirect_to race_path(:id => @horse.race.id), notice: "You must be logged in to bet" }
+        format.json { render json: @bet }
+     end
     end
   end
 
