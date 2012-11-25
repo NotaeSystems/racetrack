@@ -9,6 +9,7 @@ class Horse < ActiveRecord::Base
  
   
   def odds
+    return 0 if self.total_bets == 0
     self.race.total_bets / self.total_bets
   end
 end
