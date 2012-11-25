@@ -2,6 +2,7 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
     before_filter :login_required
+  before_filter :check_for_post_time, :only => [:new, :create]
   before_filter :check_credits_for_zero_balance, :only => [:new]
   before_filter :check_credits_for_sufficient_balance, :only => [:create]
 
@@ -129,5 +130,13 @@ class BetsController < ApplicationController
       redirect_to race_path(:id => @horse.race.id)
   end
 
-
+ def check_for_post_time
+   @horse = Horse.find(params[:horse_id])
+   post_time = @horse.race.post_time
+   return if post_time > Time.zone.now
+   flash[:notice] = "Sorry, post time has passed. No futher betting allowd."
+   redirect_to race_path(:id => @horse.race.id)
+     
+   end
+ 
 end

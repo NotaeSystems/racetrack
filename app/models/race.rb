@@ -36,7 +36,15 @@ class Race < ActiveRecord::Base
         bet_payoff = bet_amount.to_f * winner_odds
         logger.debug "bet payoff: #{bet_payoff}\n"
         # create credit for horse_payoff
+        Credit.create( :user_id => bet.user_id,
+                   :meet_id => bet.meet_id,
+                   :amount => bet_payoff,
+                   :credit_type => 'Win',
+                   :description => "Winnings: #{self.name}"
+                 )
       end
     end
+    self.open = false
+    self.save
   end
 end
