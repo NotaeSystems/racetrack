@@ -1,6 +1,16 @@
 class MeetsController < ApplicationController
   # GET /meets
   # GET /meets.json
+
+  def refresh_credits
+    @meet = Meet.find(params[:id])
+    @meet.refresh_credits(current_user)
+    respond_to do |format|
+        format.html { redirect_to @meet, notice: 'Meet was successfully updated.' }
+        format.json { head :no_content }
+    end
+  end
+
   def index
     track_id = params[:track_id]
     @track = Track.where("id = ?",track_id).first

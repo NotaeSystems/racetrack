@@ -9,7 +9,16 @@ Myapp::Application.routes.draw do
 
   resources :cards
 
-  resources :meets
+  resources :meets do
+      collection do
+        #get ''
+      end
+      member do
+        get 'refresh_credits'
+        #get 'credits'
+      end 
+
+  end
 
   resources :tracks
 

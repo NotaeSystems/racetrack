@@ -1,7 +1,8 @@
 class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
-
+  before_filter :check_credits_for_zero_balance, :only => [:new]
+  before_filter :check_credits_for_sufficient_balance, :only => [:create]
   def index
     @bets = Bet.all
 
@@ -55,10 +56,19 @@ class BetsController < ApplicationController
   # POST /bets.json
   def create
     @bet = Bet.new(params[:bet])
-
+    meet = Meet.find(params[:bet][:meet_id])
+    horse = Horse.find(params[:bet][:horse_id])
+    ### deduct bet from credits
+    credit = Credit.create(:user_id => current_user.id,
+                           :meet_id => meet.id,
+                           :amount => -@bet.amount,
+                           :description => "Deduction for Bet",
+                           :credit_type => "Bet Deduction"
+                           ) 
+    
     respond_to do |format|
       if @bet.save
-        format.html { redirect_to @bet, notice: 'Bet was successfully created.' }
+        format.html { redirect_to race_path(:id => horse.race), notice: 'Bet was successfully created.' }
         format.json { render json: @bet, status: :created, location: @bet }
       else
         format.html { render action: "new" }
@@ -93,5 +103,26 @@ class BetsController < ApplicationController
       format.html { redirect_to bets_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def check_credits_for_zero_balance
+      @horse = Horse.find(params[:horse_id])
+      @meet = @horse.race.card.meet
+      balance = current_user.meet_balance(@meet)
+      return if balance > 0
+      flash[:notice] = "Sorry, you are out of credits for this meet."
+      redirect_to race_path(:id => @horse.race.id)
+  end
+
+  def check_credits_for_sufficient_balance
+      @amount = params[:bet][:amount].to_i
+      @horse = Horse.find(params[:bet][:horse_id])
+      @meet = @horse.race.card.meet
+      balance = current_user.meet_balance(@meet)
+      return if balance > @amount 
+      flash[:notice] = "Sorry, you do not have enough credits for this bet."
+      redirect_to race_path(:id => @horse.race.id)
   end
 end

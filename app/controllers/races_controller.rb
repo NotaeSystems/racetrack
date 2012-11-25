@@ -12,9 +12,19 @@ class RacesController < ApplicationController
 
   # GET /races/1
   # GET /races/1.json
+
+  def close
+    @race = Race.find(params[:id])
+    ## close out race
+
+    ## award credits to winners
+    ## determine odds
+  end
+
   def show
     @race = Race.find(params[:id])
     @horses = @race.horses
+    @track = @race.card.meet.track
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @race }

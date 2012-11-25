@@ -25,6 +25,6 @@
 </table>
 
 <br />
-<%if current_user.is_track_owner?(@track) %>
+<%if user_is_track_owner?(@track) %>
   <%= link_to 'New Horse', new_horse_path, :class => 'btn btn-mini btn-warning' %>
 <%end%>

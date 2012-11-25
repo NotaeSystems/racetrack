@@ -1,11 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 
-<h1>  <%= @race.name %></h1>
+<h1><%= link_to @track.name, track_path(@track.id), :class => 'btn' %></h1>
 
 
-  <h2><%= @race.card.name %></h2>
-
+  <h2><%= link_to @race.card.name, card_path(:id => @race.card.id), :class => 'btn' %></h2>
+<h4>Credit Balance for <%=@race.card.meet.name%>: <%=current_user.meet_balance(@race.card.meet) %></h4>
 
 
 <p>

@@ -14,7 +14,12 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me
   
   def is_track_owner?(track)
-    return true #if track.owner_id == self.id
+    return true if track.owner_id == self.id
     
+  end
+
+  def meet_balance(meet)
+   self.credits.where("meet_id = ?", meet.id).sum(:amount)
+
   end
 end

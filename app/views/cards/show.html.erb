@@ -1,7 +1,7 @@
-<h1><%=@track.name %></h1>
+<h1><%= link_to @track.name, track_path(@track.id), :class => 'btn' %></h1>
 <p id="notice"><%= notice %></p>
 <h2>  <%= @meet.name %></h2>
-</p>
+<h4>Credit Balance for <%=@meet.name%>: <%=current_user.meet_balance(@meet) %></h4>
 <p>
   <%= @meet.description %>
 </p>

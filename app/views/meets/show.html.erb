@@ -1,4 +1,4 @@
-<h1><%=@track.name %></h1>
+<h1><%= link_to @track.name, track_path(@track.id), :class => 'btn' %></h1>
 <p id="notice"><%= notice %></p>
 
 <p>
@@ -11,7 +11,10 @@
 </p>
 
 <h3>Cards</h3>
-
+<h4>Credit Balance for <%=@meet.name%>: <%=current_user.meet_balance(@meet) %></h4>
+<%if current_user.meet_balance(@meet) == 0 %>
+<%= link_to "Refresh Credits", refresh_credits_meet_path(:id => @meet.id) %>
+<%end%>
 <table class='table table-striped table-bordered table-condensed'>
 
 
