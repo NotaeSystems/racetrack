@@ -1,8 +1,10 @@
 class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
+    before_filter :login_required
   before_filter :check_credits_for_zero_balance, :only => [:new]
   before_filter :check_credits_for_sufficient_balance, :only => [:create]
+
   def index
     @bets = Bet.all
 
@@ -108,6 +110,7 @@ class BetsController < ApplicationController
   private
 
   def check_credits_for_zero_balance
+     
       @horse = Horse.find(params[:horse_id])
       @meet = @horse.race.card.meet
       balance = current_user.meet_balance(@meet)
@@ -125,4 +128,6 @@ class BetsController < ApplicationController
       flash[:notice] = "Sorry, you do not have enough credits for this bet."
       redirect_to race_path(:id => @horse.race.id)
   end
+
+
 end

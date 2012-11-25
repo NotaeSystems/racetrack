@@ -11,12 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121124230109) do
+ActiveRecord::Schema.define(:version => 20121125142400) do
 
   create_table "bets", :force => true do |t|
     t.integer  "user_id"
     t.integer  "horse_id"
-    t.integer  "amount"
+    t.decimal  "amount"
     t.string   "bet_type"
     t.integer  "meet_id"
     t.datetime "created_at", :null => false
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20121124230109) do
   create_table "credits", :force => true do |t|
     t.integer  "user_id"
     t.integer  "meet_id"
-    t.integer  "amount"
+    t.decimal  "amount"
     t.text     "description"
     t.string   "credit_type"
     t.datetime "created_at",  :null => false

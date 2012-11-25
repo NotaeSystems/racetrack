@@ -10,6 +10,7 @@ class Horse < ActiveRecord::Base
   
   def odds
     return 0 if self.total_bets == 0
-    self.race.total_bets / self.total_bets
+    floated_odds = self.race.total_bets.to_f / self.total_bets.to_f
+    odds = (floated_odds * 20).round.to_f/20
   end
 end

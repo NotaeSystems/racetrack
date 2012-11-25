@@ -1,6 +1,19 @@
 class RacesController < ApplicationController
   # GET /races
   # GET /races.json
+
+  def close
+    @race = Race.find(params[:id])
+    ## close out race
+    @race.close
+    ## award credits to winners
+    ## determine odds
+    respond_to do |format|
+      format.html { redirect_to @race, notice: 'Race was successfully closed.' }
+      format.json { render json: @race }
+    end
+  end
+
   def index
     @races = Race.all
 
@@ -13,13 +26,7 @@ class RacesController < ApplicationController
   # GET /races/1
   # GET /races/1.json
 
-  def close
-    @race = Race.find(params[:id])
-    ## close out race
 
-    ## award credits to winners
-    ## determine odds
-  end
 
   def show
     @race = Race.find(params[:id])

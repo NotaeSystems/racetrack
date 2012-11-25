@@ -7,7 +7,29 @@
   <%= @track.description %>
 </p>
 
-<%if current_user.is_track_owner?(@track) %>
+<h1>Listing Meets for <%= @track.name %></h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+
+<% @track.meets.each do |meet| %>
+  <tr>
+    <td><%=link_to  meet.name, track_meet_path(:id => meet.id, :track_id => @track.id), :class => 'btn' %></td>
+
+    <td><%= meet.description %></td>
+
+<%if user_is_track_owner?(@track) %>
+    <td><%= link_to 'Edit Meet', edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+<%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%if user_is_track_owner?(@track) %>
+  <%= link_to 'New Meet', new_meet_path, :class => 'btn btn-mini btn-warning' %>
+<%end%>
+<%if user_is_track_owner?(@track) %>
 
   <%= link_to 'Edit', edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
 

@@ -5,5 +5,9 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
   
+  def login_required
+    return true if current_user
+    redirect_to root_path, :alert => "Must be logged in "
+  end
 
 end

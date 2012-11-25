@@ -5,7 +5,7 @@ Myapp::Application.routes.draw do
 
   resources :horses
 
-  resources :races
+
 
   resources :cards
 
@@ -48,6 +48,26 @@ Myapp::Application.routes.draw do
         end 
       end ## end resources meets
     end ### resources tracks
+
+  ##### races
+    resources :races do
+      collection do
+        #get 'members'
+      end
+      member do
+        get 'close'
+        #get 'credits'
+      end 
+      ### track/meets
+      #resources :meets do
+      #  collection do
+          #get 'members'
+     #   end
+      #  member do
+          #get 'users'
+      #  end 
+      #end ## end resources meets
+    end ### resources race
 
 
  # end

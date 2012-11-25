@@ -1,26 +1,29 @@
-<%= link_to "Race Track Rails", root_path, :class => 'brand' %>
+<%= link_to "Fantasy Odds Maker", root_path, :class => 'brand' %>
 <ul class="nav">
   <% if user_signed_in? %>
-    <li>
-    <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>        
+ <li>
+   <%= link_to "Logout-#{current_user.name}", destroy_user_session_path, :method=>'delete', :class => 'btn btn-mini' %>        
     </li>
   <% else %>
     <li>
-    <%= link_to 'Login', new_user_session_path %>  
+    <%= link_to 'Login', new_user_session_path , :class => 'btn btn-mini btn-warning' %>        
     </li>
   <% end %>
   <% if user_signed_in? %>
     <li>
-    <%= link_to 'Edit account', edit_user_registration_path %>
+    <%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini' %>        
     </li>
+
     <% if current_user.has_role? :admin %>
       <li>
-      <%= link_to 'Admin', users_path %>
-      </li>
+      <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>        
+    </li> 
+ 
     <% end %>
   <% else %>
     <li>
-    <%= link_to 'Sign up', new_user_registration_path %>
-    </li>
+    <%= link_to 'Sign up', new_user_registration_path, :class => 'btn btn-mini btn-warning' %>        
+    </li> 
+ 
   <% end %>
 </ul>
