@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   
   def is_track_owner?(track)
+    return false if track.nil?
     return true if track.owner_id == self.id
     
   end
