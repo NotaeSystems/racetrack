@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @ranking.user_id %>
+</p>
+
+<p>
+  <b>Meet:</b>
+  <%= @ranking.meet_id %>
+</p>
+
+<p>
+  <b>Amount:</b>
+  <%= @ranking.amount %>
+</p>
+
+<p>
+  <b>Rank:</b>
+  <%= @ranking.rank %>
+</p>
+
+
+<%= link_to 'Edit', edit_ranking_path(@ranking) %> |
+<%= link_to 'Back', rankings_path %>

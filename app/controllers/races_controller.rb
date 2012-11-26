@@ -3,15 +3,27 @@ class RacesController < ApplicationController
   # GET /races.json
 
   def close
+    status = params[:status]
     @race = Race.find(params[:id])
     ## close out race
-    @race.close
+    @race.status = status
+    @race.save
+    flash[:notice] = 'Race status was successfully changed.'
+ 
     ## award credits to winners
     ## determine odds
     respond_to do |format|
       format.html { redirect_to @race, notice: 'Race was successfully closed.' }
       format.json { render json: @race }
     end
+  end
+
+  def payout
+    status = params[:status]
+    @race = Race.find(params[:id])
+    @race.payout
+    flash[:notice] = 'Race was successfully Paid Out.'
+    redirect_to @race
   end
 
   def index

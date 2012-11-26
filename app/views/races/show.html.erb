@@ -1,4 +1,4 @@
-<p id="notice"><%= notice %></p>
+
 
 
 <h1><%= link_to @track.name, track_path(@track.id), :class => 'btn' %></h1>
@@ -11,25 +11,27 @@
 <h3>Login or Signup for Free 100 Credits</h3>
 <%end%>
 
+
+
+
+<h3><%=@race.name%>-<%=@race.status%>-Total Pool: <%= @race.total_bets%></h3>
+ <p> <%= @race.description %></p>
 <p>
   <b>Start betting time:</b>
   <%= @race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %>
-</p>
-
-<p>
-  <b>Post time:</b>
+---
+  <b>End betting time:</b>
   <%= @race.post_time.strftime("%B %d at %I:%M %p %Z") %>
 </p>
-
-<p>
-
-  <%= @race.description %>
-</p>
-
-<h3>Outcomes-Total Pool: <%= @race.total_bets%></h3>
-
 <%if user_is_track_owner?(@track) %>
-    <%= link_to 'Close Race', close_race_path(:id => @race.id), :class => 'btn btn-mini btn-warning' %>
+    <%if @race.status == 'Open' %>
+      <%= link_to "Close #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Close'), :class => 'btn btn-mini btn-warning' %>
+    <%else%>
+      <%= link_to "Open #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Open'), :class => 'btn btn-mini btn-warning' %>
+      <%= link_to "Payout #{@track.race_alias}", payout_race_path(:id => @race.id), :class => 'btn btn-mini btn-warning' %>
+    <%end%>
+   <%= link_to "Delete #{@track.race_alias}", @race, method: :delete, data: { confirm: 'Are you sure? This will delete this race.' }, :class => 'btn btn-mini btn-warning' %>
+<td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 
 <table class='table table-striped table-bordered table-condensed'>
@@ -38,16 +40,27 @@
   <tr>
     <td><%= horse.name %></td>
     <td><%= horse.description %></td>
+     <td><%= horse.status %></td>   
     <td><%= horse.finish %></td>
     <td>Total Bets: <%= horse.total_bets %> Odds: <%=horse.odds%></td>
-<% if user_signed_in? %>
-    <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+
+<%if @race.status == 'Open'%>
+  <%if horse.status == 'Active'%>
+    <% if user_signed_in? %>
+      <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+    <%else%>
+      <td><%= link_to 'Login to Bet', new_user_session_path , :class => 'btn btn-mini btn-info' %> </td>
+    <%end%>
+  <%else%>
+     <td><%= horse.status %></td>   
+
+   <%end%>
 <%else%>
-    <td><%= link_to 'Login to Bet', new_user_session_path , :class => 'btn btn-mini btn-info' %> </td>
+    <td>Closed!</td>
 <%end%>
 <%if user_is_track_owner?(@track) %>
-    <td><%= link_to 'Edit', edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %></td>
-    <td><%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
    
 <%end%>
   </tr>
@@ -56,8 +69,7 @@
 
 <br />
 <%if user_is_track_owner?(@track) %>
-<%= link_to 'New Horse', new_horse_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
+<%= link_to "New #{@track.horse_alias}", new_horse_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
 
 
-<%= link_to 'Edit', edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>

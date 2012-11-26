@@ -16,13 +16,13 @@
   <%= @card.description %>
 </p>
 
-<h3>Listing races</h3>
+<h3>Listing <%=@track.race_alias.pluralize%></h3>
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>Name</th>
     <th>Start betting time</th>
-    <th>Post time</th>
+    <th>End betting time</th>
     <th>Description</th>
 <%if user_is_track_owner?(@track) %>
     <th></th>
@@ -48,9 +48,9 @@
 <br />
 
 <%if user_is_track_owner?(@track) %>
-<%= link_to 'New Race', new_race_path(:card_id => @card.id), :class => 'btn btn-mini btn-warning' %>
+<%= link_to "New #{@track.race_alias}", new_race_path(:card_id => @card.id), :class => 'btn btn-mini btn-warning' %>
 
 
-<%= link_to 'Edit', edit_card_path(@card), :class => 'btn btn-mini btn-warning' %>
+<%= link_to "Edit #{@card.name}", edit_card_path(@card), :class => 'btn btn-mini btn-warning' %>
 
 <%end%>

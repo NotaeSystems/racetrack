@@ -2,7 +2,7 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
     before_filter :login_required
-  before_filter :check_for_post_time, :only => [:new, :create]
+  before_filter :check_for_post_time, :only => [:create]
   before_filter :check_credits_for_zero_balance, :only => [:new]
   before_filter :check_credits_for_sufficient_balance, :only => [:create]
 
@@ -61,16 +61,16 @@ class BetsController < ApplicationController
     @bet = Bet.new(params[:bet])
     meet = Meet.find(params[:bet][:meet_id])
     horse = Horse.find(params[:bet][:horse_id])
-    ### deduct bet from credits
-    credit = Credit.create(:user_id => current_user.id,
+
+    respond_to do |format|
+      if @bet.save
+         credit = Credit.create(:user_id => current_user.id,
                            :meet_id => meet.id,
                            :amount => -@bet.amount,
                            :description => "Deduction for Bet",
                            :credit_type => "Bet Deduction"
-                           ) 
-    
-    respond_to do |format|
-      if @bet.save
+                             ) 
+     current_user.update_ranking(meet.id, -@bet.amount)
         format.html { redirect_to race_path(:id => horse.race), notice: 'Bet was successfully created.' }
         format.json { render json: @bet, status: :created, location: @bet }
       else
@@ -131,7 +131,7 @@ class BetsController < ApplicationController
   end
 
  def check_for_post_time
-   @horse = Horse.find(params[:horse_id])
+   @horse = Horse.find(params[:bet][:horse_id])
    post_time = @horse.race.post_time
    return if post_time > Time.zone.now
    flash[:notice] = "Sorry, post time has passed. No futher betting allowd."

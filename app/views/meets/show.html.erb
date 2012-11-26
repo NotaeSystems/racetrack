@@ -3,21 +3,21 @@
 
 <p>
 
-<h2>  <%= @meet.name %></h2>
+<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
 </p>
 <p>
   <b>Description:</b>
   <%= @meet.description %>
 </p>
 
-<h3>Fantasy Cards</h3>
+
 <% if user_signed_in? %>
   <h4>Credit Balance for <%=@meet.name%>: <%=current_user.meet_balance(@meet) %></h4>
   <%if current_user.meet_balance(@meet) == 0 %>
     <%= link_to "Refresh Credits", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>
 <%end%>
-
+<h3><%=@track.card_alias.pluralize%></h3>
 <table class='table table-striped table-bordered table-condensed'>
 
 
@@ -27,8 +27,8 @@
     <td><%= card.description %></td>
     <%if user_is_track_owner?(@track) %>
 
-      <td><%= link_to 'Edit', edit_card_path(card),  :class => 'btn btn-mini btn-warning' %></td>
-      <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+      <td><%= link_to "Edit #{@track.card_alias}", edit_card_path(card),  :class => 'btn btn-mini btn-warning' %></td>
+      <td><%= link_to "Destroy-#{@track.card_alias}", card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
     <%end%>
   </tr>
 <% end %>

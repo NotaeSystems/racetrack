@@ -26,6 +26,7 @@ class HorsesController < ApplicationController
   def new
     @horse = Horse.new
     @race = Race.find(params[:race_id])
+    @track = @race.card.meet.track
     
     respond_to do |format|
       format.html # new.html.erb
@@ -37,6 +38,8 @@ class HorsesController < ApplicationController
   def edit
     @horse = Horse.find(params[:id])
     @race = Race.find(params[:race_id])
+
+
   end
 
   # POST /horses
@@ -46,7 +49,7 @@ class HorsesController < ApplicationController
 
     respond_to do |format|
       if @horse.save
-        format.html { redirect_to @horse, notice: 'Horse was successfully created.' }
+        format.html { redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully created.' }
         format.json { render json: @horse, status: :created, location: @horse }
       else
         format.html { render action: "new" }
@@ -62,7 +65,7 @@ class HorsesController < ApplicationController
 
     respond_to do |format|
       if @horse.update_attributes(params[:horse])
-        format.html { redirect_to @horse, notice: 'Horse was successfully updated.' }
+        format.html { redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

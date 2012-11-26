@@ -15,7 +15,11 @@
 <% @tracks.each do |track| %>
   <tr>
     <td><%= link_to track.name , edit_track_path(track), :class => 'btn'%></td>
-    <td><%= track.owner.name %></td>
+    <% if track.owner %>
+      <td><%= track.owner.name %></td>
+    <%else%>
+      <td>No Owner</td>
+    <%end%>
     <td><%= track.public %></td>
     <td><%= track.open %></td>
     <td><%= track.description %></td>

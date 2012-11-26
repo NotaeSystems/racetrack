@@ -3,14 +3,14 @@ class Race < ActiveRecord::Base
   belongs_to :card
   has_many :bets
   has_many :winning_bets, :class_name => 'Bet'
-  attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, :start_betting_time
+  attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, :start_betting_time, :status
 
   def total_bets
     self.bets.sum(:amount)  
   end
 
   
-  def close
+  def payout
     # find winners-allow for ties
     winners = self.horses.where("finish = 1")
     winners_size = winners.size
@@ -40,11 +40,16 @@ class Race < ActiveRecord::Base
                    :meet_id => bet.meet_id,
                    :amount => bet_payoff,
                    :credit_type => 'Win',
-                   :description => "Winnings: #{self.name}"
+                   :description => "Winnings: #{self.name}",
+                 
                  )
+        bet.status = 'Paid Out'
+        bet.save
+        bettor.update_ranking(bet.meet_id, bet_payoff)
       end
     end
     self.open = false
+    self.status = 'Paid Out'
     self.save
   end
 end

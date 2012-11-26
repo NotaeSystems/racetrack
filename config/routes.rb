@@ -1,4 +1,6 @@
 Myapp::Application.routes.draw do
+  resources :rankings
+
   resources :bets
 
   resources :credits
@@ -56,6 +58,8 @@ Myapp::Application.routes.draw do
       end
       member do
         get 'close'
+        get 'payout'
+        
         #get 'credits'
       end 
       ### track/meets

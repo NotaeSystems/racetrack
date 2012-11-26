@@ -25,7 +25,11 @@ class TracksController < ApplicationController
   # GET /tracks/new.json
   def new
     @track = Track.new
-
+    @track.track_alias = 'League'
+    @track.meet_alias = 'Season'
+    @track.card_alias = 'Series'
+    @track.race_alias = 'Contest'
+    @track.horse_alias = 'Outcome'
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @track }

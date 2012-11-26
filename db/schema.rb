@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121125180858) do
+ActiveRecord::Schema.define(:version => 20121126105833) do
 
   create_table "bets", :force => true do |t|
     t.integer  "user_id"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "race_id"
+    t.string   "status"
   end
 
   create_table "cards", :force => true do |t|
@@ -33,6 +34,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.datetime "completed_date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "status"
   end
 
   create_table "credits", :force => true do |t|
@@ -43,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.string   "credit_type"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "status"
   end
 
   create_table "horses", :force => true do |t|
@@ -52,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.integer  "finish"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "status"
   end
 
   create_table "meets", :force => true do |t|
@@ -63,6 +67,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.datetime "completed_date"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "status"
   end
 
   create_table "races", :force => true do |t|
@@ -76,6 +81,16 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.datetime "completed_date"
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
+    t.string   "status"
+  end
+
+  create_table "rankings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "meet_id"
+    t.decimal  "amount"
+    t.string   "rank"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "roles", :force => true do |t|
@@ -97,6 +112,12 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "status"
+    t.string   "track_alias"
+    t.string   "meet_alias"
+    t.string   "card_alias"
+    t.string   "race_alias"
+    t.string   "horse_alias"
   end
 
   create_table "users", :force => true do |t|
@@ -114,6 +135,7 @@ ActiveRecord::Schema.define(:version => 20121125180858) do
     t.datetime "updated_at",                             :null => false
     t.string   "name"
     t.string   "time_zone"
+    t.string   "status"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
