@@ -3,14 +3,14 @@ class Meet < ActiveRecord::Base
   belongs_to :track
   has_many :rankings
   scope :active, where(:open => true)
-  attr_accessible :completed, :completed_date, :description, :name, :open, :track_id, :status
+  attr_accessible :completed, :completed_date, :description, :name, :open, :track_id, :status, :initial_credits
 
   def refresh_credits(user)
 
    Credit.create( :user_id => user.id,
                    :meet_id => self.id,
-                   :amount => 100,
-                   :credit_type => 'Promotional',
+                   :amount => self.initial_credits,
+                   :credit_type => 'Free',
                    :description => 'Refreshed credits'
                  )
    user.update_ranking(self.id, 100)

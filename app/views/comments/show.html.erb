@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @comment.user_id %>
+</p>
+
+<p>
+  <b>Meet:</b>
+  <%= @comment.meet_id %>
+</p>
+
+<p>
+  <b>Race:</b>
+  <%= @comment.race_id %>
+</p>
+
+<p>
+  <b>Card:</b>
+  <%= @comment.card_id %>
+</p>
+
+<p>
+  <b>Track:</b>
+  <%= @comment.track_id %>
+</p>
+
+<p>
+  <b>Body:</b>
+  <%= @comment.body %>
+</p>
+
+
+<%= link_to 'Edit', edit_comment_path(@comment) %> |
+<%= link_to 'Back', comments_path %>

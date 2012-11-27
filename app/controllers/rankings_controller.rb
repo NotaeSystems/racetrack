@@ -8,7 +8,11 @@ class RankingsController < ApplicationController
     @myrank = Ranking.where("user_id = ? and meet_id = ?", current_user.id, @meet.id).first
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
-    @rank = Ranking.where("amount > ?", @myrank.amount).order("amount desc").count
+    unless @myrank.blank?
+      @rank = Ranking.where("amount > ? and user_id =? and meet_id = ?", @myrank.amount, current_user.id, @meet.id).order("amount desc").count
+    else
+      @rank = Ranking.where("meet_id = ?",  @meet.id).count
+    end
     #@rank = Ranking.where("amount > ?", @myrank.amount).index(@myrank)
    # @rank = @rank.to_i + 1 
    

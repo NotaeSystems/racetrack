@@ -19,6 +19,7 @@ class CardsController < ApplicationController
     @track = @card.meet.track
     @races = @card.races
     @meet = @card.meet
+    @comments = @card.comments
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @card }

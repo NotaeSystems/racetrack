@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121126105833) do
+ActiveRecord::Schema.define(:version => 20121127123042) do
 
   create_table "bets", :force => true do |t|
     t.integer  "user_id"
@@ -35,6 +35,17 @@ ActiveRecord::Schema.define(:version => 20121126105833) do
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
     t.string   "status"
+  end
+
+  create_table "comments", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "meet_id"
+    t.integer  "race_id"
+    t.integer  "card_id"
+    t.integer  "track_id"
+    t.text     "body"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "credits", :force => true do |t|
@@ -65,9 +76,10 @@ ActiveRecord::Schema.define(:version => 20121126105833) do
     t.text     "description"
     t.boolean  "completed"
     t.datetime "completed_date"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "status"
+    t.integer  "initial_credits"
   end
 
   create_table "races", :force => true do |t|

@@ -1,4 +1,6 @@
 Myapp::Application.routes.draw do
+  resources :comments
+
   resources :rankings
 
   resources :bets

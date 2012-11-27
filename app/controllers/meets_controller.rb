@@ -40,7 +40,7 @@ class MeetsController < ApplicationController
   def new
     @meet = Meet.new
     @track = Track.find(params[:track_id])
-
+    @meet.initial_credits = 100
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @meet }
