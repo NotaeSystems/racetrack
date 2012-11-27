@@ -15,7 +15,7 @@
 
     <td><%= card.description %></td>
 
-<%if current_user.is_track_owner?(@track) %>
+<%if current_user.is_track_owner?(@track) || current_user.has_role?('Admin') %>
     <td><%= link_to 'Edit', edit_card_path(card), :class => 'btn btn-mini btn-warning' %></td>
     <td><%= link_to 'Destroy', card, method: :delete, data: { confirm: 'Are you sure?' } , :class => 'btn btn-mini btn-warning'%></td>
 <%end%>

@@ -3,6 +3,7 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :status, :collection => ['Pending', 'Active', 'Closed'],  :selected =>'Active' %>
     <%= f.input :track_id %>
     <%= f.input :open %>
     <%= f.input :description %>
