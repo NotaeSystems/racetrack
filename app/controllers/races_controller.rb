@@ -44,6 +44,7 @@ class RacesController < ApplicationController
     @race = Race.find(params[:id])
     @horses = @race.horses
     @track = @race.card.meet.track
+    @meet = @race.card.meet
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @race }
@@ -56,7 +57,7 @@ class RacesController < ApplicationController
     card_id = params[:card_id]
     @card = Card.find(card_id)
     @race = Race.new
-
+    @track = @card.meet.track
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @race }

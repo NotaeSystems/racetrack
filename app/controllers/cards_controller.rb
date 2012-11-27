@@ -31,7 +31,7 @@ class CardsController < ApplicationController
     meet_id = params[:meet_id]
     @card = Card.new
     @card.meet_id = meet_id
-
+    @track = @card.meet.track
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @card }
@@ -41,6 +41,9 @@ class CardsController < ApplicationController
   # GET /cards/1/edit
   def edit
     @card = Card.find(params[:id])
+    @track = @card.meet.track
+    @races = @card.races
+    @meet = @card.meet
   end
 
   # POST /cards

@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
   
   def is_track_owner?(track)
     return false if track.nil?
-    return true if self.has_role?('Admin')
+    return true if self.has_role :admin
     return true if track.owner_id == self.id
     
   end

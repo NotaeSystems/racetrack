@@ -39,6 +39,7 @@ class MeetsController < ApplicationController
   # GET /meets/new.json
   def new
     @meet = Meet.new
+    @track = Track.find(params[:track_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -49,6 +50,7 @@ class MeetsController < ApplicationController
   # GET /meets/1/edit
   def edit
     @meet = Meet.find(params[:id])
+    @track = @meet.track
   end
 
   # POST /meets

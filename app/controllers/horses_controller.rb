@@ -38,6 +38,7 @@ class HorsesController < ApplicationController
   def edit
     @horse = Horse.find(params[:id])
     @race = Race.find(params[:race_id])
+    @track = @race.card.meet.track
 
 
   end

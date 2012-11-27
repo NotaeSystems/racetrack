@@ -1,29 +1,28 @@
-<h1>Listing rankings</h1>
+<h1><%= link_to @track.name, track_path(@track.id)%></h1>
+<p id="notice"><%= notice %></p>
 
-<table>
+<p>
+
+<h2>Listing rankings for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
+Your Rank: <%=@rank%>
+<table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>User</th>
-    <th>Meet</th>
     <th>Amount</th>
     <th>Rank</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
 
+  </tr>
+<%rank = 0 %>
 <% @rankings.each do |ranking| %>
+<% rank = rank + 1 %>
   <tr>
-    <td><%= ranking.user_id %></td>
-    <td><%= ranking.meet_id %></td>
+    <td><%= ranking.user.name %></td>
     <td><%= ranking.amount %></td>
-    <td><%= ranking.rank %></td>
-    <td><%= link_to 'Show', ranking %></td>
-    <td><%= link_to 'Edit', edit_ranking_path(ranking) %></td>
-    <td><%= link_to 'Destroy', ranking, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+   <td><%= rank %></td>
+
   </tr>
 <% end %>
 </table>
 
-<br />
 
-<%= link_to 'New Ranking', new_ranking_path %>
+

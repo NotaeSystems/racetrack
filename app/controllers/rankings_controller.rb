@@ -2,8 +2,15 @@ class RankingsController < ApplicationController
   # GET /rankings
   # GET /rankings.json
   def index
-    @rankings = Ranking.all
-
+    @meet = Meet.find(params[:meet_id])
+    @rankings = @meet.rankings.order("amount desc")
+    @track = @meet.track
+    @myrank = Ranking.where("user_id = ? and meet_id = ?", current_user.id, @meet.id).first
+   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+    ## this counts the records where amount is greater thant the user
+    @rank = Ranking.where("amount > ?", @myrank.amount).order("amount desc").count
+    @rank = @rank.to_i + 1
+   
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @rankings }

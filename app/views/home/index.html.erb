@@ -7,7 +7,8 @@
 
 <% @tracks.each do |track| %>
   <tr>
-    <td><%= link_to track.name, track_meets_path(:track_id => track.id), :class => 'btn' %></td>
+    <td><%= link_to track.name, track_meets_path(:track_id => track.id), :class => 'btn' %><%if user_is_track_owner?(track) %><%=link_to "Edit Track",edit_track_path(:id => track.id), :class => 'btn btn-mini btn-info'%><%end%>
+</td>
   </tr>
 <% end %>
 </table>
