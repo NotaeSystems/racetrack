@@ -9,7 +9,8 @@ class RankingsController < ApplicationController
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     @rank = Ranking.where("amount > ?", @myrank.amount).order("amount desc").count
-    @rank = @rank.to_i + 1
+    #@rank = Ranking.where("amount > ?", @myrank.amount).index(@myrank)
+   # @rank = @rank.to_i + 1 
    
     respond_to do |format|
       format.html # index.html.erb

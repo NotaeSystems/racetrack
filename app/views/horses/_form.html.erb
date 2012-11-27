@@ -3,7 +3,7 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :status, :collection => ['Active', 'Scratched','Pending Payout', 'Closed'],  :selected =>'Active' %>
+    <%= f.input :status, :collection => ['Active', 'Scratched','Pending Payout', 'Closed'],  :selected => @horse.status %>
        <%=  f.hidden_field :race_id , :value => @race.id %>
     <%= f.input :description %>
 
