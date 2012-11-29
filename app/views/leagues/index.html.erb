@@ -1,0 +1,30 @@
+<h1>Leagues</h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>Active</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @leagues.each do |league| %>
+  <tr>
+    <td><%= link_to league.name, league, :class => 'btn' %></td>
+    <td><%= league.description %></td>
+    <td><%= league.status %></td>
+    <td><%= league.active %></td>
+    <% if current_user.has_role? :admin %>
+    <td><%= link_to 'Edit', edit_league_path(league), :class => 'btn' %></td>
+    <td><%= link_to 'Destroy', league, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn' %></td>
+    <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New League', new_league_path %>

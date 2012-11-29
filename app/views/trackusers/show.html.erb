@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Track:</b>
+  <%= @trackuser.track_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @trackuser.user_id %>
+</p>
+
+<p>
+  <b>Role:</b>
+  <%= @trackuser.role %>
+</p>
+
+<p>
+  <b>Allow comments:</b>
+  <%= @trackuser.allow_comments %>
+</p>
+
+<p>
+  <b>Nickname:</b>
+  <%= @trackuser.nickname %>
+</p>
+
+
+<%= link_to 'Edit', edit_trackuser_path(@trackuser) %> |
+<%= link_to 'Back', trackusers_path %>

@@ -1,0 +1,26 @@
+
+<h1>My Leagues</h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>League</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @leagueusers.each do |leagueuser| %>
+  <tr>
+
+    <td><%= link_to leagueuser.league.name, league_path(:id => leagueuser.league_id), :class => 'btn' %></td>
+
+    <td><%= link_to 'Show', leagueuser %></td>
+    <td><%= link_to 'Edit', edit_leagueuser_path(leagueuser) %></td>
+    <td><%= link_to 'Destroy', leagueuser, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Leagueuser', new_leagueuser_path %>

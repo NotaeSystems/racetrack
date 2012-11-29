@@ -1,0 +1,26 @@
+<h1> <%= link_to @league.name, @league %></h1>
+<h1>Tracks</h1>
+
+<table>
+  <tr>
+
+    <th>Tracks</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @trackleagues.each do |trackleague| %>
+  <tr>
+
+    <td><%= link_to trackleague.track.name, track_path(:id => trackleague.track_id), :class => 'btn' %></td>
+    <td><%= link_to 'Show', trackleague %></td>
+    <td><%= link_to 'Edit', edit_trackleague_path(trackleague) %></td>
+    <td><%= link_to 'Destroy', trackleague, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Trackleague', new_trackleague_path %>

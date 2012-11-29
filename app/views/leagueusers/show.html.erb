@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>User:</b>
+  <%= @leagueuser.user_id %>
+</p>
+
+<p>
+  <b>League:</b>
+  <%= @leagueuser.league_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @leagueuser.status %>
+</p>
+
+<p>
+  <b>Nickname:</b>
+  <%= @leagueuser.nickname %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @leagueuser.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_leagueuser_path(@leagueuser) %> |
+<%= link_to 'Back', leagueusers_path %>

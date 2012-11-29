@@ -1,0 +1,21 @@
+<table class='table table-striped table-bordered table-condensed'>
+
+
+<% @comments.each do |comment| %>
+  <tr>
+    <td><%= comment.user.name %></td>
+
+    <td><%= comment.body %></td>
+    <td><%= comment.created_at.strftime("%B %d at %I:%M %p %Z") %>
+<% if user_signed_in? %>
+    <% if current_user.has_role :admin %>
+
+      <td><%= link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-mini btn-warning' %></td>
+      <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <%end%>
+  <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
