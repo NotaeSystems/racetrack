@@ -2,6 +2,7 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
     before_filter :login_required
+  before_filter :check_for_initial_credits, :only => [:new]
   before_filter :check_for_post_time, :only => [:create]
   before_filter :check_credits_for_zero_balance, :only => [:new]
   before_filter :check_credits_for_sufficient_balance, :only => [:create]
@@ -31,12 +32,14 @@ class BetsController < ApplicationController
   def new
 
       @horse = Horse.find(params[:horse_id])
+      @meet = @horse.race.card.meet
     if current_user
       @bet = Bet.new
       @bet.horse_id = @horse.id
       @bet.user_id = current_user.id
       @bet.meet_id = @horse.race.card.meet.id
       @bet.race_id = @horse.race.id
+      
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @bet }
@@ -59,19 +62,21 @@ class BetsController < ApplicationController
   # POST /bets.json
   def create
     @bet = Bet.new(params[:bet])
-    meet = Meet.find(params[:bet][:meet_id])
-    horse = Horse.find(params[:bet][:horse_id])
+    @meet = Meet.find(params[:bet][:meet_id])
+    @horse = Horse.find(params[:bet][:horse_id])
+    @card = @horse.race.card
 
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,
-                           :meet_id => meet.id,
+                           :meet_id => @meet.id,
                            :amount => -@bet.amount,
                            :description => "Deduction for Bet",
+                           :card_id => @card.id,
                            :credit_type => "Bet Deduction"
                              ) 
-     current_user.update_ranking(meet.id, -@bet.amount)
-        format.html { redirect_to race_path(:id => horse.race), notice: 'Bet was successfully created.' }
+     current_user.update_ranking(@meet.id, -@bet.amount)
+        format.html { redirect_to race_path(:id => @horse.race), notice: 'Bet was successfully created.' }
         format.json { render json: @bet, status: :created, location: @bet }
       else
         format.html { render action: "new" }
@@ -113,30 +118,44 @@ class BetsController < ApplicationController
   def check_credits_for_zero_balance
      
       @horse = Horse.find(params[:horse_id])
-      @meet = @horse.race.card.meet
-      balance = current_user.meet_balance(@meet)
+      @card = @horse.race.card
+      balance = current_user.card_balance(@card)
       return if balance > 0
-      flash[:notice] = "Sorry, you are out of credits for this meet."
+      flash[:notice] = "Sorry, you are out of credits for this card."
       redirect_to race_path(:id => @horse.race.id)
   end
 
   def check_credits_for_sufficient_balance
       @amount = params[:bet][:amount].to_i
       @horse = Horse.find(params[:bet][:horse_id])
-      @meet = @horse.race.card.meet
-      balance = current_user.meet_balance(@meet)
+      @card = @horse.race.card
+      balance = current_user.card_balance(@card)
       return if balance > @amount 
-      flash[:notice] = "Sorry, you do not have enough credits for this bet."
+      flash[:warning] = "Sorry, you do not have enough card credits for this bet."
       redirect_to race_path(:id => @horse.race.id)
   end
 
- def check_for_post_time
-   @horse = Horse.find(params[:bet][:horse_id])
-   post_time = @horse.race.post_time
-   return if post_time > Time.zone.now
-   flash[:notice] = "Sorry, post time has passed. No futher betting allowd."
-   redirect_to race_path(:id => @horse.race.id)
+  def check_for_post_time
+    @horse = Horse.find(params[:bet][:horse_id])
+    post_time = @horse.race.post_time
+    return if post_time > Time.zone.now
+    flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
+    redirect_to race_path(:id => @horse.race.id)
      
-   end
+  end
  
+  def check_for_initial_credits
+      @horse = Horse.find(params[:horse_id])
+    @card = @horse.race.card
+    @track = @card.meet.track
+    ## see if bettor is member of this track
+    logger.info "Getting ready to create or find trackuser"
+    trackuser = Trackuser.find_or_create_by_user_id_and_track_id(:user_id =>current_user.id, :track_id =>@track.id, :role => 'Bettor', :allow_comments => false, :nickname => current_user.name)
+    ## see if bettor has been given initial card credits
+    initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
+    return unless initial_credits.nil?
+    ## TODO check for source of credits later may be from meet
+    @card.refresh_credits(current_user, 'Initial', @card.initial_credits)
+  end
+
 end

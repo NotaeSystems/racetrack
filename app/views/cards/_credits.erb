@@ -1,0 +1,10 @@
+<% if user_signed_in? %>
+  <h4>Credit Balance for <%=@card.name%>: <%=current_user.card_balance(@card) %></h4>
+  <%if current_user.meet_balance(@card) == 0 %>
+    <%#= link_to "Refresh Credits", refresh_credits_card_path(:id => @card.id) %>
+  <%end%>
+<%= link_to "#{@card.meet.track.card_alias} Rankings", rankings_path(:card_id => @card.id), :class => 'btn btn-mini'%>
+<%else%>
+<h3>Login or Signup for Free 100 Credits and start bidding today</h3>
+<%end%>
+

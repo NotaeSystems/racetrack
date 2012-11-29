@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121127123042) do
+ActiveRecord::Schema.define(:version => 20121129135354) do
 
   create_table "bets", :force => true do |t|
     t.integer  "user_id"
@@ -32,9 +32,10 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
     t.text     "description"
     t.boolean  "completed"
     t.datetime "completed_date"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
     t.string   "status"
+    t.integer  "initial_credits"
   end
 
   create_table "comments", :force => true do |t|
@@ -57,6 +58,7 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "status"
+    t.integer  "card_id"
   end
 
   create_table "horses", :force => true do |t|
@@ -67,6 +69,33 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "status"
+  end
+
+  create_table "leagues", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.string   "status"
+    t.integer  "owner_id"
+    t.boolean  "active"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "leagueusers", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "league_id"
+    t.string   "status"
+    t.string   "nickname"
+    t.boolean  "active"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "meetleagues", :force => true do |t|
+    t.integer  "meet_id"
+    t.integer  "league_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "meets", :force => true do |t|
@@ -103,6 +132,7 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
     t.string   "rank"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "card_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -115,6 +145,13 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "trackleagues", :force => true do |t|
+    t.integer  "league_id"
+    t.integer  "track_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "tracks", :force => true do |t|
     t.string   "name"
@@ -130,6 +167,16 @@ ActiveRecord::Schema.define(:version => 20121127123042) do
     t.string   "card_alias"
     t.string   "race_alias"
     t.string   "horse_alias"
+  end
+
+  create_table "trackusers", :force => true do |t|
+    t.integer  "track_id"
+    t.integer  "user_id"
+    t.string   "role"
+    t.boolean  "allow_comments"
+    t.string   "nickname"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   create_table "users", :force => true do |t|

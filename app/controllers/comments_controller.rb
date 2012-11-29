@@ -25,24 +25,27 @@ class CommentsController < ApplicationController
   # GET /comments/new.json
   def new
     @comment = Comment.new
-    if params[:card_id]
+    if params[:race_id]
+      @race = Race.find(params[:race_id])
+      @card = @race.card
+      @meet = @card.meet
+      @track = @meet.track
+    elsif params[:card_id]
       logger.debug "card id is #{params[:card_id]}"
       @card = Card.find(params[:card_id])
       @comment.card_id =@card.id
       @meet = @card.meet
+    end
       @comment.meet_id = @meet.id
       @track = @meet.track
-      @comment.track_id = @track.id
       @comment.user_id = current_user.id
-
-    end
-
     #redirect_to card_path(:id => @card.id)
   end
 
   # GET /comments/1/edit
   def edit
     @comment = Comment.find(params[:id])
+    @track = @comment.track
   end
 
   # POST /comments
@@ -52,8 +55,18 @@ class CommentsController < ApplicationController
     @card = @comment.card
     respond_to do |format|
       if @comment.save
+        if @comment.race
+          format.html { redirect_to race_path(:id => @comment.race_id), notice: 'Comment was successfully updated.' }
+        elsif @comment.card
+          format.html { redirect_to @card, notice: 'Comment was successfully updated.' }
+        elsif @comment.meet
         format.html { redirect_to @card, notice: 'Comment was successfully updated.' }
-        format.json { render json: @card, status: :created, location: @card }
+        else
+          format.html { redirect_to @track, notice: 'Comment was successfully updated.' }
+          format.json { render json: @card, status: :created, location: @card }
+        end
+
+
       else
         format.html { render action: "new" }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
@@ -68,10 +81,20 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
-        format.json { head :no_content }
+        if @comment.race
+          format.html { redirect_to race_path(:id => @comment.race_id), notice: 'Comment was successfully updated.' }
+        elsif @comment.card
+          format.html { redirect_to @card, notice: 'Comment was successfully updated.' }
+        elsif @comment.meet
+        format.html { redirect_to @card, notice: 'Comment was successfully updated.' }
+        else
+          format.html { redirect_to @track, notice: 'Comment was successfully updated.' }
+          format.json { render json: @card, status: :created, location: @card }
+        end
+
+
       else
-        format.html { render action: "edit" }
+        format.html { render action: "new" }
         format.json { render json: @comment.errors, status: :unprocessable_entity }
       end
     end
@@ -83,6 +106,21 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @card = @comment.card
     @comment.destroy
-    redirect_to card_path(:id => @card.id)
+    respond_to do |format|
+
+        if @comment.race
+          format.html { redirect_to race_path(:id => @comment.race_id), notice: 'Comment was successfully deleted.' }
+        elsif @comment.card
+          format.html { redirect_to @card, notice: 'Comment was successfully deleted.' }
+        elsif @comment.meet
+        format.html { redirect_to @card, notice: 'Comment was successfully deleted.' }
+        else
+          format.html { redirect_to @track, notice: 'Comment was successfully deleted.' }
+          format.json { render json: @card, status: :created, location: @card }
+        end
+
+
+ 
+    end 
   end
 end

@@ -1,4 +1,9 @@
-<h1>Editing comment</h1>
+<h1><%= link_to @track.name, track_path(@track.id) %></h1>
+
+<%unless @meet.blank?%> 
+  <h2>  <%= @meet.name %></h2>
+<%end%>
+<h3>Editing comment</h3>
 
 <%= render 'form' %>
 

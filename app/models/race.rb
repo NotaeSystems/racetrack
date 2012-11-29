@@ -3,7 +3,9 @@ class Race < ActiveRecord::Base
   belongs_to :card
   has_many :bets
   has_many :winning_bets, :class_name => 'Bet'
-  attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, :start_betting_time, :status
+  has_many :comments   
+  attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
+                  :start_betting_time, :status
 
   def total_bets
     self.bets.sum(:amount)  
@@ -40,12 +42,13 @@ class Race < ActiveRecord::Base
                    :meet_id => bet.meet_id,
                    :amount => bet_payoff,
                    :credit_type => 'Win',
+                   :card_id => winner.race.card_id,
                    :description => "Winnings: #{self.name}",
                  
                  )
         bet.status = 'Paid Out'
         bet.save
-        bettor.update_ranking(bet.meet_id, bet_payoff)
+        bettor.update_card_ranking(winner.race.card, bet_payoff)
       end
     end
     self.open = false

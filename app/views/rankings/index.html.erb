@@ -1,10 +1,15 @@
-<h1><%= link_to @track.name, track_path(@track.id)%></h1>
-<p id="notice"><%= notice %></p>
+
 
 <p>
+<%if @card || @meet %>
+<h1><%= link_to @track.name, track_path(@track.id)%></h1>
 
-<h2>Listing rankings for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
+  <h2>Listing rankings for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
 Your Rank: <%=@rank%>
+<%if @league %>
+<h3> <%= link_to @league.name, @league %></h3>
+<%end%>
+
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>User</th>
@@ -23,6 +28,32 @@ Your Rank: <%=@rank%>
   </tr>
 <% end %>
 </table>
+<%else%>
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>User</th>
+    <th>Amount</th>
+    <th>Rank</th>
+    <th>card_id</th>
+    <th>meet__id</th>
+    <th>user_id</th>
+  </tr>
+<%rank = 0 %>
+<% @rankings.each do |ranking| %>
+<% rank = rank + 1 %>
+  <tr>
+    <td><%= ranking.user.name %></td>
+    <td><%= ranking.amount %></td>
+   <td><%= rank %></td>
+    <td><%= ranking.card_id %></td>
+    <td><%= ranking.meet_id %></td>
+    <td><%= ranking.user_id %></td>
+
+
+  </tr>
+<%end%>
+
+<%end%>
 
 
 

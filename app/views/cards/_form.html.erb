@@ -5,6 +5,7 @@
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Pending', 'Open', 'Closed'],  :selected => @card.status %>
     <%= f.hidden_field :meet_id , :value => @card.meet_id%>
+    <%= f.input :initial_credits %>
     <%= f.input :open %>
     <%= f.input :description %>
     <%= f.input :completed %>

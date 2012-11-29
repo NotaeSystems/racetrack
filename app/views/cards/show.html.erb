@@ -1,19 +1,18 @@
-<h1><%= link_to @track.name, track_path(@track.id) %></h1>
-<h2>  <%= @meet.name %></h2>
-  <%= render :partial => 'meets/credits' %>
-
-
-  <%= @meet.description %>
-</p>
-
-
-  <h3><%= @card.name %><h3>
+<div class='track_box'>
+<h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
+</div>
+<div class='meet_box'>
+<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
+<%= render :partial => 'meets/credits' %>
+</div>
+<div class='card_box'>
+<h3> <%= @track.card_alias%>:<%= link_to @card.name, card_path(:id => @card.id) %></h3>
 
 <p>
-  <%= @card.description %>
+  <%= @card.description %><%= render :partial => 'cards/credits' %>
 </p>
 
-<h3>Listing <%=@track.race_alias.pluralize%></h3>
+<h4> <%=@track.race_alias.pluralize%></h4>
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
@@ -30,7 +29,7 @@
 
 <% @races.each do |race| %>
   <tr>
-    <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn' %></td>
+    <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-block' %></td>
     <td><%= race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %></td>
     <td><%= race.post_time.strftime("%B %d at %I:%M %p %Z") %></td>
     <td><%= race.description %></td>
@@ -48,43 +47,18 @@
 <%= link_to "New #{@track.race_alias}", new_race_path(:card_id => @card.id), :class => 'btn btn-mini btn-warning' %>
 
 
-<%= link_to "Edit #{@card.name}", edit_card_path(@card), :class => 'btn btn-mini btn-warning' %>
 
+<%=link_to "Edit #{@card.name}", edit_card_path(@card),:class => 'btn btn-mini btn-warning' %>
+ <%= link_to "Close #{@card.name}", close_card_path(@card),  data: { confirm: "Are you sure? This will close this #{@track.card_alias}" }, :class => 'btn btn-mini btn-warning' %>
 <%end%>
+</div>
+<div class='comment_box'>
 
-<h3>Comments</h3>
 
-<table class='table table-striped table-bordered table-condensed'>
-  <tr>
-    <th>User</th>
-    <th>Comment</th>
-<% if user_signed_in? %>
-    <% if current_user.has_role :admin %>
-    <th></th>
-    <th></th>
-    <th></th>
-    <%end%>
-<%end%>
-  </tr>
-
-<% @comments.each do |comment| %>
-  <tr>
-    <td><%= comment.user.name %></td>
-    <td><%= comment.body %></td>
-<% if user_signed_in? %>
-    <% if current_user.has_role :admin %>
-      <td><%= link_to 'Show', comment %></td>
-      <td><%= link_to 'Edit', edit_comment_path(comment) %></td>
-      <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    <%end%>
-  <%end%>
-  </tr>
-<% end %>
-</table>
-
-<br />
 <% if user_signed_in? %>
 <%= link_to 'New Comment', new_comment_path(:card_id => @card.id), :class => 'btn' %>
 <%else%>
 Log in to Comment
 <%end%>
+  <%= render :partial => 'comments/index_table' %>
+</div>

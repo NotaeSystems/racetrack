@@ -3,7 +3,7 @@
   <%if current_user.meet_balance(@meet) == 0 %>
     <%= link_to "Refresh Credits", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>
-<%= link_to "Rankings", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
+<%= link_to "#{@meet.track.meet_alias} Rankings", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
 <%else%>
 <h3>Login or Signup for Free 100 Credits</h3>
 <%end%>

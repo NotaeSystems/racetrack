@@ -1,18 +1,16 @@
+<h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
+<div class='box2'>
+<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
+<%= render :partial => 'meets/credits' %>
+</div>
+<div class='box2'>
+<h3> <%= @track.card_alias%>:<%= link_to @race.card.name, card_path(:id => @race.card.id) %></h3>
+<%= render :partial => 'cards/credits' %>
+</div>
+<div class='box2'>
+<h4><%= @track.race_alias%>:<%=@race.name%>-<%=@race.status%></h4>
 
-
-
-<h1><%= link_to @track.name, track_path(@track.id) %></h1>
-
-
-  <h2><%= link_to @race.card.name, card_path(:id => @race.card.id) %></h2>
-
-  <%= render :partial => 'meets/credits' %>
-
-
-
-
-
-<h3><%=@race.name%>-<%=@race.status%>-Total Pool: <%= @race.total_bets%></h3>
+Total Pool: <%= @race.total_bets%>
  <p> <%= @race.description %></p>
 <p>
   <b>Start betting time:</b>
@@ -38,7 +36,6 @@
   <tr>
     <td><%= horse.name %></td>
     <td><%= horse.description %></td>
-     <td><%= horse.status %></td>   
     <td><%= horse.finish %></td>
     <td>Total Bets: <%= horse.total_bets %> Odds: <%=horse.odds%></td>
 
@@ -71,3 +68,14 @@
 
 
 <%end%>
+</div>
+<div class='box2'>
+<% if user_signed_in? %>
+<%= link_to 'New Comment', new_comment_path(:race_id => @race.id), :class => 'btn' %>
+<%else%>
+Log in to Comment
+<%end%>
+  <%= render :partial => 'comments/index_table' %>
+
+
+</div>

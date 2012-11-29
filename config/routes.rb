@@ -1,4 +1,14 @@
 Myapp::Application.routes.draw do
+  resources :meetleagues
+
+  resources :trackleagues
+
+  resources :leagueusers
+
+
+
+  resources :trackusers
+
   resources :comments
 
   resources :rankings
@@ -9,9 +19,30 @@ Myapp::Application.routes.draw do
 
   resources :horses
 
+      match "myleagues" => "users#myleagues", :as => :myleagues
+
+  resources :leagues  do
+      collection do
+        #get ''
+      end
+      member do
+        get 'join'
+        #get 'credits'
+      end 
+
+  end
 
 
-  resources :cards
+  resources :cards do
+      collection do
+        #get ''
+      end
+      member do
+        get 'close'
+        #get 'credits'
+      end 
+
+  end
 
   resources :meets do
       collection do

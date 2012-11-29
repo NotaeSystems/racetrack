@@ -1,4 +1,6 @@
-<h1>Editing meet</h1>
+<h1><%= link_to @track.name, track_path(@track.id) %></h1>
+<h2>  <%= @meet.name %></h2>
+
 
 <%= render 'form' %>
 

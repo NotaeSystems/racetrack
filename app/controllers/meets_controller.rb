@@ -29,6 +29,7 @@ class MeetsController < ApplicationController
     @meet = Meet.find(params[:id])
     @track = @meet.track
     @cards = @meet.cards
+    @comments = @meet.comments
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @meet }

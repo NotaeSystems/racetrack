@@ -1,6 +1,16 @@
 class CardsController < ApplicationController
   # GET /cards
   # GET /cards.json
+
+  def close
+    @card = Card.find(params[:id])
+    @track = @card.meet.track
+    @races = @card.races
+    @meet = @card.meet
+    @comments = @card.comments
+    @card.close
+  end
+
   def index
     
     @cards = Card.all
@@ -33,6 +43,7 @@ class CardsController < ApplicationController
     @card = Card.new
     @card.meet_id = meet_id
     @track = @card.meet.track
+    @card.initial_credits = 100
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @card }

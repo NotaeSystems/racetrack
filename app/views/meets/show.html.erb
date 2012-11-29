@@ -1,10 +1,12 @@
-<h1><%= link_to @track.name, track_path(@track.id)%></h1>
-<p id="notice"><%= notice %></p>
+<div class='track_box'>
+ <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
+<%if user_is_track_owner?(@track) %>
+  <%=link_to 'Track Bettors', trackusers_path(:id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+<%end%>
 
-<p>
-
+</div>
+<div class='meet_box'>
 <h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
-</p>
 <p>
   <b>Description:</b>
   <%= @meet.description %>
@@ -19,7 +21,7 @@
 
 <% @cards.each do |card| %>
   <tr>
-    <td><%= link_to card.name, card_path(card), :class => 'btn' %></td>
+    <td><%= link_to card.name, card_path(card), :class => 'btn btn-block' %></td>
     <td><%= card.description %></td>
     <%if user_is_track_owner?(@track) %>
 
@@ -38,3 +40,14 @@
 <%= link_to "New #{@track.card_alias} for #{@meet.name}", new_card_path(:meet_id => @meet.id), :class => 'btn btn-mini btn-warning' %>
   <%= link_to "Edit #{@track.card_alias}-#{@meet.name}", edit_meet_path(@meet), :class => 'btn btn-mini btn-warning' %> |
 <%end%>
+</div>
+<div class='comment_box'>
+
+
+<% if user_signed_in? %>
+<%= link_to 'New Comment', new_comment_path(:card_id => @meet.id), :class => 'btn' %>
+<%else%>
+Log in to Comment
+<%end%>
+  <%= render :partial => 'comments/index_table' %>
+</div>

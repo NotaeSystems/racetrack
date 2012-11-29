@@ -1,14 +1,15 @@
 <h3>Welcome to Fantasy Odds Maker</h3>
 
-<h1>Listing Open Leagues</h1>
 
 <%if @tracks.size > 0 %>
 <table class='table table-striped table-bordered table-condensed'>
 
 <% @tracks.each do |track| %>
   <tr>
-    <td><%= link_to track.name, track_meets_path(:track_id => track.id), :class => 'btn' %><%if user_is_track_owner?(track) %><%=link_to "Edit Track",edit_track_path(:id => track.id), :class => 'btn btn-mini btn-info'%><%end%>
+    <td><%= link_to track.name, track_path(:id => track.id), :class => 'btn btn-block' %><%if user_is_track_owner?(track) %><%end%>
 </td>
+     <td><%=track.description%></td>
+     <td><%=link_to "Edit Track",edit_track_path(:id => track.id), :class => 'btn btn-mini btn-info'%></td>
   </tr>
 <% end %>
 </table>

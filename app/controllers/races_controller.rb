@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
   # GET /races
   # GET /races.json
-
+  before_filter :check_for_winners, :only => [:payout]
   def close
     status = params[:status]
     @race = Race.find(params[:id])
@@ -45,6 +45,8 @@ class RacesController < ApplicationController
     @horses = @race.horses
     @track = @race.card.meet.track
     @meet = @race.card.meet
+    @comments = @race.comments
+    @card = @race.card
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @race }
@@ -112,5 +114,17 @@ class RacesController < ApplicationController
       format.html { redirect_to races_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def check_for_winners
+    @race = Race.find(params[:id])
+    winners = @race.horses.where("finish = 1")
+    winners_size = winners.size
+    return if winners_size > 0
+    flash[:error] = "Cannot pay out there is no winner!"
+    redirect_to race_path(:id => @race.id)
+
   end
 end

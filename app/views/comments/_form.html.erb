@@ -1,12 +1,21 @@
+
+
+
 <%= simple_form_for(@comment) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.hidden_field :user_id, :value => @current_user.id %>
-    <%= f.hidden_field :meet_id, :value => @meet.id %>      
-    <%= f.hidden_field :card_id, :value => @card.id %>
+    <%unless @meet.blank?%> 
+      <%= f.hidden_field :meet_id, :value => @meet.id %>
+    <%end%>
+    <%unless @card.blank?%>      
+      <%= f.hidden_field :card_id, :value => @card.id %>
+    <%end%>
+    <%unless @race.blank?%>
+      <%= f.hidden_field :race_id, :value => @race.id %>
+    <%end%>
     <%= f.hidden_field :track_id, :value => @track.id %>
-    <%= f.input :track_id , :value => @track.id%>
     <%= f.input :body %>
   </div>
 

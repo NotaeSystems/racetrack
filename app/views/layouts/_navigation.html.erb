@@ -13,7 +13,9 @@
     <li>
     <%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini' %>        
     </li>
-
+    <li>
+    <%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini' %>        
+    </li>
     <% if current_user.has_role? :admin %>
       <li>
       <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>        

@@ -1,4 +1,5 @@
-<h1>New <%=@track.meet_alias%></h1>
+<h1><%= link_to @track.name, track_path(@track.id) %></h1>
+<h2>New <%=@track.meet_alias%></h2>
 
 <%= render 'form' %>
 
