@@ -1,7 +1,11 @@
 <h1>Welcome to Fantasy Odds Maker</h1>
 
 <h2>Test your handicapping skills in all types of sports and real world events.</h3>
-<p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> </p>
+<% if user_signed_in? %>
+  <p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> </p>
+<%else%>
+  <p>Sign in to Join or Start a League</p>
+<%end%>
 <p>or</p>
 <p>Start handicapping now.  Pick a Racing Card and start today!  Free!<p>
 <%unless @cards.blank? %>
