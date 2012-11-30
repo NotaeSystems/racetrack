@@ -4,16 +4,23 @@
 <p>
   <%= @league.description %>
 </p>
-<%= link_to 'Members', leagueusers_path(:id => @league.id), :class => 'btn' %>
-<%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
-<% unless is_league_member?(@league) %>
-  <%if @league.status == 'Public' %>
-    <%= link_to "Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Member'), :class => 'btn' %>
+<%if @league.status == 'Public' %>
+  <%= link_to 'Members', leagueusers_path(:id => @league.id), :class => 'btn' %>
+  <%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
+<%end%>
+
+<% if user_signed_in? %>
+  <% unless is_league_member?(@league) %>
+    <%if @league.status == 'Public' %>
+      <%= link_to "Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Member'), :class => 'btn' %>
     <%else%>
-    <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
+      <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
     <%end%>
+  <%else%>
+    <%= link_to "Quit #{@league.name}", quit_league_path(:id => @league.id), :class => 'btn' %>
+  <%end%>
 <%else%>
-  <%= link_to "Quit #{@league.name}", quit_league_path(:id => @league.id), :class => 'btn' %>
+  <p>Sign In or Sign Up to Join the League</p>
 <%end%>
 
 

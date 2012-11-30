@@ -5,7 +5,10 @@
 <h1><%= link_to @track.name, track_path(@track.id)%></h1>
 
   <h2>Listing rankings for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
+<% if user_signed_in? %>
 Your Rank: <%=@rank%>
+<%end%>
+
 <%if @league %>
 <h3> <%= link_to @league.name, @league %></h3>
 <%end%>

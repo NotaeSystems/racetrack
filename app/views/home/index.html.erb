@@ -33,7 +33,9 @@
     <td><%= link_to track.name, track_path(:id => track.id), :class => 'btn btn-block' %><%if user_is_track_owner?(track) %><%end%>
 </td>
      <td><%=track.description%></td>
+<%if user_is_track_owner?(@track) %>
      <td><%=link_to "Edit Track",edit_track_path(:id => track.id), :class => 'btn btn-mini btn-info'%></td>
+<%end%>
   </tr>
 <% end %>
 </table>
