@@ -1,8 +1,27 @@
 class MeetleaguesController < ApplicationController
   # GET /meetleagues
   # GET /meetleagues.json
+
+  def add
+    @league = League.find(params[:league_id])
+    @meetleague = Meetleague.new
+    @meetleague.league_id = params[:league_id]
+    @meetleague.meet_id = params[:meet_id]
+    respond_to do |format|
+      if @meetleague.save
+        format.html { redirect_to meetleagues_url(:league_id => @league.id), notice: 'Meet was successfully added.' }
+
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @meetleague.errors, status: :unprocessable_entity }
+      end
+    end
+
+  end
+
   def index
-    @league = League.find(params[:id])
+    @league = League.find(params[:league_id])
     @meetleagues = Meetleague.where("league_id = ?", @league.id)
 
     respond_to do |format|
@@ -25,8 +44,10 @@ class MeetleaguesController < ApplicationController
   # GET /meetleagues/new
   # GET /meetleagues/new.json
   def new
+    @league = League.find(params[:league_id])
     @meetleague = Meetleague.new
-
+    @meetleague.league_id = @league.id
+    @meets = Meet.where("status = 'Open'")
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @meetleague }
@@ -74,10 +95,11 @@ class MeetleaguesController < ApplicationController
   # DELETE /meetleagues/1.json
   def destroy
     @meetleague = Meetleague.find(params[:id])
+    @league = @meetleague.league
     @meetleague.destroy
-
+    
     respond_to do |format|
-      format.html { redirect_to meetleagues_url }
+      format.html { redirect_to meetleagues_url(:league_id => @league.id) }
       format.json { head :no_content }
     end
   end

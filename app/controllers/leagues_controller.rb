@@ -4,8 +4,17 @@ class LeaguesController < ApplicationController
 
   def join
      @league = League.find(params[:id])
-     leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true)
+     @status = params[:status]
+     
+     leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => @status)
        redirect_to @league, notice: 'Welcome. You have successfully joined!.'
+  end
+
+  def quit
+     @league = League.find(params[:id])
+     leagueuser = Leagueuser.where(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true)
+     leagueuser.quit
+       redirect_to @league, notice: "Goodbye. You have successfully been removed as member of #{@league.name}!."
   end
 
   def index
@@ -32,6 +41,7 @@ class LeaguesController < ApplicationController
   # GET /leagues/new.json
   def new
     @league = League.new
+    @league.owner_id = current_user.id
 
     respond_to do |format|
       format.html # new.html.erb
@@ -48,9 +58,12 @@ class LeaguesController < ApplicationController
   # POST /leagues.json
   def create
     @league = League.new(params[:league])
+    @league.owner_id = current_user.id
+    @league.status = 'Public'
 
     respond_to do |format|
       if @league.save
+     leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => 'Owner')
         format.html { redirect_to @league, notice: 'League was successfully created.' }
         format.json { render json: @league, status: :created, location: @league }
       else

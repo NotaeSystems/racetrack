@@ -121,7 +121,7 @@ class BetsController < ApplicationController
       @card = @horse.race.card
       balance = current_user.card_balance(@card)
       return if balance > 0
-      flash[:notice] = "Sorry, you are out of credits for this card."
+      flash[:warning] = "Sorry, you are out of credits for this card."
       redirect_to race_path(:id => @horse.race.id)
   end
 

@@ -9,6 +9,7 @@
     <th></th>
   </tr>
 
+<%if @cards %>
 <% @cards.each do |card| %>
   <tr>
     <td><%= card.name %></td>
@@ -23,7 +24,10 @@
   </tr>
 <% end %>
 </table>
+<%else%>
 
+<h3>There are no Open Cards at this time.</h3>
+<%end%>
 <br />
 <%if current_user.is_track_owner?(@track) %>
   <%= link_to 'New Card', new_card_path, :class => 'btn btn-mini btn-warning' %>

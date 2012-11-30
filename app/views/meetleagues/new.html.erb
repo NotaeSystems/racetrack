@@ -1,5 +1,13 @@
-<h1>New meetleague</h1>
+<h3>Click the Meet you want to associate with your league</h3>
 
-<%= render 'form' %>
+<table class='table table-striped table-bordered table-condensed'>
 
-<%= link_to 'Back', meetleagues_path %>
+<% @meets.each do |meet| %>
+  <tr>
+    <td><%=link_to  meet.name, add_meetleagues_path(:league_id => @league.id, :meet_id => meet.id), :class => 'btn btn-block' %></td>
+
+    <td><%= meet.description %></td>
+
+  </tr>
+<% end %>
+</table>

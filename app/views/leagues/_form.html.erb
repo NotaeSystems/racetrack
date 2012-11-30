@@ -4,9 +4,10 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :description %>
-    <%= f.input :status %>
-    <%= f.input :owner_id %>
-    <%= f.input :active %>
+      <%= f.select :status, ['Public','Private','Closed'] %>
+    <% if user_is_admin? %>
+      <%= f.input :active %>
+    <%end%>
   </div>
 
   <div class="form-actions">

@@ -1,6 +1,26 @@
-<h3>Welcome to Fantasy Odds Maker</h3>
+<h1>Welcome to Fantasy Odds Maker</h1>
+
+<h2>Test your handicapping skills in all types of sports and real world events.</h3>
+<p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> </p>
+<p>or</p>
+<p>Start handicapping now.  Pick a Racing Card and start today!  Free!<p>
+<%unless @cards.blank? %>
+<table class='table table-striped table-bordered table-condensed'>
+
+<% @cards.each do |card| %>
+  <tr>
+    <td><%= link_to "#{card.meet.track.name}--#{card.name}", card, :class => 'btn btn-block' %></td>
+    <td><%= card.description %></td>
+  </tr>
+<% end %>
+</table>
+<%else%>
+<p> Sorry, there are no Open Cards at this time.
+<%end%>
+<br />
 
 
+<h3>Browse Tracks</h3>
 <%if @tracks.size > 0 %>
 <table class='table table-striped table-bordered table-condensed'>
 

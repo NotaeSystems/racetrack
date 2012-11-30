@@ -1,5 +1,14 @@
 Myapp::Application.routes.draw do
-  resources :meetleagues
+  resources :meetleagues do
+      collection do
+        get 'add'
+      end
+      member do
+        get 'join'
+        #get 'credits'
+      end 
+
+  end
 
   resources :trackleagues
 
@@ -27,6 +36,7 @@ Myapp::Application.routes.draw do
       end
       member do
         get 'join'
+        get 'quit'
         #get 'credits'
       end 
 

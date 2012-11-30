@@ -1,12 +1,29 @@
+<h3>Enter the Meet ID you want to associate with your league</h3>
 <%= simple_form_for(@meetleague) do |f| %>
   <%= f.error_notification %>
 
   <div class="form-inputs">
     <%= f.input :meet_id %>
-    <%= f.input :league_id %>
+       <%=  f.hidden_field :league_id , :value => @meetleague.league_id %>
   </div>
 
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
 <% end %>
+
+<table class='table table-striped table-bordered table-condensed'>
+
+<% @meets.each do |meet| %>
+  <tr>
+    <td><%=link_to  meet.name, track_meet_path(:id => meet.id, :track_id => @track.id), :class => 'btn' %></td>
+
+    <td><%= meet.description %></td>
+
+<%if user_is_track_owner?(@track) %>
+    <td><%= link_to "Edit #{@track.meet_alias}", edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Delete #{@track.meet_alias}", meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+<%end%>
+  </tr>
+<% end %>
+</table>
