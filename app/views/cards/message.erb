@@ -1,0 +1,18 @@
+<div class='meet_box'>
+<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
+<%= render :partial => 'meets/credits' %>
+</div>
+<div class='card_box'>
+<h3> <%= @track.card_alias%>:<%= link_to @card.name, card_path(:id => @card.id) %></h3>
+
+<h2>Send Message to bettors.</h2>
+<%= form_tag(push_card_message_path) do  %>
+    <ol>
+    
+        Message:
+        <%= text_field_tag :message %>
+ 
+        <%= hidden_field_tag :card_id, @card.id%>      
+    </ol>
+<%=submit_tag "Submit", :disable_with => "Please wait processing ....", :class => 'submit_button'%>
+<%end%>

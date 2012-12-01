@@ -1,0 +1,16 @@
+<h2>Send Message to bettors.</h2>
+<%= form_tag(send_message_path) do  %>
+    <ol>
+      <li>      
+        Message:
+        <%= text_field_tag :message %>
+      </li>
+      <li> 
+
+      </li>
+        <%= hidden_field_tag :channel, @channel%>
+        <%= hidden_field_tag :card_id, @card_id%>      
+      </li>
+    </ol>
+<%=submit_tag "Submit", :disable_with => "Please wait processing ....", :class => 'submit_button'%>
+<%end%>
