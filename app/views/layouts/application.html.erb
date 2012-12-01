@@ -8,6 +8,18 @@
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
+
+  <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
+
+ <script type="text/javascript">
+ var pusher = new Pusher('<%= Pusher.key %>'); // uses your API KEY
+ var channel = pusher.subscribe('test_channel');
+ channel.bind('greet', function(data) {
+   alert(data.greeting);
+ });
+ </script>
+
+
   </head>
   <body>
     <header class="navbar navbar-fixed-top">

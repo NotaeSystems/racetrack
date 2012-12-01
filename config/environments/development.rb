@@ -31,7 +31,11 @@ Myapp::Application.configure do
     password: ENV["GMAIL_PASSWORD"]
   }
 
+require 'pusher'
 
+Pusher.app_id = 2558
+Pusher.key = '77e99ef2916328d0067a'
+Pusher.secret = '5b7c2c8b9b9b6256fdeb'
 
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
