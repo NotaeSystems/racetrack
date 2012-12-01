@@ -97,6 +97,7 @@ Myapp::Application.routes.draw do
   ##### races
     resources :races do
       collection do
+       get 'send_message'
         #get 'members'
       end
       member do
