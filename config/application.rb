@@ -8,7 +8,7 @@ if defined?(Bundler)
   # If you want your assets lazily compiled in production, use this line
   # Bundler.require(:default, :assets, Rails.env)
 end
-require 'pusher'
+
 module Myapp
   class Application < Rails::Application
 
@@ -23,10 +23,6 @@ module Myapp
       g.helper_specs false
     end
 
-
-Pusher.app_id = '32755'
-Pusher.key = '77e99ef2916328d0067a'
-Pusher.secret = '5b7c2c8b9b9b6256fdeb'
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -1,15 +1,14 @@
 class RacesController < ApplicationController
-  require 'pusher'
   # GET /races
   # GET /races.json
   before_filter :check_for_winners, :only => [:payout]
 
  def send_message
-
-   Pusher.app_id = '32755'
-   Pusher.key = '77e99ef2916328d0067a'
-   Pusher.secret = '5b7c2c8b9b9b6256fdeb'
-   Pusher['test_channel'].trigger('greet', {:greeting => "Hello there!"})
+   channel = 'test_channel'
+   id = 'greet'
+   message = "Ready to bet?"
+   PusherChannel.send_message(channel, id, message)
+   #Pusher['test_channel'].trigger('greet', {:greeting => "Hello there!"})
    render :nothing => true
  end
 

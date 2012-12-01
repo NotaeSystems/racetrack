@@ -2,6 +2,25 @@ class CardsController < ApplicationController
   # GET /cards
   # GET /cards.json
 
+  def push_message
+    @card = Card.find(params[:card_id])
+    @track = @card.meet.track
+    @channel = "card#{@card.id}"
+    @message = params[:message]
+
+    PusherChannel.send_message(@channel, @channel, @message)
+
+    flash.notice = "Message: #{@message}. Sent OK"
+    redirect_to card_path(@card)
+  end
+
+ def message
+ 
+   @card = Card.find(params[:id])
+   @track = @card.meet.track
+   @meet = @card.meet
+ end
+
   def close
     @card = Card.find(params[:id])
     @track = @card.meet.track
@@ -23,6 +42,7 @@ class CardsController < ApplicationController
 
   # GET /cards/1
   # GET /cards/1.json
+
   def show
 
     @card = Card.find(params[:id])
@@ -35,6 +55,15 @@ class CardsController < ApplicationController
       format.json { render json: @card }
     end
   end
+
+ def send_message
+
+   Pusher.app_id = '32755'
+   Pusher.key = '77e99ef2916328d0067a'
+   Pusher.secret = '5b7c2c8b9b9b6256fdeb'
+   Pusher['test_channel'].trigger('greet', {:greeting => "Hello there!"})
+   render :nothing => true
+ end
 
   # GET /cards/new
   # GET /cards/new.json

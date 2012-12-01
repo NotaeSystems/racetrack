@@ -28,7 +28,13 @@ Myapp::Application.routes.draw do
 
   resources :horses
 
-      match "myleagues" => "users#myleagues", :as => :myleagues
+  match "myleagues" => "users#myleagues", :as => :myleagues
+
+ ### Pusher ###############
+  match "push_card_message" => "cards#push_message", :as => :push_card_message
+
+  match "card_message" => "cards#message", :as => :card_message
+#########################
 
   resources :leagues  do
       collection do
@@ -45,10 +51,11 @@ Myapp::Application.routes.draw do
 
   resources :cards do
       collection do
-        #get ''
+        #get 'message'
       end
       member do
         get 'close'
+        get 'message'
         #get 'credits'
       end 
 

@@ -1,3 +1,14 @@
+<% content_for :head do %>
+ <script type="text/javascript">
+ var pusher = new Pusher('<%= Pusher.key %>')
+ var card_channel = pusher.subscribe('<%="card#{@card.id}"%>');
+ card_channel.bind('<%="card#{@card.id}"%>', function(data) {
+   alert(data.greeting);
+ });
+ </script>
+<%end%>
+
+
 <div class='track_box'>
 <h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
 </div>
@@ -11,7 +22,9 @@
 <p>
   <%= @card.description %><%= render :partial => 'cards/credits' %>
 </p>
-
+<%if user_is_track_owner?(@track) %>
+<%= link_to "Push Message to Bettors", message_card_path(:id => @card.id), :class => 'btn btn-mini btn-warning' %>
+<%end%>
 <h4> <%=@track.race_alias.pluralize%></h4>
 
 <table class='table table-striped table-bordered table-condensed'>
