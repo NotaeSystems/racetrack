@@ -38,13 +38,4 @@
 
 <%end%>
 </div>
-<div class='box2'>
 
-
-<% if user_signed_in? %>
-<%= link_to 'New Comment', new_comment_path(:track_id => @track.id), :class => 'btn' %>
-<%else%>
-Log in to Comment
-<%end%>
-  <%= render :partial => 'comments/index_table' %>
-</div>
