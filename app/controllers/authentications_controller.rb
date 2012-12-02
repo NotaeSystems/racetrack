@@ -19,7 +19,7 @@ class AuthenticationsController < ApplicationController
       new_user.apply_omniauth(auth)
       existing_user = User.where("email = ?", new_user.email).first
       if existing_user
-        sign_in_and_redirect (:user, existing_user)
+        sign_in_and_redirect(:user, existing_user)
       else
         if new_user.save(:validate => false)
           flash[:notice] = "Account created and signed in successfully."
