@@ -12,7 +12,7 @@ class LeaguesController < ApplicationController
 
   def quit
      @league = League.find(params[:id])
-     leagueuser = Leagueuser.where(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true)
+     leagueuser = Leagueuser.where(:user_id =>current_user.id, :league_id =>@league.id).first
      leagueuser.quit
        redirect_to @league, notice: "Goodbye. You have successfully been removed as member of #{@league.name}!."
   end
