@@ -21,6 +21,9 @@ class AuthenticationsController < ApplicationController
       new_user.avatar = auth["info"]["image"]
       existing_user = User.where("email = ?", new_user.email).first
       if existing_user
+        existing_user.name = auth["info"]["name"]
+        existing_user.avatar = auth["info"]["image"]
+        existing_user.save
         sign_in_and_redirect(:user, existing_user)
       else
         if new_user.save(:validate => false)
