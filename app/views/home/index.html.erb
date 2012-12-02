@@ -7,7 +7,7 @@
   <p>Sign in to Join or Start a League</p>
 <%end%>
 <p>or</p>
-<p>Start handicapping now.  Pick a Racing Card and start today!  Free!<p>
+<p>Start handicapping now.  Pick a Racing Card and start today!  Free! or <%= link_to 'Browse Tracks', tracks_path, :class => 'btn' %> </p> <p>
 <%unless @cards.blank? %>
 <table class='table table-striped table-bordered table-condensed'>
 

@@ -9,7 +9,7 @@ Myapp::Application.routes.draw do
       end 
 
   end
-
+  match '/auth/:provider/callback' => 'authentications#create'
   resources :trackleagues
 
   resources :leagueusers

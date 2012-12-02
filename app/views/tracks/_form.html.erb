@@ -4,7 +4,7 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Pending', 'Open', 'Closed'],  :selected =>@track.status %>
-    <%= f.input :owner_id %>
+    <%= f.hidden_field :owner_id %>
     <%= f.input :public %>
     <%= f.input :open %>
     <%= f.input :track_alias %>

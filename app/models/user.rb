@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   has_many :credits
+  has_many :authentications, :dependent => :delete_all
   belongs_to :meet
   has_many :comments
   has_many :trackusers
@@ -13,7 +14,15 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
+
   
+  def apply_omniauth(auth)
+    # In previous omniauth, 'user_info' was used in place of 'raw_info'
+    self.email = auth['extra']['raw_info']['email']
+    # Again, saving token is optional. If you haven't created the column in authentications table, this will fail
+    authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
+  end
+
   def is_track_owner?(track)
     return false if track.nil?
     return true if self.has_role :admin

@@ -10,6 +10,11 @@ group :production do
 end
 
 gem 'pusher'
+gem 'gravatar-ultimate'
+gem 'will_paginate'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'oauth2'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

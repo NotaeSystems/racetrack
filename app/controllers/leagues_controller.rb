@@ -18,7 +18,7 @@ class LeaguesController < ApplicationController
   end
 
   def index
-    @leagues = League.all
+    @leagues = League.page(params[:page]).per_page(30).order('name')
 
     respond_to do |format|
       format.html # index.html.erb

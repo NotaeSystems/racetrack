@@ -4,7 +4,7 @@
 <% @comments.each do |comment| %>
   <tr>
     <td><%= comment.user.name %></td>
-
+    <td><%= image_tag avatar_url(comment.user) %>
     <td><%= comment.body %></td>
     <td><%= comment.created_at.strftime("%B %d at %I:%M %p %Z") %>
 <% if user_signed_in? %>
