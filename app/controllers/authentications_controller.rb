@@ -17,8 +17,8 @@ class AuthenticationsController < ApplicationController
       new_user = User.new
 
       new_user.apply_omniauth(auth)
-      new_user.name = auth["user_info"]["name"]
-      new_user.avatar = auth["user_info"]["image"]
+      new_user.name = omniauth["info"]["name"]
+      new_user.avatar = omniauth["info"]["image"]
       existing_user = User.where("email = ?", new_user.email).first
       if existing_user
         sign_in_and_redirect(:user, existing_user)
