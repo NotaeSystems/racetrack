@@ -50,7 +50,7 @@ module ApplicationHelper
   end
 
   def avatar_url(user)
-    if user.avatar_url.present?
+    if user.avatar.present?
       user.avatar
    else
   #    default_url = "#{root_url}images/guest.png"
