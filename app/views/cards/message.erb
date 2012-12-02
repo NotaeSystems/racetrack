@@ -1,3 +1,6 @@
+<div class='track_box'>
+<h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
+</div>
 <div class='meet_box'>
 <h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
 <%= render :partial => 'meets/credits' %>

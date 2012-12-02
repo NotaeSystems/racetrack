@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   belongs_to :meet
   has_many :comments
   has_many :trackusers
-  devise :database_authenticatable, :registerable, :omniauthable,
+  devise :database_authenticatable, :registerable, 
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
