@@ -1,3 +1,12 @@
+<% content_for :head do %>
+ <script type="text/javascript">
+ var pusher = new Pusher('<%= Pusher.key %>')
+ var card_channel = pusher.subscribe('<%="card#{@race.card.id}"%>');
+ card_channel.bind('<%="card#{@race.card.id}"%>', function(data) {
+   alert(data.greeting);
+ });
+ </script>
+<%end%>
 <h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
 <div class='box2'>
 <h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
