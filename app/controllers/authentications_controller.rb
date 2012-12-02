@@ -17,7 +17,7 @@ class AuthenticationsController < ApplicationController
       new_user = User.new
       
       new_user.apply_omniauth(auth)
-      existing_user = User.where("email = ?", new_user.email)
+      existing_user = User.where("email = ?", new_user.email).first
       if existing_user
         sign_in_and_redirect edit_user_path(:user, existing_user)
       else
