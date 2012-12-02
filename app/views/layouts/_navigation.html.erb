@@ -9,7 +9,7 @@
     <%= link_to 'Login with Facebook', '/auth/facebook/', :class => 'btn btn-mini btn-info' %>
     </li>
     <li>
-    <%= link_to 'Login', new_user_session_path , :class => 'btn btn-mini btn-info' %>        
+    <%#= link_to 'Login', new_user_session_path , :class => 'btn btn-mini btn-info' %>        
     </li>
   <% end %>
   <% if user_signed_in? %>
@@ -27,7 +27,7 @@
     <% end %>
   <% else %>
     <li>
-    <%= link_to 'Sign up', new_user_registration_path, :class => 'btn btn-mini btn-info' %>        
+    <%#= link_to 'Sign up', new_user_registration_path, :class => 'btn btn-mini btn-info' %>        
     </li> 
  
   <% end %>
