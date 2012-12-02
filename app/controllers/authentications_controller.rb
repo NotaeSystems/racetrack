@@ -21,7 +21,7 @@ class AuthenticationsController < ApplicationController
       new_user.avatar = auth["info"]["image"]
       new_user.status = 'Member'
       
-      new_user.add_role = 'user'
+      new_user.add_role :user
       existing_user = User.where("email = ?", new_user.email).first
       if existing_user
         existing_user.name = auth["info"]["name"]
