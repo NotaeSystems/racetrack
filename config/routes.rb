@@ -9,6 +9,7 @@ Myapp::Application.routes.draw do
       end 
 
   end
+  match '/auth/facebook/callback' => 'authentications#create'
   match '/auth/:provider/callback' => 'authentications#create'
   resources :trackleagues
 
