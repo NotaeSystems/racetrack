@@ -14,7 +14,7 @@
 
 <% @tracks.each do |track| %>
   <tr>
-    <td><%= link_to track.name , track_path(track), :class => 'btn'%></td>
+    <td><%= link_to track.name , track_path(track), :class => 'btn btn-block'%></td>
     <% if track.owner %>
       <td><%= track.owner.name %></td>
     <%else%>
@@ -23,9 +23,7 @@
     <td><%= track.public %></td>
     <td><%= track.open %></td>
     <td><%= track.description %></td>
-    <td><%= link_to 'Show', track %></td>
-    <td><%= link_to 'Edit', edit_track_path(track), :class => 'btn' %></td>
-    <td><%= link_to 'Destroy', track, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
   </tr>
 <% end %>
 </table>

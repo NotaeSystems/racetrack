@@ -2,7 +2,7 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
   def index
-    @tracks = Track.page(params[:page]).per_page(2).order('name')
+    @tracks = Track.page(params[:page]).per_page(30).order('name')
 
     respond_to do |format|
       format.html # index.html.erb
@@ -27,11 +27,12 @@ class TracksController < ApplicationController
     @track = Track.new
     @owner = User.find(params[:user_id])
     @track.owner_id = @owner.id
-    @track.track_alias = 'League'
-    @track.meet_alias = 'Season'
-    @track.card_alias = 'Series'
-    @track.race_alias = 'Contest'
+    @track.track_alias = 'Track'
+    @track.meet_alias = 'Meet'
+    @track.card_alias = 'Card'
+    @track.race_alias = 'Race'
     @track.horse_alias = 'Outcome'
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @track }

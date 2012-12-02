@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
   belongs_to :meet
   has_many :comments
   has_many :trackusers
-  devise :database_authenticatable, :registerable, 
+  devise :database_authenticatable, :registerable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
 
   def is_track_owner?(track)
     return false if track.nil?
-    return true if self.has_role :admin
+    return true if self.has_role? :admin
     return true if track.owner_id == self.id
     
   end
