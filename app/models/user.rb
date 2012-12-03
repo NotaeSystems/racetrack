@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
 
   def password_required?
-    super && session[:provider].blank?
+    super && encrypted_password.blank?
 
   end
 
