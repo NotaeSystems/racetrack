@@ -14,6 +14,7 @@ Myapp::Application.routes.draw do
   end
   #match '/auth/facebook/callback' => 'authentications#create'
   match '/auth/:provider/callback' => 'authentications#create'
+  match '/home/' => 'home#index'
   resources :trackleagues
 
   resources :leagueusers

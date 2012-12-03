@@ -28,7 +28,7 @@ class AuthenticationsController < ApplicationController
         existing_user.avatar = auth["info"]["image"]
         existing_user.save
         session[:provider] = auth['provider']
-        flash[:notice] = "Account created and signed in successfully with #{session[:provider]}."
+        flash[:notice] = "Signed in successfully with #{session[:provider]}."
         sign_in_and_redirect(:user, existing_user)
       else
         if new_user.save(:validate => false)
