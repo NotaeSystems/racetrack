@@ -36,7 +36,7 @@ module ApplicationHelper
    return true if is_league_owner?(league)
    leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id)
    return false if leagueuser.blank?
-   return true if leagueuser.status == 'Manager'
+  # return true if leagueuser.status == 'Manager'
    false
   end
 
