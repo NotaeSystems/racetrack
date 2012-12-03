@@ -1,4 +1,7 @@
 Myapp::Application.routes.draw do
+
+  devise_for :users
+
   resources :meetleagues do
       collection do
         get 'add'
@@ -9,7 +12,7 @@ Myapp::Application.routes.draw do
       end 
 
   end
-  match '/auth/facebook/callback' => 'authentications#create'
+  #match '/auth/facebook/callback' => 'authentications#create'
   match '/auth/:provider/callback' => 'authentications#create'
   resources :trackleagues
 
@@ -79,7 +82,7 @@ Myapp::Application.routes.draw do
     root :to => 'home#index'
   end
   root :to => "home#index"
-  devise_for :users
+
   resources :users
 
   ##### tracks

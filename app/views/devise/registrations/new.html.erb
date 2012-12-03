@@ -3,8 +3,11 @@
   <%= f.error_notification %>
   <%= f.input :name, :autofocus => true %> 
   <%= f.input :email, :required => true %>
-  <%= f.input :password, :required => true %>
-  <%= f.input :password_confirmation, :required => true %>
+  <% if f.object.password_required? %>
+    <%= f.input :password, :required => true %>
+    <%= f.input :password_confirmation, :required => true %>
+  <%end%>
+    <%= f.input :time_zone, :priority => /US/ %>
   <%= f.button :submit, 'Sign up', :class => 'btn-primary' %>
 <% end %>
 <%= render "devise/shared/links" %>

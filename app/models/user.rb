@@ -15,7 +15,21 @@ class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
 
-  
+  def password_required?
+    super && session[:provider].blank?
+
+  end
+
+  def update_with_password(params, *options)
+    if encrypted_password.blank?
+      update_attributes(params, *options)
+    else
+      super
+    end
+  end
+
+
+
   def apply_omniauth(auth)
     # In previous omniauth, 'user_info' was used in place of 'raw_info'
     self.email = auth['extra']['raw_info']['email']
