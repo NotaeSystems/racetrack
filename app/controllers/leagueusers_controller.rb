@@ -3,7 +3,7 @@ class LeagueusersController < ApplicationController
   # GET /leagueusers.json
   def index
     @league = League.find(params[:id])
-    @leagueusers = Leagueuser.where("league_id = ?", @league.id)
+    @leagueusers = Leagueuser.where("league_id = ?", @league.id).page(params[:page]).per_page(30)
 
     respond_to do |format|
       format.html # index.html.erb
