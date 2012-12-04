@@ -33,9 +33,20 @@ class Card < ActiveRecord::Base
       total_user_credits = user.credits.where("card_id = ?", self.id).sum(:amount)
       logger.info "total user credits is #{total_user_credits}"
       ## create ranking record for card
-
+     # Ranking.create( :user_id => user.id,
+     #                 :card_id => self.id,
+     #                 :weight => 1, 
+     #                 :amount => total_user_credits
+     #                 ) 
       ##
     end
+    ### now calculate the percentile and add to ranking record
+   # rankings = Ranking.pluck('amount').where("card_id = ?", self.id)
+   # percentile95 = rankings.percentile(95)
+   # percentile90 = rankings.percentile(90)
+   # Ranking.where("card_id = ? and amount > ?",self.id, percentile95-1).update_all(:percentile => 95)
+   # Ranking.where("card_id = ? and amount > ?",self.id, percentile95-1).update_all(:percentile => 95
+    ### percentile is number_of_users /  rank
       ## as to each user
         ## calcuate total credits of user
         ## as to each user find order of finish

@@ -1,4 +1,4 @@
-<h1>Listing Bettors</h1>
+<h1>Listing Handicappers</h1>
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
@@ -15,7 +15,7 @@
 
 <% @trackusers.each do |trackuser| %>
   <tr>
-    <td><%= trackuser.nickname %></td>
+    <td><%= image_tag avatar_url(trackuser.user) %><%= raw "<br >#{trackuser.nickname}" %></td>
     <td><%= trackuser.track.name %></td>
     <td><%= trackuser.user.name %></td>
     <td><%= trackuser.role %></td>

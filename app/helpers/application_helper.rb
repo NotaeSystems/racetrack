@@ -35,8 +35,8 @@ module ApplicationHelper
    return false if current_user.nil?
    return true if is_league_owner?(league)
    leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id)
-   return false if leagueuser.blank?
-  # return true if leagueuser.status == 'Manager'
+   return false if leagueuser.nil?
+   return true if leagueuser.status == 'Manager'
    false
   end
 
@@ -56,8 +56,8 @@ module ApplicationHelper
   #    default_url = "#{root_url}images/guest.png"
    #  gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
    #"http://gravatar.com/avatar/#{gravatar_id}.png?s=48&d=#{CGI.escape(default_url)}"
-   # url = Gravatar.new(user.email).image_url
-   nil
+   url = Gravatar.new(user.email).image_url
+   #nil
   end
 end
 

@@ -2,14 +2,40 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
   def index
-    @tracks = Track.page(params[:page]).per_page(30).order('name')
+         
+    search = "%" + params[:search].to_s + "%"
+    search_type = params[:search_type]
+    if  search_type
+      if search_type == 'open'
+        @tracks = Track.open.page(params[:page]).per_page(30).order('name')
+      elsif search_type == 'pending'
+        @tracks = Track.pending.page(params[:page]).per_page(30).order('name')
+      elsif search_type == 'closed'
+        @tracks = Track.closed.page(params[:page]).per_page(30).order('name')
+ 
+      elsif search_type == 'mytracks'
+       unless current_user.nil?
+         @tracks = Track.where("owner_id = ?", current_user.id).page(params[:page]).per_page(30).order('name')
+       else
+         @tracks = Track.page(params[:page]).per_page(30).order('name')
+       end
+      else
+        @tracks = Track.page(params[:page]).per_page(30).order('name')
+      end
+    else 
+      @tracks = Track.page(params[:page]).per_page(30).order('name')
+    end
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tracks }
     end
   end
+  
+  def mytracks
+    @tracks = Track.where("owner_id = ?", current_user.id).page(params[:page]).per_page(30).order('name')
 
+  end
   # GET /tracks/1
   # GET /tracks/1.json
   def show
