@@ -28,6 +28,16 @@ class CardsController < ApplicationController
     @meet = @card.meet
     @comments = @card.comments
     @card.close
+    flash.notice = "Card Closed!"
+    redirect_to card_path(@card)
+  end
+
+  def open
+    @card = Card.find(params[:id])
+    @card.status = 'Open'
+    @card.save
+    flash.notice = "Card Opened!"
+    redirect_to card_path(@card)
   end
 
   def index

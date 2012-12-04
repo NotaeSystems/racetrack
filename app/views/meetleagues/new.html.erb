@@ -4,7 +4,7 @@
 
 <% @meets.each do |meet| %>
   <tr>
-    <td><%=link_to  meet.name, add_meetleagues_path(:league_id => @league.id, :meet_id => meet.id), :class => 'btn btn-block' %></td>
+    <td><%=link_to  "#{meet.track.name}--#{meet.name}", add_meetleagues_path(:league_id => @league.id, :meet_id => meet.id), :class => 'btn btn-block' %></td>
 
     <td><%= meet.description %></td>
 

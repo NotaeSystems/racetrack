@@ -11,9 +11,8 @@
     <th>Public</th>
     <th>Status</th>
     <th>Description</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Members</th>
+
   </tr>
 
 <% @tracks.each do |track| %>
@@ -32,6 +31,7 @@
     <%end%>
     <td><%= track.status %></td>
     <td><%= track.description %></td>
+    <td><%=track.trackusers.count%></td>
 
   </tr>
 <% end %>

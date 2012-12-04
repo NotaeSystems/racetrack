@@ -8,8 +8,9 @@
     <th>Name</th>
     <th>Description</th>
     <th>Status</th>
+    <th>Members</th>
     <% if user_is_admin? %>
-      <th></th>
+      <th>Active</th>
       <th></th>
     <%end%>
   </tr>
@@ -19,12 +20,13 @@
     <td><%= link_to league.name, league, :class => 'btn btn-block' %></td>
     <td><%= league.description %></td>
     <td><%= league.status %></td>
+    <td><%= league.leagueusers.count %></td>
 
     <% if user_is_admin? %>
 
       <td><%= league.active %></td>
-      <td><%= link_to 'Edit', edit_league_path(league), :class => 'btn btn-warning' %></td>
-      <td><%= link_to 'Destroy', league, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-warning' %></td>
+      <td><%= link_to 'Edit', edit_league_path(league), :class => 'btn btn-warning' %>
+      <%= link_to 'Destroy', league, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-warning' %></td>
     <%end%>
   </tr>
 <% end %>

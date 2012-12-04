@@ -13,10 +13,10 @@
 
   <% @meetleagues.each do |meetleague| %>
     <tr>
-      <%if meetleague.meet.blank? %>  
-        <td>No Meet</td>
+      <%if meetleague.track.blank? %>  
+        <td>No Track</td>
       <%else%>
-        <td><%= link_to " #{meetleague.meet.track.name}--#{meetleague.meet.name}" , meet_path(:id => meetleague.meet_id), :class => 'btn btn-block' %></td>
+        <td><%= link_to "#{meetleague.track.name}--#{meetleague.meet.name}" , meet_path(:id => meetleague.meet_id), :class => 'btn btn-block' %></td>
       <%end%>
       <td><%= link_to "Meet Rankings", rankings_path(:league_id => @league.id, :meet_id => meetleague.meet_id), :class => 'btn' %></td>
       <% if is_league_owner?(@league)%>

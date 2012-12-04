@@ -22,10 +22,10 @@
 Total Pool: <%= @race.total_bets%>
  <p> <%= @race.description %></p>
 <p>
-  <b>Start betting time:</b>
+  <b>Start time:</b>
   <%= @race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %>
 ---
-  <b>End betting time:</b>
+  <b>End time:</b>
   <%= @race.post_time.strftime("%B %d at %I:%M %p %Z") %>
 </p>
 <%if user_is_track_owner?(@track) %>
@@ -48,7 +48,7 @@ Total Pool: <%= @race.total_bets%>
     <td><%= horse.finish %></td>
     <td>Total Bets: <%= horse.total_bets %> Odds: <%=horse.odds%></td>
 
-<%if @race.status == 'Open'%>
+<%if @race.status == 'Open'  && @race.card.status ==  'Open'%>
   <%if horse.status == 'Active'%>
     <% if user_signed_in? %>
       <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>

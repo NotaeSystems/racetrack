@@ -1,9 +1,9 @@
 class Card < ActiveRecord::Base
-  has_many :races
+  has_many :races, :dependent => :destroy
   belongs_to :meet
-  has_many :comments
-  has_many :credits
-  has_many :rankings
+  has_many :comments, :dependent => :destroy
+  has_many :credits, :dependent => :destroy
+  has_many :rankings, :dependent => :destroy
   attr_accessible :completed, :completed_date, :description, :meet_id, :name, :open, :status, :initial_credits
 
   def refresh_credits(user, credit_type, amount)
@@ -56,5 +56,7 @@ class Card < ActiveRecord::Base
         ## add card weight to user's ranking
         ## add percentile points to user's ranking
         ## mark card as closed
+   self.status = 'Closed'
+   self.save
   end
 end

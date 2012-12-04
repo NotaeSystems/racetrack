@@ -60,6 +60,7 @@ Myapp::Application.routes.draw do
       end
       member do
         get 'close'
+        get 'open'
         get 'message'
         #get 'credits'
       end 

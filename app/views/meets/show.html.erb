@@ -22,6 +22,7 @@
 <% @cards.each do |card| %>
   <tr>
     <td><%= link_to card.name, card_path(card), :class => 'btn btn-block' %></td>
+    <td><%= card.status%></td>
     <td><%= card.description %></td>
     <%if user_is_track_owner?(@track) %>
 
