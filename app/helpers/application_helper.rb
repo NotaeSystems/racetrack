@@ -18,7 +18,7 @@ module ApplicationHelper
 
   def is_league_member?(league)
     return false if current_user.nil?
-    leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id)
+    leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id).first
     return false if leagueuser.blank?
     #return true if leagueuser.active == true
     true
@@ -34,7 +34,7 @@ module ApplicationHelper
   def is_league_manager?(league)
    return false if current_user.nil?
    return true if is_league_owner?(league)
-   leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id)
+   leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id).first
    return false if leagueuser.nil?
    return true if leagueuser.status == 'Manager'
    false
@@ -43,7 +43,7 @@ module ApplicationHelper
   def is_league_moderator?(league)
    return false if current_user.nil?
    return true if is_league_owner?(league)
-   leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id)
+   leagueuser = Leagueuser.where("user_id = ? and league_id = ?", current_user.id, league.id).first
    return false if leagueuser.blank?
    return true if leagueuser.status == 'Moderator'
    false
@@ -56,10 +56,13 @@ module ApplicationHelper
   #    default_url = "#{root_url}images/guest.png"
    #  gravatar_id = Digest::MD5.hexdigest(user.email.downcase)
    #"http://gravatar.com/avatar/#{gravatar_id}.png?s=48&d=#{CGI.escape(default_url)}"
-   url = Gravatar.new(user.email).image_url
+   url = Gravatar.new(user.email)image_url
    #nil
   end
-end
+
+  def track_members_count(track)
+    track.trackusers.count
+  end
 
 
 end
