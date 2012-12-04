@@ -7,17 +7,17 @@
  });
  </script>
 <%end%>
-<h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
+<h1> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id)%></h1>
 <div class='box2'>
 <h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
 <%= render :partial => 'meets/credits' %>
 </div>
 <div class='box2'>
-<h3> <%= @track.card_alias%>:<%= link_to @race.card.name, card_path(:id => @race.card.id) %></h3>
+<h3> <%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id) %></h3>
 <%= render :partial => 'cards/credits' %>
 </div>
 <div class='box2'>
-<h4><%= @track.race_alias%>:<%=@race.name%>-<%=@race.status%></h4>
+<h4><%= @track.race_alias%>: <%=@race.name%>-<%=@race.status%></h4>
 
 Total Pool: <%= @race.total_bets%>
  <p> <%= @race.description %></p>
@@ -63,8 +63,7 @@ Total Pool: <%= @race.total_bets%>
     <td>Closed!</td>
 <%end%>
 <%if user_is_track_owner?(@track) %>
-    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %></td>
-    <td><%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
    
 <%end%>
   </tr>

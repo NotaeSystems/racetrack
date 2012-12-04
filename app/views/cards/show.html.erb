@@ -10,7 +10,7 @@
 
 
 <div class='track_box'>
-<h1> <%= @track.track_alias%>:<%= link_to @track.name, track_path(@track.id)%></h1>
+<h1> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id)%></h1>
 </div>
 <div class='meet_box'>
 <h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
@@ -59,8 +59,7 @@
     <%end%>
     <td><%= race.description %></td>
 <%if user_is_track_owner?(@track) %>
-    <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %></td>
-    <td><%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %> <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
  <%end%>
   </tr>
 <% end %>
