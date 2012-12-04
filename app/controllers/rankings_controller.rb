@@ -31,7 +31,7 @@ class RankingsController < ApplicationController
     end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
-    user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:id)
+    user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:user_id)
     
     @rankings = @meet.rankings.where(:user_id => user_ids).order("amount desc")
     logger.info "league user_ids = #{user_ids}"
