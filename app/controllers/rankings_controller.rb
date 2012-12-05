@@ -37,6 +37,9 @@ class RankingsController < ApplicationController
     logger.info "league user_ids = #{user_ids}"
     unless @myrank.blank?
       @rank = Ranking.where("amount > ? and user_id IN (?) and meet_id = ?", @myrank.amount, user_ids, @meet.id).order("amount desc").count
+      if @rank == 0
+         @rank = @rank + 1
+      end
     else
       @rank = Ranking.where("meet_id = ?",  @meet.id).count
     end
