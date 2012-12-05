@@ -19,7 +19,7 @@
 <% @track.meets.each do |meet| %>
   <tr>
     <td><%=link_to  meet.name, track_meet_path(:id => meet.id, :track_id => @track.id), :class => 'btn btn-block' %></td>
-
+     <td><%=meet.status%></td>
     <td><%= meet.description %></td>
 
 <%if user_is_track_owner?(@track) %>

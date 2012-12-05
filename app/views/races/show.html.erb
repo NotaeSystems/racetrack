@@ -51,7 +51,12 @@ Total Pool: <%= @race.total_bets%>
 <%if @race.betting_status == 'Open' %>
   <%if horse.status == 'Open'%>
     <% if user_signed_in? %>
-      <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+
+      <%unless @initial_credits.blank?%>
+        <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+      <%else%>
+        <td><%= link_to "Bet and Get #{@card.initial_credits} Credits", new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+      <%end%>
     <%else%>
       <td><%= link_to 'Login to Bet', new_user_session_path , :class => 'btn btn-mini btn-info' %> </td>
     <%end%>
