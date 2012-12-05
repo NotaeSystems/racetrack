@@ -13,7 +13,7 @@
 <h1> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id)%></h1>
 </div>
 <div class='meet_box'>
-<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %></h2>
+<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %>--<%=@meet.status%></h2>
 <%= render :partial => 'meets/credits' %>
 </div>
 <div class='card_box'>
@@ -48,7 +48,7 @@
 <% @races.each do |race| %>
   <tr>
     <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-block' %></td>
-    <td><%=race.status%></td>
+    <td><%=race.betting_status%></td>
     <td><%= race.description %></td>
 <%if user_is_track_owner?(@track) %>
     <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %> <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>

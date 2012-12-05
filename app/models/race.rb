@@ -7,6 +7,28 @@ class Race < ActiveRecord::Base
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status
 
+
+  def betting_status
+    return 'Paid Out' if self.status == 'Paid Out'
+    return 'Closed' if self.status == 'Closed'
+
+    ## check card status
+    return 'Closed' if self.card.status == 'Closed'
+    return 'Pending' if self.card.status == 'Pending'
+
+    ## if race is open then check for other conditions 
+    return 'Pending' if self.status == 'Pending'
+
+    return 'Finished' if self.post_time.to_datetime < Time.now.to_datetime
+
+
+    return 'Pending' if self.start_betting_time.to_datetime > Time.now.to_datetime
+
+
+    return 'Open'
+  end
+
+
   def total_bets
     self.bets.sum(:amount)  
   end
@@ -30,7 +52,7 @@ class Race < ActiveRecord::Base
       next if winner_odds == 0
       #payoff_odds = winner_odds / winners_size
       #logger.debug "payoff_odds = #{payoff_odds}\n"
-      winner.bets.each do |bet|
+      winner.bets.where(:status => 'Open').each do |bet|
         bettor = bet.user
         bet_amount = bet.amount
         logger.debug "horse bet amount: #{bet_amount}\n"

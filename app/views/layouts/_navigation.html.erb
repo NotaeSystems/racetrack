@@ -4,31 +4,15 @@
  <li>
    <strong><%= link_to "Logout-#{current_user.name}", destroy_user_session_path, :method=>'delete', :class => 'btn btn-mini btn-info' %>       </strong> 
     </li>
+ <li>    <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong> </li>   
   <% else %>
     <li>
 <strong>    <%= link_to 'Login with Facebook', '/auth/facebook/', :class => 'btn btn-mini btn-info' %></strong>
     </li>
     <li>
-    <strong> <%= link_to 'Login', new_user_session_path , :class => 'btn btn-mini btn-info' %></strong>         
+    <strong> <%= link_to 'Login', new_user_session_path , :class => 'btn btn-mini btn-info' %></strong>  
+    <strong> <%= link_to 'Sign up', new_user_registration_path, :class => 'btn btn-mini btn-info' %> </strong>         
     </li>
   <% end %>
-  <% if user_signed_in? %>
-    <li>
-     <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong>         
-    </li>
-    <li>
-     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
-    </li>
-    <% if current_user.has_role? :admin %>
-      <li>
-     <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
-    </li> 
- 
-    <% end %>
-  <% else %>
-    <li>
-    <strong> <%= link_to 'Sign up', new_user_registration_path, :class => 'btn btn-mini btn-info' %> </strong>        
-    </li> 
- 
-  <% end %>
+
 </ul>

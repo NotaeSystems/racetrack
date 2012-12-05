@@ -31,9 +31,19 @@ Myapp::Application.routes.draw do
 
   resources :credits
 
-  resources :horses
+  resources :horses do
+      collection do
+        #get ''
+      end
+      member do
+        get 'scratch'
+        #get 'credits'
+      end 
+
+  end
 
   match "myleagues" => "users#myleagues", :as => :myleagues
+  match "mytracks" => "users#mytracks", :as => :mytracks
 
  ### Pusher ###############
   match "push_card_message" => "cards#push_message", :as => :push_card_message

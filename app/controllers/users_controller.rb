@@ -5,6 +5,11 @@ class UsersController < ApplicationController
     @leagueusers = Leagueuser.where("user_id = ?", current_user.id)
 
   end
+
+  def mytracks
+   @trackusers = Trackuser.where("user_id = ?", current_user.id)
+  end
+
   def index
     authorize! :index, @user, :message => 'Not authorized as an administrator.'
     @count = User.count

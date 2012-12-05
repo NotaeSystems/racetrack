@@ -1,6 +1,13 @@
 class HorsesController < ApplicationController
   # GET /horses
   # GET /horses.json
+
+  def scratch
+    @horse = Horse.find(params[:id])
+    @horse.scratch
+    redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully scratched.'
+  end
+
   def index
     @horses = Horse.all
 

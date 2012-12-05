@@ -65,7 +65,7 @@ class BetsController < ApplicationController
     @meet = Meet.find(params[:bet][:meet_id])
     @horse = Horse.find(params[:bet][:horse_id])
     @card = @horse.race.card
-
+    @bet.status = 'Open'
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,

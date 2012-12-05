@@ -52,6 +52,7 @@ class RacesController < ApplicationController
 
   def show
     @race = Race.find(params[:id])
+    @betting_status = @race.betting_status
     @horses = @race.horses
     @track = @race.card.meet.track
     @meet = @race.card.meet
