@@ -33,9 +33,9 @@ Total Pool: <%= @race.total_bets%>
       <%= link_to "Close #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Close'), :class => 'btn btn-mini btn-warning' %>
     <%else%>
       <%= link_to "Open #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Open'), :class => 'btn btn-mini btn-warning' %>
-      <%= link_to "Payout #{@track.race_alias}", payout_race_path(:id => @race.id), :class => 'btn btn-mini btn-warning' %>
+      <%= link_to "Payout #{@track.race_alias}", payout_race_path(:id => @race.id), :class => 'btn btn-mini btn-warning', data: { confirm: 'Are you sure? This will payout this race.' } %>
     <%end%>
-   <%= link_to "Delete #{@track.race_alias}", @race, method: :delete, data: { confirm: 'Are you sure? This will delete this race.' }, :class => 'btn btn-mini btn-warning' %>
+   <%= link_to "Delete #{@track.race_alias}", @race, method: :delete, data: { confirm: 'Are you sure? This will delete this race.' }, :class => 'btn btn-mini btn-danger' %>
 <td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 
@@ -63,7 +63,7 @@ Total Pool: <%= @race.total_bets%>
     <td>Closed!</td>
 <%end%>
 <%if user_is_track_owner?(@track) %>
-    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
    
 <%end%>
   </tr>

@@ -20,7 +20,7 @@
       <%end%>
       <td><%= link_to "Meet Rankings", rankings_path(:league_id => @league.id, :meet_id => meetleague.meet_id), :class => 'btn' %></td>
       <% if is_league_owner?(@league)%>
-        <td><%= link_to 'Remove', meetleague, method: :delete, data: { confirm: 'Are you sure? This will remove this Meet from the League.' }, :class => 'btn btn-warning' %></td>
+        <td><%= link_to 'Remove', meetleague, method: :delete, data: { confirm: 'Are you sure? This will remove this Meet from the League.' }, :class => 'btn btn-danger' %></td>
       <%end%>
     </tr>
   <% end %>

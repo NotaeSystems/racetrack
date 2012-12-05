@@ -27,7 +27,7 @@
     <%if user_is_track_owner?(@track) %>
 
       <td><%= link_to "Edit #{@track.card_alias}", edit_card_path(card),  :class => 'btn btn-mini btn-warning' %></td>
-      <td><%= link_to "Destroy-#{@track.card_alias}", card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+      <td><%= link_to "Destroy-#{@track.card_alias}", card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
     <%end%>
   </tr>
 <% end %>

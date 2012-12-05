@@ -9,8 +9,8 @@
 <% if user_signed_in? %>
     <% if current_user.has_role :admin %>
 
-      <td><%= link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-mini btn-warning' %></td>
-      <td><%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+      <td><%= link_to 'Edit', edit_comment_path(comment), :class => 'btn btn-mini btn-warning' %>
+     <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
     <%end%>
   <%end%>
   </tr>
