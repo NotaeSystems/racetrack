@@ -37,8 +37,7 @@
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>Name</th>
-    <th>Start Handicapping</th>
-    <th>End Handicapping</th>
+
     <th>Description</th>
 <%if user_is_track_owner?(@track) %>
     <th></th>
@@ -50,13 +49,7 @@
 <% @races.each do |race| %>
   <tr>
     <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-block' %></td>
-    <% if @card.status == 'Open' && race.status == 'Open'%>
-    <td><%= race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %></td>
-    <td><%= race.post_time.strftime("%B %d at %I:%M %p %Z") %></td>
-    <%else%> 
-      <td>Closed</td>
-      <td>Closed</td>
-    <%end%>
+
     <td><%= race.description %></td>
 <%if user_is_track_owner?(@track) %>
     <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %> <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
