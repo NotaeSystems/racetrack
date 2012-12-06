@@ -2,7 +2,7 @@
       <%  initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first%>
 
   <h4>Credit Balance for <%=@card.name%>: <%=current_user.card_balance(@card) %>  <%if initial_credits.blank?%>
-   Bet and Get 100 Free Credits
+   Bet and Get <%=@cards.initial_credits%> Free Credits
    <%end%></h4>
 
   <%if current_user.meet_balance(@card) == 0 %>

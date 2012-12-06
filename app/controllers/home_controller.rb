@@ -1,7 +1,7 @@
 class HomeController < ApplicationController
   def index
-    @tracks = Track.active
-    @cards = Card.where("status = 'Open' ")
+    @tracks = Track.open.page(params[:page]).per_page(30).order('name')
+    @cards = Card.where("status = 'Open' ").page(params[:page]).per_page(30).order('name')
 
   end
 

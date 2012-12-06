@@ -2,17 +2,32 @@
 
 <h2>Test your handicapping skills in all types of sports and real world events.</h3>
 
-  <p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> </p>
+  <p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn' %></p>
 
 <p>or</p>
-<p>Start handicapping now.  Pick a Racing Card and start today!  Free! or <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn' %> </p> <p>
+<p>Start handicapping now.  Pick an Open Racing Card and start today!  Free!  </p> <p>
 <%unless @cards.blank? %>
+<%= will_paginate @cards %>
 <table class='table table-striped table-bordered table-condensed'>
 
 <% @cards.each do |card| %>
   <tr>
-    <td><%= link_to "#{card.meet.track.name}--#{card.name}", card, :class => 'btn btn-block' %></td>
-    <td><%= card.description %></td>
+
+    <% if card.meet.track.owner %>
+       <td><%= image_tag avatar_url(card.meet.track.owner) %><br />
+    <small><%= card.meet.track.owner.name %></small></td>
+    <%else%>
+      <td>No Owner</td>
+    <%end%>
+
+    <td><%=card.meet.track.name%><br /><%= card.meet.track.description %></td>
+    <%if card.meet.track.public?%>
+      <td>Public</td>
+    <%else%>
+      <td>Private</td>
+    <%end%>
+    <td><%= link_to "#{card.name}", card, :class => 'btn btn-block' %><br /><%=card.description%></td>
+
   </tr>
 <% end %>
 </table>
@@ -22,25 +37,7 @@
 <br />
 
 
-<h3>Browse Tracks</h3>
-<%if @tracks.size > 0 %>
-<table class='table table-striped table-bordered table-condensed'>
 
-<% @tracks.each do |track| %>
-  <tr>
-    <td><%= link_to track.name, track_path(:id => track.id), :class => 'btn btn-block' %><%if user_is_track_owner?(track) %><%end%>
-</td>
-     <td><%=track.description%></td>
-<%if user_is_track_owner?(@track) %>
-     <td><%=link_to "Edit Track",edit_track_path(:id => track.id), :class => 'btn btn-mini btn-info'%></td>
-<%end%>
-  </tr>
-<% end %>
-</table>
-
-<%else%>
-<h3>Sorry, No tracks are open at this time.</h3>
-<%end%>
 
 
 
