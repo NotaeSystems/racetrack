@@ -8,12 +8,24 @@
 
 <% @trackusers.each do |trackuser| %>
   <tr>
+
     <%unless trackuser.track.blank? %>
     <td><%= link_to trackuser.track.name, track_path(:id => trackuser.track_id), :class => 'btn btn-block' %></td>
     <%else%>
     <td><%= link_to 'No Track', trackuser_path(:id => trackuser.id), :class => 'btn' %></td>
     <%end%>
-
+    <% if trackuser.track.owner %>
+       <td><%= image_tag avatar_url(trackuser.track.owner) %><br />
+    <small><%= trackuser.track.owner.name %></small></td>
+    <%else%>
+      <td>No Owner</td>
+    <%end%>
+    <%if trackuser.track.public?%>
+      <td>Public</td>
+    <%else%>
+      <td>Private</td>
+    <%end%>
+    <td><%=link_to "Quit as Member", quit_track_path(:id => trackuser.track.id), data: { confirm: 'Are you sure? This will remove you as a Member and you lose all handicapping rankings!' }, :class => 'btn btn-mini btn-warning'%> 
   </tr>
 <% end %>
 </table>

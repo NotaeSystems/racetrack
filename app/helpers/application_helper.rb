@@ -5,6 +5,13 @@ module ApplicationHelper
     current_user.has_role?(role)
   end
 
+  def user_is_track_member?(track)
+   return false if current_user.nil?
+   trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id)
+   return true unless trackuser.blank?
+   false
+  end
+
   def user_is_admin?
    return false if current_user.nil?
    return true if current_user.has_role?('admin')

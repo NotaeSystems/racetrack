@@ -4,7 +4,7 @@ class Card < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
   has_many :credits, :dependent => :destroy
   has_many :rankings, :dependent => :destroy
-  attr_accessible :completed, :completed_date, :description, :meet_id, :name, :open, :status, :initial_credits
+  attr_accessible :completed, :completed_date, :description, :meet_id, :name, :open, :status, :initial_credits, :track_id
 
   def refresh_credits(user, credit_type, amount)
    
@@ -13,7 +13,8 @@ class Card < ActiveRecord::Base
                    :amount => amount,
                    :credit_type => credit_type,
                    :card_id => self.id,
-                   :description => 'Refreshed credits'
+                   :description => 'Refreshed credits',
+                   :track_id => self.meet.track.id
                  )
    user.update_card_ranking(self, amount)
 

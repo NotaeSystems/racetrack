@@ -14,7 +14,7 @@ class MeetsController < ApplicationController
   def index
     track_id = params[:track_id]
     @track = Track.where("id = ?",track_id).first
-    @meets = @track.meets.active
+    @meets = @track.meets.open
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meets }
@@ -91,9 +91,9 @@ class MeetsController < ApplicationController
   def destroy
     @meet = Meet.find(params[:id])
     @meet.destroy
-
+    @track = @meet.track
     respond_to do |format|
-      format.html { redirect_to meets_url }
+      format.html { redirect_to track_url(:id => @track.id) }
       format.json { head :no_content }
     end
   end

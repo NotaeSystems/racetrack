@@ -1,7 +1,7 @@
 class Horse < ActiveRecord::Base
   belongs_to :race
   has_many :bets, :dependent => :destroy
-  attr_accessible :description, :finish, :name, :race_id, :status
+  attr_accessible :description, :finish, :name, :race_id, :status, :track_id
 
   def total_bets
     self.bets.sum(:amount)  
@@ -22,7 +22,8 @@ class Horse < ActiveRecord::Base
                            :amount => bet.amount,
                            :description => "#{self.name}--Scratched. Returned bet.",
                            :card_id => self.race.card_id,
-                           :credit_type => "Scratched"
+                           :credit_type => "Scratched",
+                           :track_id => self.track_id
                              ) 
        bet.status = 'Scratched'
        bet.amount = 0

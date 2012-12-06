@@ -63,6 +63,7 @@ class BetsController < ApplicationController
   def create
     @bet = Bet.new(params[:bet])
     @meet = Meet.find(params[:bet][:meet_id])
+    @track = @meet.track
     @horse = Horse.find(params[:bet][:horse_id])
     @card = @horse.race.card
     @bet.status = 'Open'
@@ -73,7 +74,8 @@ class BetsController < ApplicationController
                            :amount => -@bet.amount,
                            :description => "Deduction for Bet",
                            :card_id => @card.id,
-                           :credit_type => "Bet Deduction"
+                           :credit_type => "Bet Deduction",
+                           :track_id => @track.id
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
         format.html { redirect_to race_path(:id => @horse.race), notice: 'Bet was successfully created.' }

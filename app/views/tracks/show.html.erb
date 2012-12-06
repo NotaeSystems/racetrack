@@ -3,6 +3,12 @@
 <div class='track_box'>
  <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
   <%= @track.description %>
+  <%if user_is_track_member?(@track) %>
+    <%=link_to "Quit as Member", quit_track_path(:id => @track.id), data: { confirm: "Are you sure? This will remove you as a Member of #{@track.name} and you lose all handicapping rankings!" }, :class => 'btn btn-mini btn-danger' %>
+  <%else%>
+    <%=link_to "Join as Member", join_track_path(:id => @track.id), :class => 'btn btn-mini btn-success' %>
+  <%end%>
+  
   <%if user_is_track_owner?(@track) %>
     <%=link_to 'Track Handicappers', trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
     <%= link_to "New #{@track.meet_alias}", new_meet_path(:track_id => @track.id), :class => 'btn btn-mini btn-warning' %>

@@ -5,7 +5,7 @@ class Race < ActiveRecord::Base
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
-                  :start_betting_time, :status
+                  :start_betting_time, :status, :track_id
 
 
   def betting_status
@@ -66,6 +66,7 @@ class Race < ActiveRecord::Base
                    :credit_type => 'Win',
                    :card_id => winner.race.card_id,
                    :description => "Winnings: #{self.name}",
+                   :track_id => self.track_id
                  
                  )
         bet.status = 'Paid Out'
@@ -73,7 +74,6 @@ class Race < ActiveRecord::Base
         bettor.update_card_ranking(winner.race.card, bet_payoff)
       end
     end
-    self.open = false
     self.status = 'Paid Out'
     self.save
   end

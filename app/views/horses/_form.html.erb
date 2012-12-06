@@ -5,6 +5,7 @@
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Open', 'Scratched','Pending Payout', 'Closed'],  :selected => @horse.status %>
        <%=  f.hidden_field :race_id , :value => @race.id %>
+       <%=  f.hidden_field :track_id , :value => @track.id %>
     <%= f.input :description %>
 
     <%= f.input :finish %>

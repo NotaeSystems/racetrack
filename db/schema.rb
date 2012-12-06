@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121202162608) do
+ActiveRecord::Schema.define(:version => 20121206140934) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -32,12 +32,12 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "updated_at", :null => false
     t.integer  "race_id"
     t.string   "status"
+    t.integer  "track_id"
   end
 
   create_table "cards", :force => true do |t|
     t.string   "name"
     t.integer  "meet_id"
-    t.boolean  "open"
     t.text     "description"
     t.boolean  "completed"
     t.datetime "completed_date"
@@ -45,6 +45,7 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "updated_at",      :null => false
     t.string   "status"
     t.integer  "initial_credits"
+    t.integer  "track_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -68,6 +69,7 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "updated_at",  :null => false
     t.string   "status"
     t.integer  "card_id"
+    t.integer  "track_id"
   end
 
   create_table "horses", :force => true do |t|
@@ -78,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "status"
+    t.integer  "track_id"
   end
 
   create_table "leagues", :force => true do |t|
@@ -110,7 +113,6 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
   create_table "meets", :force => true do |t|
     t.string   "name"
     t.integer  "track_id"
-    t.boolean  "open"
     t.text     "description"
     t.boolean  "completed"
     t.datetime "completed_date"
@@ -128,7 +130,6 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
   create_table "races", :force => true do |t|
     t.string   "name"
     t.integer  "card_id"
-    t.boolean  "open"
     t.datetime "start_betting_time"
     t.datetime "post_time"
     t.text     "description"
@@ -137,6 +138,7 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.string   "status"
+    t.integer  "track_id"
   end
 
   create_table "rankings", :force => true do |t|
@@ -147,6 +149,7 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
     t.integer  "card_id"
+    t.integer  "track_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -171,7 +174,6 @@ ActiveRecord::Schema.define(:version => 20121202162608) do
     t.string   "name"
     t.integer  "owner_id"
     t.boolean  "public"
-    t.boolean  "open"
     t.text     "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false

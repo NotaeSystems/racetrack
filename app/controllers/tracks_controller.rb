@@ -1,6 +1,21 @@
 class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
+
+  def join
+    @track = Track.find(params[:id])
+
+    trackuser = Trackuser.find_or_create_by_user_id_and_track_id(:user_id =>current_user.id, :track_id =>@track.id, :role => 'Handicapper', :allow_comments => false, :nickname => current_user.name)
+  redirect_to @track, notice: "#{@track.name} was successfully joined!" 
+
+  end
+
+  def quit
+    @track = Track.find(params[:id])
+    @track.quit(current_user)
+    redirect_to mytracks_path, notice: "You were successfully removed as member of #{@track.name}!" 
+  end
+
   def index
          
     search = "%" + params[:search].to_s + "%"

@@ -88,7 +88,6 @@ Myapp::Application.routes.draw do
 
   end
 
-  resources :tracks
 
   authenticated :user do
     root :to => 'home#index'
@@ -103,8 +102,8 @@ Myapp::Application.routes.draw do
         #get 'members'
       end
       member do
-        #get 'users'
-        #get 'credits'
+        get 'join'
+        get 'quit'
       end 
       ### track/meets
       resources :meets do

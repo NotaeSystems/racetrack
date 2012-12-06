@@ -16,7 +16,8 @@ class Meet < ActiveRecord::Base
                    :meet_id => self.id,
                    :amount => self.initial_credits,
                    :credit_type => 'Free',
-                   :description => 'Refreshed credits'
+                   :description => 'Refreshed credits',
+                   :track_id => self.track_id
                  )
    user.update_ranking(self.id, 100)
 

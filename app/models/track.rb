@@ -10,4 +10,16 @@ class Track < ActiveRecord::Base
   scope :pending, where(:status => 'Pending')
   belongs_to :owner, :class_name => "User"
   attr_accessible :description, :name, :open, :owner_id, :public, :status, :track_alias, :meet_alias, :card_alias, :race_alias, :horse_alias
+
+  def quit(user)
+    trackuser = Trackuser.where(:user_id => user.id, :track_id => self.id).first
+    unless trackuser.blank?
+      trackuser.destroy
+      ranking = Ranking.where(:user_id => user.id, :track_id => self.id).first
+      unless ranking.blank?
+        ranking.destroy
+      end
+    end
+  end
+
 end

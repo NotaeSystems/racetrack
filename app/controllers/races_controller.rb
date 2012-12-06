@@ -82,6 +82,7 @@ class RacesController < ApplicationController
   def edit
     @race = Race.find(params[:id])
     @card = @race.card
+    @track = @card.meet.track
   end
 
   # POST /races
