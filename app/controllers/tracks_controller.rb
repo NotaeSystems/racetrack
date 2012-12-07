@@ -73,6 +73,9 @@ class TracksController < ApplicationController
     @track.card_alias = 'Card'
     @track.race_alias = 'Race'
     @track.horse_alias = 'Outcome'
+    @track.member_alias = 'Member'
+    @track.bet_alias = 'Wager'
+    @track.credit_alias = 'Points'
 
     respond_to do |format|
       format.html # new.html.erb
