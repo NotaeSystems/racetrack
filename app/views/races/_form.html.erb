@@ -3,7 +3,7 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :status, :collection => ['Pending', 'Open','Pending Payout', 'Closed'],  :selected => @race.status %>
+    <%= f.input :status, :collection => ['Pending', 'Open','Pending Payout','Closed','Trash'],  :selected => @race.status %>
     <%= f.hidden_field :card_id, :value => @card.id %>
     <%= f.hidden_field :track_id, :value => @track.id %>
     <%= f.input :start_betting_time %>

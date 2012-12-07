@@ -4,13 +4,13 @@
  <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
   <%= @track.description %>
   <%if user_is_track_member?(@track) %>
-    <%=link_to "Quit as Member", quit_track_path(:id => @track.id), data: { confirm: "Are you sure? This will remove you as a Member of #{@track.name} and you lose all handicapping rankings!" }, :class => 'btn btn-mini btn-danger' %>
+    <%=link_to "Quit as #{@track.member_alias}", quit_track_path(:id => @track.id), data: { confirm: "Are you sure? This will remove you as a #{@track.member_alias} of #{@track.name} and you lose all handicapping rankings!" }, :class => 'btn btn-mini btn-danger' %>
   <%else%>
-    <%=link_to "Join as Member", join_track_path(:id => @track.id), :class => 'btn btn-mini btn-success' %>
+    <%=link_to "Join as #{@track.member_alias}", join_track_path(:id => @track.id), :class => 'btn btn-mini btn-success' %>
   <%end%>
   
   <%if user_is_track_owner?(@track) %>
-    <%=link_to 'Track Handicappers', trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+    <%=link_to "Track #{@track.member_alias}", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
     <%= link_to "New #{@track.meet_alias}", new_meet_path(:track_id => @track.id), :class => 'btn btn-mini btn-warning' %>
     <%= link_to "Edit #{@track.track_alias}", edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
   <%end%>
@@ -18,7 +18,7 @@
 
 
 <div class='meet_box'>
-<h2> <%=@track.meet_alias%>s for <%= @track.name %></h2>
+<h2> <%=@track.meet_alias.pluralize%> for <%= @track.name %></h2>
 
 <table class='table table-striped table-bordered table-condensed'>
 
@@ -29,8 +29,7 @@
     <td><%= meet.description %></td>
 
 <%if user_is_track_owner?(@track) %>
-    <td><%= link_to 'Edit Meet', edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
-    <td><%= link_to 'Destroy', meet, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+    <td><%= link_to "Edit #{@track.meet_alias}", edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
 <%end%>
   </tr>
 <% end %>

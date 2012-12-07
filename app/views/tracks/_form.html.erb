@@ -3,7 +3,8 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :status, :collection => ['Pending', 'Open', 'Closed'],  :selected =>@track.status %>
+    <%= f.input :status, :collection => ['Pending', 'Open', 'Closed', 'Trash'],  :selected =>@track.status %>
+    <%= f.input :description %>
     <% if user_is_admin?%>
       <%= f.input :owner_id %>
     <%else%>  
@@ -15,8 +16,10 @@
     <%= f.input :card_alias %>
     <%= f.input :race_alias %>
     <%= f.input :horse_alias %>
+    <%= f.input :credit_alias %>
+    <%= f.input :member_alias %>
+    <%= f.input :bet_alias %>
 
-    <%= f.input :description %>
   </div>
 
   <div class="form-actions">

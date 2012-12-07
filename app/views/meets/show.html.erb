@@ -1,7 +1,7 @@
 <div class='track_box'>
  <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
 <%if user_is_track_owner?(@track) %>
-  <%=link_to 'Track Bettors', trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+  <%=link_to "#{@track.track_alias} #{@track.member_alias.pluralize}", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 
 </div>

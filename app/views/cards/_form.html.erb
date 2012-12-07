@@ -3,7 +3,7 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :status, :collection => ['Pending', 'Open', 'Closed'],  :selected => @card.status %>
+    <%= f.input :status, :collection => ['Pending', 'Open', 'Closed', 'Trash'],  :selected => @card.status %>
     <%= f.hidden_field :meet_id , :value => @card.meet_id%>
     <%= f.hidden_field :track_id , :value => @track_id%>
     <%= f.input :initial_credits %>

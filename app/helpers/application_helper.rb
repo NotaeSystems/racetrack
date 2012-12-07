@@ -7,9 +7,11 @@ module ApplicationHelper
 
   def user_is_track_member?(track)
    return false if current_user.nil?
-   trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id)
-   return true unless trackuser.blank?
-   false
+   trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id).first
+   unless trackuser.blank?
+     return true if trackuser.status == 'Member'
+   end  
+   return false
   end
 
   def user_is_admin?

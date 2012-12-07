@@ -46,7 +46,7 @@ class TrackusersController < ApplicationController
 
     respond_to do |format|
       if @trackuser.save
-        format.html { redirect_to @trackuser, notice: 'Trackuser was successfully created.' }
+        format.html { redirect_to trackusers_path(:track_id => @trackuser.track.id), notice: 'Trackuser was successfully created.' }
         format.json { render json: @trackuser, status: :created, location: @trackuser }
       else
         format.html { render action: "new" }
@@ -62,7 +62,7 @@ class TrackusersController < ApplicationController
 
     respond_to do |format|
       if @trackuser.update_attributes(params[:trackuser])
-        format.html { redirect_to @trackuser, notice: 'Trackuser was successfully updated.' }
+        format.html {  redirect_to trackusers_path(:track_id => @trackuser.track.id), notice: 'Trackuser was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

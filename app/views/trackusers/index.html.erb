@@ -10,27 +10,21 @@
     <th>User</th>
     <th>Role</th>
     <th>Allow comments</th>
-
-    <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
 <% @trackusers.each do |trackuser| %>
   <tr>
-    <td><%= image_tag avatar_url(trackuser.user) %><%= raw "<br >#{trackuser.nickname}" %></td>
+    <td><%= image_tag avatar_url(trackuser.user) %><br /><%= link_to trackuser.nickname,  edit_trackuser_path(trackuser), :class => 'btn btn-block' %></td>
     <td><%= trackuser.track.name %></td>
     <td><%= trackuser.user.name %></td>
-    <td><%= trackuser.role %></td>
+    <td><%= trackuser.status %></td>
     <td><%= trackuser.allow_comments %></td>
 
-    <td><%= link_to 'Show', trackuser %></td>
-    <td><%= link_to 'Edit', edit_trackuser_path(trackuser) %></td>
-    <td><%= link_to 'Destroy', trackuser, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Track User', new_trackuser_path %>
+

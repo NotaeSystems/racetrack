@@ -1,10 +1,10 @@
 <% if user_signed_in? %>
-  <h4>Credit Balance for <%=@meet.name%>: <%=current_user.meet_balance(@meet) %></h4>
+  <h4> <%="#{@track.credit_alias.pluralize} Balance for #{@meet.name} "%>: <%=current_user.meet_balance(@meet) %></h4>
   <%if current_user.meet_balance(@meet) == 0 %>
-    <%#= link_to "Refresh Credits", refresh_credits_meet_path(:id => @meet.id) %>
+    <%#= link_to "#{@track.meet_alias.pluralize}", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>
 <%= link_to "#{@meet.track.meet_alias} Rankings", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
 <%else%>
-<h3>Login or Signup for Free Credits</h3>
+<h3>Login or Signup for Free <%=@track_credit_alias.pluralize%></h3>
 <%end%>
 

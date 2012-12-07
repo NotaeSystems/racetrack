@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def mytracks
-   @trackusers = Trackuser.where("user_id = ?", current_user.id)
+   @trackusers = Trackuser.member.where("user_id = ?", current_user.id)
   end
 
   def index

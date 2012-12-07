@@ -30,7 +30,7 @@
    <%end%>
    <%= link_to "Edit #{@track.card_alias}", edit_card_path(@card),  :class => 'btn btn-mini btn-warning' %>
 <%= link_to "Destroy-#{@track.card_alias}", @card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %>
-<%= link_to "Push Message to Handicappers", message_card_path(:id => @card.id), :class => 'btn btn-mini btn-warning' %>
+<%= link_to "Push Message to #{@track.member_alias.pluralize} ", message_card_path(:id => @card.id), :class => 'btn btn-mini btn-warning' %>
 <%end%>
 <h4> <%=@track.race_alias.pluralize%></h4>
 

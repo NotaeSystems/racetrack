@@ -4,9 +4,9 @@ class TracksController < ApplicationController
 
   def join
     @track = Track.find(params[:id])
+    @track.join(current_user)
 
-    trackuser = Trackuser.find_or_create_by_user_id_and_track_id(:user_id =>current_user.id, :track_id =>@track.id, :role => 'Handicapper', :allow_comments => false, :nickname => current_user.name)
-  redirect_to @track, notice: "#{@track.name} was successfully joined!" 
+    redirect_to @track, notice: "#{@track.name} was successfully joined!" 
 
   end
 

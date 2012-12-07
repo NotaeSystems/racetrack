@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121206140934) do
+ActiveRecord::Schema.define(:version => 20121207121911) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -175,14 +175,17 @@ ActiveRecord::Schema.define(:version => 20121206140934) do
     t.integer  "owner_id"
     t.boolean  "public"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
     t.string   "status"
     t.string   "track_alias"
     t.string   "meet_alias"
     t.string   "card_alias"
     t.string   "race_alias"
     t.string   "horse_alias"
+    t.string   "credit_alias"
+    t.string   "member_alias"
+    t.string   "bet_alias"
   end
 
   create_table "trackusers", :force => true do |t|
@@ -193,6 +196,7 @@ ActiveRecord::Schema.define(:version => 20121206140934) do
     t.string   "nickname"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
+    t.string   "status"
   end
 
   create_table "users", :force => true do |t|
