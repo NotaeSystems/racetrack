@@ -5,6 +5,6 @@
   <%end%>
 <%= link_to "#{@meet.track.meet_alias} Rankings", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
 <%else%>
-<h3>Login or Signup for Free <%=@track_credit_alias.pluralize%></h3>
+<h3>Login or Signup for Free <%=@track.credit_alias.pluralize%></h3>
 <%end%>
 
