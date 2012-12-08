@@ -15,11 +15,12 @@
     <%if @league.status == 'Public' %>
       <%= link_to "Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Member'), :class => 'btn' %>
     <%else%>
-     <% if is_pending_member?(@league) %>
-       Membership Pending
-     <%else%> 
+      <% if is_pending_member?(@league) %>
+        Membership Pending
+      <%else%> 
       
-      <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
+        <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
+      <%end%>
     <%end%>
   <%else%>
     
