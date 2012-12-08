@@ -34,8 +34,8 @@ class AuthenticationsController < ApplicationController
         if new_user.save(:validate => false)
           session[:provider] = auth['provider']
           flash[:notice] = "Account created and signed in successfully with #{session[:provider]}."
-          if session[:provider] == 'facebook'
-            new_user.facebook.put_wall_post("I joined Fantasy Odds Maker.")
+          if session[:provider].to_s == 'facebook'
+            new_user.facebook.put_wall_post("I joined Fantasy Odds Maker.",  :link => "http://www.fantasyoddsmaker.com}")
           end
           sign_in_and_redirect(:user, new_user)
         else
