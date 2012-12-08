@@ -9,7 +9,7 @@ class LeaguesController < ApplicationController
      leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => @status)
       logger.info "session provider is #{session[:provider]}\n"
        if session[:provider].to_s == 'facebook'
-            current_user.facebook.put_wall_post("I joined the league #{@league.name} on  Fantasy Odds Maker. Come compete with me.", :description: => @league.description, :link => "http://www.fantasyoddsmaker.com/leagues/#{@league.id}")
+            current_user.facebook.put_wall_post("I joined the league #{@league.name} on  Fantasy Odds Maker. Come compete with me.", :description => @league.description, :link => "http://www.fantasyoddsmaker.com/leagues/#{@league.id}")
        end
        redirect_to @league, notice: 'Welcome. You have successfully joined!.'
   end
