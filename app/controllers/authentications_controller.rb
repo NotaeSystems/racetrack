@@ -16,7 +16,8 @@ class AuthenticationsController < ApplicationController
       # Authentication not found, thus a new user.
       ## check to see if user with email exists
 
-      existing_user = User.where("email = ?", new_user.email).first
+      email = auth['extra']['raw_info']['email']
+      existing_user = User.where("email = ?", email).first
       if existing_user
         existing_user.apply_omniauth(auth)
         existing_user.name = auth["info"]["name"]
@@ -28,7 +29,7 @@ class AuthenticationsController < ApplicationController
       else
         new_user = User.new
 
-        new_user.apply_omniauth(auth)
+      new_user.apply_omniauth(auth)
         new_user.name = auth["info"]["name"]
         new_user.avatar = auth["info"]["image"]
         new_user.status = 'Member'
