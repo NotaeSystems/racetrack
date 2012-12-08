@@ -37,15 +37,15 @@ class User < ActiveRecord::Base
     authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
   end
   
-  def oauth_token
-    authentication = self.authentications.where("provider = ?", session[:provider]).first
+  def oauth_token(provider)
+    authentication = self.authentications.where("provider = ?", provider).first
     
     authentication.token 
 
   end
 
   def facebook
-    @facebook ||= Koala::Facebook::API.new(oauth_token)
+    @facebook ||= Koala::Facebook::API.new(oauth_token('facebook'))
    # block_given? ? yield(@facebook) : @facebook
    # rescue Koala::Facebook::APIError
    # logger.info e.to_s
