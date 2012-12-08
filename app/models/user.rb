@@ -46,10 +46,10 @@ class User < ActiveRecord::Base
 
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
-    block_given? ? yield(@facebook) : @facebook
-    rescue Koala::Facebook::APIError
-    logger.info e.to_s
-    nil
+   # block_given? ? yield(@facebook) : @facebook
+   # rescue Koala::Facebook::APIError
+   # logger.info e.to_s
+   # nil
 
 
   end
