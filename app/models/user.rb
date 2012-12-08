@@ -38,8 +38,9 @@ class User < ActiveRecord::Base
   end
   
   def oauth_token
-    authenication = self.authenications.where("provider = 'facebook'").last
-    authenication.token 
+    authentication = self.authentications.where("provider = ?", session[:provider)).first
+    
+    authentication.token 
 
   end
 
