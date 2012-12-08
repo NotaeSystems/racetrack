@@ -17,13 +17,14 @@
       <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
     <%end%>
   <%else%>
-     <%= if pending_member(@league) %>
+     <% if is_pending_member?(@league) %>
        Membership Pending
      <%else%>       
        <%= link_to 'Members', leagueusers_path(:id => @league.id), :class => 'btn' %>
        <%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
        <%= link_to "Quit #{@league.name}", quit_league_path(:id => @league.id), :class => 'btn btn-danger', :data => { :confirm => "Are you sure? This will remove you as a member of #{@league.name}!" } %>
      <%end%>
+  <%end%>
 <%else%>
 
   <p>Sign In or Sign Up to Join the League</p>
