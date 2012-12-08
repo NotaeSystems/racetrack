@@ -38,7 +38,7 @@ class User < ActiveRecord::Base
   end
   
   def oauth_token(provider)
-    authentication = self.authentications.where("provider = ?", provider).first
+    authentication = self.authentications.where("provider = ?", provider).last
     
     authentication.token 
 

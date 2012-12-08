@@ -15,16 +15,10 @@ class AuthenticationsController < ApplicationController
     else
       # Authentication not found, thus a new user.
       ## check to see if user with email exists
-      new_user = User.new
 
-      new_user.apply_omniauth(auth)
-      new_user.name = auth["info"]["name"]
-      new_user.avatar = auth["info"]["image"]
-      new_user.status = 'Member'
-      
-      new_user.add_role :user
       existing_user = User.where("email = ?", new_user.email).first
       if existing_user
+        existing_user.apply_omniauth(auth)
         existing_user.name = auth["info"]["name"]
         existing_user.avatar = auth["info"]["image"]
         existing_user.save
@@ -32,6 +26,13 @@ class AuthenticationsController < ApplicationController
         flash[:notice] = "Signed in successfully with #{session[:provider]}."
         sign_in_and_redirect(:user, existing_user)
       else
+        new_user = User.new
+
+        new_user.apply_omniauth(auth)
+        new_user.name = auth["info"]["name"]
+        new_user.avatar = auth["info"]["image"]
+        new_user.status = 'Member'
+        new_user.add_role :user
         if new_user.save(:validate => false)
           session[:provider] = auth['provider']
           flash[:notice] = "Account created and signed in successfully with #{session[:provider]}."
