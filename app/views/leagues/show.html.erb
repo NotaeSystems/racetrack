@@ -5,7 +5,7 @@
 </p>
 <%end%>
 
-<%if @league.status == 'Public' %>
+<%if @league.status == 'Public' || is_league_member?(@league) %>
   <%= link_to 'Members', leagueusers_path(:id => @league.id), :class => 'btn' %>
   <%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
 <%end%>
