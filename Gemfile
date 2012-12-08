@@ -13,9 +13,13 @@ end
 gem 'pusher'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
+
+#### facebook #########
 gem 'omniauth'
 gem 'omniauth-facebook'
 gem 'oauth2'
+gem 'koala'
+###########################
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

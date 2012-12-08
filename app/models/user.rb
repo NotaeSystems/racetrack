@@ -36,6 +36,22 @@ class User < ActiveRecord::Base
     # Again, saving token is optional. If you haven't created the column in authentications table, this will fail
     authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
   end
+  
+  def oauth_token
+    authenication = self.authenications.where("provider = 'facebook'").last
+    authenication.token 
+
+  end
+
+  def facebook
+    @facebook ||= Koala::Facebook::API.new(oauth_token)
+    block_given? ? yield(@facebook) : @facebook
+    rescue Koala::Facebook::APIError
+    logger.info e.to_s
+    nil
+
+
+  end
 
   def is_track_owner?(track)
     return false if track.nil?
