@@ -33,6 +33,9 @@ Myapp::Application.configure do
   # See everything in the log (default is :info)
    config.log_level = :debug
 
+  # https://github.com/ryanb/cancan/issues/511
+  config.logger = Logger.new(STDOUT)
+  config.logger.level = Logger.const_get((ENV["LOG_LEVEL"] || "DEBUG").upcase)
   # Prepend all log lines with the following tags
   # config.log_tags = [ :subdomain, :uuid ]
 
