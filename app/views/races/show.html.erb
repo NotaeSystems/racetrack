@@ -89,6 +89,6 @@ Total Pool: <%= @race.total_bets%>
 <h5>Comments on <%=@race.name%></h5>
 
 </div>
-<fb:comments-count href=<%="http://www.fantasyoddsmaker.com/races/#{@race.id}/"%>></fb:comments-count> comments 
+<fb:comments-count href=<%= j "http://www.fantasyoddsmaker.com/races/#{@race.id}/"%>></fb:comments-count> comments 
 
-<div class="fb-comments" data-href=<%="http://www.fantasyoddsmaker.com/cards/#{@race.id}/"%> data-width="470" data-num-posts="10"></div>
+<div class="fb-comments" data-href=<%= j "http://www.fantasyoddsmaker.com/cards/#{@race.id}/"%> data-width="470" data-num-posts="10"></div>
