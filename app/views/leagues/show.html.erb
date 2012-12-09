@@ -11,7 +11,7 @@
 
 <%if @league%>
 <h1> <%= link_to @league.name, @league %></h1>
-<div class="fb-like" data-href="<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>" data-send="true" data-width="450" data-show-faces="true"></div>
+<div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>" data-send="true" data-width="450" data-show-faces="true"></div>
 <p>
   <%= @league.description %>
 </p>
