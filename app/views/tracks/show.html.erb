@@ -1,7 +1,17 @@
+<% content_for :head do %>
+    <meta property="og:title" content="<%="Fantasy Odds Maker #{@track.name}"%>"/>
+    <meta property="og:type" content="game"/>
+    <meta property="og:url" content="<%="http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>"/>
+    <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+    <meta property="og:site_name" content="Fantasy Odds Maker-<%=@track.name%>"/>
+    <meta property="og:description"
+          content="<%=@track.description%>"/>
 
-
+<%end%>
 <div class='track_box'>
  <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
+<div class="fb-like" data-href="<%="http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true"></div>
+<br />
   <%= @track.description %>
   <%if user_is_track_member?(@track) %>
     <%=link_to "Quit as #{@track.member_alias}", quit_track_path(:id => @track.id), data: { confirm: "Are you sure? This will remove you as a #{@track.member_alias} of #{@track.name} and you lose all handicapping rankings!" }, :class => 'btn btn-mini btn-danger' %>
@@ -38,4 +48,10 @@
 <br />
 
 </div>
+<div>
+<h5>Comments on <%=@track.name%></h5>
 
+</div>
+<fb:comments-count href=<%="http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>></fb:comments-count> comments 
+
+<div class="fb-comments" data-href=<%="http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%> data-width="470" data-num-posts="10"></div>

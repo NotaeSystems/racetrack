@@ -1,5 +1,17 @@
+<% content_for :head do %>
+    <meta property="og:title" content="<%=@league.name%>"/>
+    <meta property="og:type" content="game"/>
+    <meta property="og:url" content="<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>"/>
+    <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
+    <meta property="og:site_name" content="Fantasy Odds Maker-<%=@league.name%>"/>
+    <meta property="og:description"
+          content="<%=@league.description%>"/>
+
+<%end%>
+
 <%if @league%>
 <h1> <%= link_to @league.name, @league %></h1>
+<div class="fb-like" data-href="<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>" data-send="true" data-width="450" data-show-faces="true"></div>
 <p>
   <%= @league.description %>
 </p>
@@ -33,5 +45,10 @@
 <%end%>
 
 
+<h5>Comments on <%=@league.name%></h5>
 
+</div>
+<fb:comments-count href=<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>></fb:comments-count> comments 
+
+<div class="fb-comments" data-href=<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%> data-width="470" data-num-posts="10"></div>
 

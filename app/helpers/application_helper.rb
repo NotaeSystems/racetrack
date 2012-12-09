@@ -27,7 +27,7 @@ module ApplicationHelper
 
   def is_league_member?(league)
     return false if current_user.nil?
-    leagueuser = Leagueuser.where("user_id = ? and league_id = ? and status <> 'Pending'", current_user.id, league.id).first
+    leagueuser = Leagueuser.where("user_id = ? and league_id = ? and status NOT IN ('Pending', 'Banned')", current_user.id, league.id).first
     return false if leagueuser.blank?
     #return true if leagueuser.active == true
     true

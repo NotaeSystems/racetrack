@@ -55,7 +55,7 @@ Total Pool: <%= @race.total_bets%>
       <%unless @initial_credits.blank?%>
         <td><%= link_to @track.bet_alias, new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
       <%else%>
-        <td><%= link_to "#{@track.bet_alias} and Get #{@card.initial_credits} #{@track_credit_alias.pluralize}", new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+        <td><%= link_to "#{@track.bet_alias} and Get #{@card.initial_credits} #{@track.credit_alias.pluralize}", new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
       <%end%>
     <%else%>
       <td><%= link_to "Login to #{@track.bet_alias}", new_user_session_path , :class => 'btn btn-mini btn-info' %> </td>
@@ -85,13 +85,10 @@ Total Pool: <%= @race.total_bets%>
 
 <%end%>
 </div>
-<div class='box2'>
-<% if user_signed_in? %>
-<%= link_to 'New Comment', new_comment_path(:race_id => @race.id), :class => 'btn' %>
-<%else%>
-Log in to Comment
-<%end%>
-  <%= render :partial => 'comments/index_table' %>
 
+<h5>Comments on <%=@race.name%></h5>
 
 </div>
+<fb:comments-count href=<%="http://www.fantasyoddsmaker.com/races/#{@race.id}/"%>></fb:comments-count> comments 
+
+<div class="fb-comments" data-href=<%="http://www.fantasyoddsmaker.com/cards/#{@race.id}/"%> data-width="470" data-num-posts="10"></div>

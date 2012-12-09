@@ -71,10 +71,11 @@
 <div class='comment_box'>
 
 
-<% if user_signed_in? %>
-<%= link_to 'New Comment', new_comment_path(:card_id => @card.id), :class => 'btn' %>
-<%else%>
-Log in to Comment
-<%end%>
-  <%= render :partial => 'comments/index_table' %>
+
 </div>
+<h5>Comments on <%=@card.name%></h5>
+
+</div>
+<fb:comments-count href=<%="http://www.fantasyoddsmaker.com/cards/#{@card.id}/"%>></fb:comments-count> comments 
+
+<div class="fb-comments" data-href=<%="http://www.fantasyoddsmaker.com/cards/#{@card.id}/"%> data-width="470" data-num-posts="10"></div>
