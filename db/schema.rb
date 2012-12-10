@@ -11,7 +11,31 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121207121911) do
+ActiveRecord::Schema.define(:version => 20121210122638) do
+
+  create_table "achievements", :force => true do |t|
+    t.string   "name"
+    t.string   "title"
+    t.string   "url"
+    t.text     "description"
+    t.string   "image_url"
+    t.integer  "points"
+    t.text     "rule"
+    t.integer  "position"
+    t.string   "status"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "achievementusers", :force => true do |t|
+    t.integer  "achievement_id"
+    t.integer  "track_id"
+    t.integer  "trackuser_id"
+    t.integer  "user_id"
+    t.string   "meet_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"

@@ -1,0 +1,50 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @achievement.name %>
+</p>
+
+<p>
+  <b>Title:</b>
+  <%= @achievement.title %>
+</p>
+
+<p>
+  <b>Url:</b>
+  <%= @achievement.url %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @achievement.description %>
+</p>
+
+<p>
+  <b>Image url:</b>
+  <%= @achievement.image_url %>
+</p>
+
+<p>
+  <b>Points:</b>
+  <%= @achievement.points %>
+</p>
+
+<p>
+  <b>Rule:</b>
+  <%= @achievement.rule %>
+</p>
+
+<p>
+  <b>Position:</b>
+  <%= @achievement.position %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @achievement.status %>
+</p>
+
+
+<%= link_to 'Edit', edit_achievement_path(@achievement) %> |
+<%= link_to 'Back', achievements_path %>

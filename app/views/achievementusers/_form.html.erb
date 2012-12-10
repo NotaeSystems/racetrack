@@ -1,0 +1,15 @@
+<%= simple_form_for(@achievementuser) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :achievement_id %>
+    <%= f.input :track_id %>
+    <%= f.input :trackuser_id %>
+    <%= f.input :user_id %>
+    <%= f.input :meet_id %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

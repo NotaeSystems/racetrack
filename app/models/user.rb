@@ -15,6 +15,17 @@ class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
+
+  def add_achievement(achievement_name)
+   achievement = Achievement.where(:name => achievement_name, :status => 'Site').first
+
+   Achievementuser.find_or_create_by_user_id_and_achievement_id(:user_id => self.id,
+                           :achievement_id => achievement.id
+                           )
+  ##TODO add achievement to Facebook achievements
+
+  end
+
   def password_required?
     super && encrypted_password?
 

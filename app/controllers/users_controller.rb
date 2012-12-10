@@ -1,6 +1,11 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
+  def myachievements
+          current_user.add_achievement('Neophyte')
+    @achievementusers = Achievementuser.where(:user_id => current_user.id)
+  end
+
   def myleagues
     @leagueusers = Leagueuser.where("user_id = ?", current_user.id)
 

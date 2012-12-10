@@ -1,0 +1,31 @@
+<h1>Listing achievementusers</h1>
+
+<table>
+  <tr>
+    <th>Achievement</th>
+    <th>Track</th>
+    <th>Trackuser</th>
+    <th>User</th>
+    <th>Meet</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @achievementusers.each do |achievementuser| %>
+  <tr>
+    <td><%= achievementuser.achievement_id %></td>
+    <td><%= achievementuser.track_id %></td>
+    <td><%= achievementuser.trackuser_id %></td>
+    <td><%= achievementuser.user_id %></td>
+    <td><%= achievementuser.meet_id %></td>
+    <td><%= link_to 'Show', achievementuser %></td>
+    <td><%= link_to 'Edit', edit_achievementuser_path(achievementuser) %></td>
+    <td><%= link_to 'Destroy', achievementuser, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Achievementuser', new_achievementuser_path %>

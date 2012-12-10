@@ -1,11 +1,10 @@
 <% content_for :head do %>
-    <meta property="og:title" content="<%=@league.name%>"/>
+    <meta property="og:title" content="<%= "Fantasy Odds Maker-#{@league.name}"%>"/>
     <meta property="og:type" content="game"/>
     <meta property="og:url" content="<%="http://www.fantasyoddsmaker.com/leagues/#{@league.id}/"%>"/>
     <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
     <meta property="og:site_name" content="Fantasy Odds Maker-<%=@league.name%>"/>
-    <meta property="og:description"
-          content="<%=@league.description%>"/>
+    <meta property="og:description" content="<%=@league.description%>"/>
 
 <%end%>
 

@@ -1,0 +1,12 @@
+<h1>My Fantasy Odds Maker Achievements</h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+
+<% @achievementusers.each do |achievementuser| %>
+  <tr>
+    <td><%=achievementuser.achievement.name%><br /><%=achievementuser.achievement.description%><br /><%=distance_of_time_in_words(achievementuser.created_at, Time.now) %> ago</td>
+    <td><%=image_tag("#{achievementuser.achievement.image_url}") %>
+
+  </tr>
+ <%end%>
+</table>

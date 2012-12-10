@@ -1,0 +1,19 @@
+<%= simple_form_for(@achievement) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :title %>
+    <%= f.input :url %>
+    <%= f.input :description %>
+    <%= f.input :image_url %>
+    <%= f.input :points %>
+    <%= f.input :rule %>
+    <%= f.input :position %>
+    <%= f.select :status, ['Site','Meet','Track'] %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

@@ -1,5 +1,9 @@
 Myapp::Application.routes.draw do
 
+  resources :achievementusers
+
+  resources :achievements
+
   devise_for :users
 
   resources :meetleagues do
@@ -44,6 +48,8 @@ Myapp::Application.routes.draw do
 
   match "myleagues" => "users#myleagues", :as => :myleagues
   match "mytracks" => "users#mytracks", :as => :mytracks
+  match "myachievements" => "users#myachievements", :as => :myachievements
+
 
  ### Pusher ###############
   match "push_card_message" => "cards#push_message", :as => :push_card_message
