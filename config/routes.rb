@@ -2,7 +2,16 @@ Myapp::Application.routes.draw do
 
   resources :achievementusers
 
-  resources :achievements
+  resources :achievements do
+      collection do
+        #get ''
+      end
+      member do
+        get 'facebook'
+        #get 'credits'
+      end 
+
+  end
 
   devise_for :users
 
