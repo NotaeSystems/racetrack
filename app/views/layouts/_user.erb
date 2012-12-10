@@ -1,5 +1,6 @@
 
 
+
 <div>
      
 
@@ -7,6 +8,7 @@
      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
      <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong>  
+  <a id="app_request" href="#" ">Invite your Friends</a>
     <% if current_user.has_role? :admin %>
   
      <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
@@ -14,3 +16,17 @@
     <%end%>
 </div>
 <br />
+<%= link_to 'Send Request to your friends', '#', :id => :app_request %>
+02. 
+03.<script language="javascript" type="text/javascript">
+04. 
+05. $('#app_request').click(function () {
+06.    FB.ui({
+07.      method: 'apprequests',
+08.      message: 'Hi This is my test app developed in RoR and integrated in FB',
+09.      data: 'Stores important links of user'
+10.    });
+11.return false;
+12.  });
+13. 
+14.</script>

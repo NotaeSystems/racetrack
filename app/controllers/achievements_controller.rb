@@ -1,6 +1,11 @@
 class AchievementsController < ApplicationController
   # GET /achievements
   # GET /achievements.json
+  def facebook
+       @achievement = Achievement.find(params[:id])
+
+  end
+
   def index
     @achievements = Achievement.all
 
