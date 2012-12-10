@@ -10,7 +10,10 @@
 <%end%>
 <div class='track_box'>
  <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
-<div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true"></div>
+<div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true">
+</div>
+
+
 <br />
   <%= @track.description %>
   <%if user_is_track_member?(@track) %>
