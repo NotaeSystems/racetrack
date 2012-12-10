@@ -6,6 +6,7 @@
 
      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
+     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong>  
     <% if current_user.has_role? :admin %>
   
      <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
