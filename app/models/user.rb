@@ -23,7 +23,21 @@ class User < ActiveRecord::Base
                            :achievement_id => achievement.id
                            )
   ##TODO add achievement to Facebook achievements
+        oauth = Koala::Facebook::OAuth.new(FACEBOOK_APP_ID, FACEBOOK_SECRET)
+        token = oauth.get_app_access_token
+        logger.debug "token = #{token}\n"
+        # achievement url
+        @achievement_url = "http://www.fantasyoddsmaker.com/achievements/#{achievment.id}/"
+        # fb graph api url
+        user_token = self.oauth_token('facebook')
+        @fbcall = "https://graph.facebook.com/#{user_token}/achievements"
 
+        begin
+
+        response = RestClient.post @fbcall, :access_token => token, :achievement => @achievement.url
+        rescue => e
+         e.response
+        end
   end
 
   def password_required?
