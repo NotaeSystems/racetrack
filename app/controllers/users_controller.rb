@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   end
 
   def myachievements
-          current_user.add_achievement('Neophyte')
+       #   current_user.add_achievement('Neophyte')
     @achievementusers = Achievementuser.where(:user_id => current_user.id)
   end
 
