@@ -34,9 +34,11 @@ class User < ActiveRecord::Base
 
         begin
 
-        response = RestClient.post @fbcall, :access_token => token, :achievement => @achievement_url
+        response = RestClient.post @fbcall, :access_token => token, :achievement => @achievement_url 
+        logger.debug response
         rescue => e
          e.response
+         logger.debug "Error assigning achievement #{achievement.name} #{e.response}"
         end
   end
 
