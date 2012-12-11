@@ -39,6 +39,8 @@ class AuthenticationsController < ApplicationController
         new_user.status = 'Member'
         new_user.add_role :user
         if new_user.save(:validate => false)
+         ## assign neophyte achievement to user
+          new_user.add_achievement('Neophyte')
           session[:provider] = auth['provider']
           flash[:notice] = "Account created and signed in successfully with #{session[:provider]}."
          # if auth[:provider].to_s == 'facebook'

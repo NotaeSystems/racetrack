@@ -5,6 +5,11 @@ class AchievementsController < ApplicationController
        @achievement = Achievement.find(params[:id])
 
   end
+  
+  def register_facebook
+       @achievement = Achievement.find(params[:id])
+       @ans = @achievement.register_facebook
+  end
 
   def index
     @achievements = Achievement.all

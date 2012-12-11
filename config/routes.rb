@@ -8,6 +8,7 @@ Myapp::Application.routes.draw do
       end
       member do
         get 'facebook'
+        get 'register_facebook'
         #get 'credits'
       end 
 
@@ -58,7 +59,7 @@ Myapp::Application.routes.draw do
   match "myleagues" => "users#myleagues", :as => :myleagues
   match "mytracks" => "users#mytracks", :as => :mytracks
   match "myachievements" => "users#myachievements", :as => :myachievements
-
+  match "login_as" => "users#login_as", :as => :login_as
 
  ### Pusher ###############
   match "push_card_message" => "cards#push_message", :as => :push_card_message

@@ -1,6 +1,12 @@
 class UsersController < ApplicationController
   before_filter :authenticate_user!
 
+
+  def login_as
+    @user = User.find(params[:user_id])
+    sign_in_and_redirect(:user, @user)
+  end
+
   def myachievements
           current_user.add_achievement('Neophyte')
     @achievementusers = Achievementuser.where(:user_id => current_user.id)
