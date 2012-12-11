@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
 
         begin
 
-        response = RestClient.post @fbcall, :access_token => token, :achievement => @achievement.url
+        response = RestClient.post @fbcall, :access_token => token, :achievement => @achievement_url
         rescue => e
          e.response
         end
