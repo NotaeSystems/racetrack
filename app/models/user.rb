@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
         #user_token = self.oauth_token('facebook')
         fb_uid = self.fb_uid
 
-        @fbcall = "https://graph.facebook.com/#{user_token}/achievements"
+        @fbcall = "https://graph.facebook.com/#{fb_uid}/achievements"
 
         begin
 
