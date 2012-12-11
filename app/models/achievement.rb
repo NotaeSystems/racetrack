@@ -6,7 +6,7 @@ class Achievement < ActiveRecord::Base
         token = oauth.get_app_access_token
         logger.debug "token = #{token}\n"
         # achievement url
-        @url = "http://www.fantasyoddsmaker.com/achievements/#{self.id}"
+        @url = "http://www.fantasyoddsmaker.com/achievements/#{self.id}/"
         # fb graph api url
         @fbcall = "https://graph.facebook.com/#{FACEBOOK_APP_ID}/achievements"
         begin
