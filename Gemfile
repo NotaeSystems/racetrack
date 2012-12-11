@@ -21,6 +21,7 @@ gem 'oauth2'
 gem 'koala'
 ###########################
 gem 'delayed_job_active_record'
+gem 'rest-client'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
