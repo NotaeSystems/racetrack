@@ -29,7 +29,9 @@ class User < ActiveRecord::Base
         # achievement url
         @achievement_url = "http://www.fantasyoddsmaker.com/achievements/#{achievement.id}/"
         # fb graph api url
-        user_token = self.oauth_token('facebook')
+        #user_token = self.oauth_token('facebook')
+        fb_uid = self.fb_uid
+
         @fbcall = "https://graph.facebook.com/#{user_token}/achievements"
 
         begin
@@ -71,6 +73,14 @@ class User < ActiveRecord::Base
 
   end
 
+
+  def fb_uid
+
+    authentication = self.authentications.where("provider = ?", 'facebook').last
+    
+    authentication.uid 
+
+  end
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token('facebook'))
    # block_given? ? yield(@facebook) : @facebook
