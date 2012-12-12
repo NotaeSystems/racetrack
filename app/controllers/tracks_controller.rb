@@ -1,8 +1,7 @@
 class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
-
-
+  before_filter :check_for_number_tracks, :only => [:new]
 
 
   def join
@@ -137,6 +136,17 @@ class TracksController < ApplicationController
     respond_to do |format|
       format.html { redirect_to tracks_url }
       format.json { head :no_content }
+    end
+  end
+
+  private
+
+  def check_for_number_tracks
+    return true if current_user.has_role? :admin
+    count = Track.where(:owner_id => current_user.id).count
+    if count > 1
+     flash[:notice] = "Sorry you can only own one track at this time."
+     redirect_to home_path
     end
   end
 end

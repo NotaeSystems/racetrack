@@ -28,7 +28,7 @@ Myapp::Application.routes.draw do
   end
   #match '/auth/facebook/callback' => 'authentications#create'
   match '/auth/:provider/callback' => 'authentications#create'
-  match '/home/' => 'home#index'
+  match '/home/' => 'home#index', as: :home
 
   ### tags
   get 'track_tags/:tag', to: 'tracks#index', as: :track_tag
