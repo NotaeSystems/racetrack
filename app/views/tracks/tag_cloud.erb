@@ -1,0 +1,7 @@
+<h3>Search Tracks by Tag.</h3>
+<div id="tag_cloud">
+  <% tag_cloud Track.tag_counts, %w[s m l] do |tag, css_class| %>
+    <%= link_to tag.name, track_tag_path(tag.name), class: css_class %>
+  <% end %>
+</div>
+

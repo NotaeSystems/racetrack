@@ -5,6 +5,13 @@
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Pending', 'Open', 'Closed', 'Trash'],  :selected =>@track.status %>
     <%= f.input :description %>
+
+
+  <%= f.input :tag_list, :label => "Tags (separated by commas)" %>
+
+
+
+
     <% if user_is_admin?%>
       <%= f.input :owner_id %>
     <%else%>  

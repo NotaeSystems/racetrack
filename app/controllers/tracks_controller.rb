@@ -20,6 +20,9 @@ class TracksController < ApplicationController
          
     search = "%" + params[:search].to_s + "%"
     search_type = params[:search_type]
+  if params[:tag]
+    @tracks = Track.open.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name')
+  else
     if  search_type
       if search_type == 'open'
         @tracks = Track.open.page(params[:page]).per_page(30).order('name')
@@ -40,13 +43,23 @@ class TracksController < ApplicationController
     else 
       @tracks = Track.page(params[:page]).per_page(30).order('name')
     end
-
+  end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tracks }
     end
   end
   
+  def tag_index
+  if params[:tag]
+    @tracks = Track.tagged_with(params[:tag])
+  else
+    @articles = Article.all
+  end
+
+
+  end
+
   def mytracks
     @tracks = Track.where("owner_id = ?", current_user.id).page(params[:page]).per_page(30).order('name')
 

@@ -13,6 +13,7 @@ end
 gem 'pusher'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
+gem 'acts-as-taggable-on'
 
 #### facebook #########
 gem 'omniauth'
