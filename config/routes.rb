@@ -32,6 +32,9 @@ Myapp::Application.routes.draw do
 
   ### tags
   get 'track_tags/:tag', to: 'tracks#index', as: :track_tag
+  get 'leagues_tags/:tag', to: 'leagues#index', as: :league_tag
+  match "tracks_tag_cloud" => "tracks#tag_cloud", :as => :tracks_tag_cloud
+  match "leagues_tag_cloud" => "leagues#tag_cloud", :as => :leagues_tag_cloud
   ####
 
   resources :trackleagues
@@ -65,7 +68,7 @@ Myapp::Application.routes.draw do
   match "mytracks" => "users#mytracks", :as => :mytracks
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
-  match "tag_cloud" => "tracks#tag_cloud", :as => :tag_cloud
+
 
  ### Pusher ###############
   match "push_card_message" => "cards#push_message", :as => :push_card_message

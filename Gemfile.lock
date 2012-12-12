@@ -140,6 +140,8 @@ GEM
       omniauth (~> 1.0)
     orm_adapter (0.4.0)
     pg (0.14.1)
+    polyamorous (0.5.0)
+      activerecord (~> 3.0)
     polyglot (0.3.3)
     pusher (0.11.1)
       multi_json (~> 1.0)
@@ -170,6 +172,10 @@ GEM
       thor (>= 0.14.6, < 2.0)
     raindrops (0.10.0)
     rake (0.9.2.2)
+    ransack (0.7.0)
+      actionpack (~> 3.0)
+      activerecord (~> 3.0)
+      polyamorous (~> 0.5.0)
     rdoc (3.12)
       json (~> 1.4)
     rest-client (1.6.7)
@@ -260,6 +266,7 @@ DEPENDENCIES
   pusher
   quiet_assets (>= 1.0.1)
   rails (= 3.2.8)
+  ransack
   rest-client
   rolify (>= 3.2.0)
   rspec-rails (>= 2.11.0)

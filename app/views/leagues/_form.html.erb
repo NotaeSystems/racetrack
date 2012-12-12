@@ -5,6 +5,7 @@
     <%= f.input :name %>
     <%= f.input :description %>
       <%= f.select :status, ['Public','Private','Closed'] %>
+  <%= f.input :tag_list, :label => "Tags (separated by commas)" %>
     <% if user_is_admin? %>
       <%= f.input :active %>
     <%end%>

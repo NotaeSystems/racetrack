@@ -3,7 +3,22 @@
   <%= link_to 'My Owned Tracks', tracks_path(:search_type => 'mytracks'), :class => 'btn btn-mini '  %>
 <%end%>
   <%= link_to 'Open Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %>
-       <%= link_to 'Track Tags', tag_cloud_path, :class => 'btn btn-mini ' %> 
+       <%= link_to 'Track Tags', tracks_tag_cloud_path, :class => 'btn btn-mini ' %>
+
+<h3>Search</h3>
+
+<%= search_form_for @search do |f| %>
+  <div class="field">
+    <%= f.label :name_cont, "Name contains" %>
+    <%= f.text_field :name_cont %>
+  </div>
+  <div class="field">
+    <%= f.label :status_cont, "Status" %>
+    <%= f.select :status_cont, ['Open','Pending', 'Closed'] %>
+  </div>
+  <div class="actions"><%= f.submit "Search" %></div>
+<% end %>
+
 
 <%= will_paginate @tracks %>
 <table class='table table-striped table-bordered table-condensed'>

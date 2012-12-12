@@ -1,6 +1,23 @@
 <% if user_signed_in? %>
 <%= link_to 'Create New League', new_league_path(:owner_id => current_user.id), :class => 'btn' %>
 <%end%>
+
+      <%= link_to 'League Tags', leagues_tag_cloud_path, :class => 'btn  ' %>
+
+<h3>Search</h3>
+
+<%= search_form_for @search do |f| %>
+  <div class="field">
+    <%= f.label :name_cont, "Name contains" %>
+    <%= f.text_field :name_cont %>
+  </div>
+  <div class="field">
+    <%= f.label :status_cont, "Status" %>
+    <%= f.select :status_cont, ['Public','Private','Closed']  %>
+  </div>
+  <div class="actions"><%= f.submit "Search" %></div>
+<% end %>
+
 <h1>Leagues</h1>
 <%= will_paginate @leagues %>
 <table class='table table-striped table-bordered table-condensed'>
@@ -17,7 +34,7 @@
 
 <% @leagues.each do |league| %>
   <tr>
-    <td><%= link_to league.name, league, :class => 'btn btn-block' %></td>
+    <td><%= link_to league.name, league, :class => 'btn btn-block' %><br />Tags: <%= raw league.tag_list.map { |t| link_to t, league_tag_path(t) }.join(', ') %></td>
     <td><%= league.description %></td>
     <td><%= league.status %></td>
     <td><%= league.leagueusers.count %></td>

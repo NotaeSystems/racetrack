@@ -22,7 +22,14 @@ class LeaguesController < ApplicationController
   end
 
   def index
-    @leagues = League.page(params[:page]).per_page(30).order('name')
+
+  if params[:tag]
+    @search = League.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
+    @leagues = @search.result
+  else
+    @search = League.page(params[:page]).per_page(30).order('name').search(params[:q])
+    @leagues = @search.result
+  end
 
     respond_to do |format|
       format.html # index.html.erb

@@ -1,5 +1,19 @@
 <h3><%=@count%> Users</h3>
 <div class="span8">
+
+<%= search_form_for @search do |f| %>
+  <div class="field">
+    <%= f.label :name_cont, "Name contains" %>
+    <%= f.text_field :name_cont %>
+  </div>
+  <div class="field">
+    <%= f.label :email_cont, "Email contains" %>
+    <%= f.text_field :email_cont %>
+  </div>
+  <div class="actions"><%= f.submit "Search" %></div>
+<% end %>
+
+
 <%= will_paginate @users %>
 <table class='table table-striped table-bordered table-condensed'>
 	  <thead>

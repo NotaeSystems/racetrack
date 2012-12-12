@@ -23,8 +23,11 @@ class UsersController < ApplicationController
 
   def index
     authorize! :index, @user, :message => 'Not authorized as an administrator.'
+    @search = User.page(params[:page]).per_page(30).order('email').search(params[:q])
+    @users = @search.result
+
     @count = User.count
-    @users = User.page(params[:page]).per_page(30).order('email')
+  #  @users = User.page(params[:page]).per_page(30).order('email')
 
   end
 

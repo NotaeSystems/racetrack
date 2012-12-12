@@ -2,6 +2,8 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
 
+
+
   def join
     @track = Track.find(params[:id])
     @track.join(current_user)
@@ -17,33 +19,16 @@ class TracksController < ApplicationController
   end
 
   def index
-         
-    search = "%" + params[:search].to_s + "%"
-    search_type = params[:search_type]
+        
+
   if params[:tag]
-    @tracks = Track.open.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name')
+    @search = Track.open.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
+    @tracks = @search.result
   else
-    if  search_type
-      if search_type == 'open'
-        @tracks = Track.open.page(params[:page]).per_page(30).order('name')
-      elsif search_type == 'pending'
-        @tracks = Track.pending.page(params[:page]).per_page(30).order('name')
-      elsif search_type == 'closed'
-        @tracks = Track.closed.page(params[:page]).per_page(30).order('name')
- 
-      elsif search_type == 'mytracks'
-       unless current_user.nil?
-         @tracks = Track.where("owner_id = ?", current_user.id).page(params[:page]).per_page(30).order('name')
-       else
-         @tracks = Track.page(params[:page]).per_page(30).order('name')
-       end
-      else
-        @tracks = Track.page(params[:page]).per_page(30).order('name')
-      end
-    else 
-      @tracks = Track.page(params[:page]).per_page(30).order('name')
-    end
+    @search = Track.page(params[:page]).per_page(30).order('name').search(params[:q])
+    @tracks = @search.result
   end
+
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @tracks }
@@ -54,7 +39,7 @@ class TracksController < ApplicationController
   if params[:tag]
     @tracks = Track.tagged_with(params[:tag])
   else
-    @articles = Article.all
+    @tracks = Track.all
   end
 
 
