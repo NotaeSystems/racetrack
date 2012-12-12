@@ -1,6 +1,6 @@
 <h1>Listing Tracks</h1>
 <%unless current_user.nil? %>
-  <%= link_to 'My Owned Tracks', tracks_path(:search_type => 'mytracks'), :class => 'btn btn-mini '  %>
+  <%= link_to 'My Owned Tracks', tracks_path(:owned => 'myownedtracks'), :class => 'btn btn-mini '  %>
 <%end%>
   <%= link_to 'Open Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %>
        <%= link_to 'Track Tags', tracks_tag_cloud_path, :class => 'btn btn-mini ' %>
