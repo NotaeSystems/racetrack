@@ -4,6 +4,7 @@ class TracksController < ApplicationController
 
 
 
+
   def join
     @track = Track.find(params[:id])
     @track.join(current_user)
@@ -67,7 +68,12 @@ class TracksController < ApplicationController
   # GET /tracks/new.json
   def new
     @track = Track.new
-    @owner = User.find(params[:user_id])
+    if params[:user_id]
+     @owner = User.find(params[:user_id])
+    else
+      @owner = current_user
+    end
+    @track.name = "#{@owner.name}'s Track"
     @track.owner_id = @owner.id
     @track.track_alias = 'Track'
     @track.meet_alias = 'Meet'
@@ -77,6 +83,7 @@ class TracksController < ApplicationController
     @track.member_alias = 'Member'
     @track.bet_alias = 'Wager'
     @track.credit_alias = 'Points'
+    @track.public = true
 
     respond_to do |format|
       format.html # new.html.erb

@@ -2,11 +2,16 @@
 
 <h2>Test your handicapping skills in all types of sports and real world events.</h3>
 
-  <p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn' %></p>
-
+  <p><%= link_to 'Join or Start a League', leagues_path, :class => 'btn' %> <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn' %>
+<% if user_signed_in? %>
+ <%= link_to 'Start Your Own Track', new_track_path(:search_type => 'open'), :class => 'btn' %> </p>
+<%else%>
+<p>Login or Signup to Start Your Own Track</p>
+<%end%>
 <p>or</p>
 <p>Start handicapping now.  Pick an Open Racing Card and start today!  Free!  </p> <p>
 <%unless @cards.blank? %>
+
 <%= will_paginate @cards %>
 <table class='table table-striped table-bordered table-condensed'>
 
