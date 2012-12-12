@@ -18,7 +18,12 @@ class UsersController < ApplicationController
   end
 
   def mytracks
+   
    @trackusers = Trackuser.member.where("user_id = ?", current_user.id)
+  end
+
+  def my_owned_tracks
+   @tracks = Track.where(:owner_id => current_user.id)
   end
 
   def index
