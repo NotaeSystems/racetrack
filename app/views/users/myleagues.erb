@@ -15,7 +15,7 @@
     <%else%>
     <td><%= link_to 'No league', leagueuser_path(:id => leagueuser.id), :class => 'btn' %></td>
     <%end%>
-    <%if is_league_owner?(leagueuser.league) %>
+    <%if is_league_manager?(leagueuser.league) %>
        <td><%= link_to 'Edit', edit_league_path(leagueuser.league_id), :class => 'btn btn-warning' %></td>
     <%end%>
   </tr>

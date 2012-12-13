@@ -44,7 +44,7 @@
 
 
 
-  <%if user_is_track_owner?(@track) %>
+  <%if user_is_track_manager?(@track) %>
 
     <%=link_to "Track Members", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
 <%if @track.membership == 'Private' %>
@@ -67,7 +67,7 @@
      <td><%=meet.status%></td>
     <td><%= meet.description %></td>
 
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
     <td><%= link_to "Edit #{@track.meet_alias}", edit_meet_path(meet), :class => 'btn btn-mini btn-warning' %></td>
 <%end%>
   </tr>

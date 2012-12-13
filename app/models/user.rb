@@ -102,6 +102,16 @@ class User < ActiveRecord::Base
     
   end
 
+  def is_track_manager?(track)
+    return false if track.nil?
+    return true if track.owner_id == self.id
+    return true if self.has_role? :admin
+    leagueuser = Leagueuser.where(:user_id => self.id, :track_id => track.id, :status => 'Manager').first
+    return true unless leagueuser.blank?
+    false
+    
+  end
+
   def meet_balance(meet)
    self.credits.where("meet_id = ?", meet.id).sum(:amount)
 

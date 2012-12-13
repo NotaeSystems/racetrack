@@ -25,6 +25,12 @@ module ApplicationHelper
    current_user.is_track_owner?(track)
   end
 
+  def user_is_track_manager?(track)
+   return false if current_user.nil?
+   return true if current_user.has_role?('admin')
+   current_user.is_track_manager?(track)
+  end
+
   def is_league_member?(league)
     return false if current_user.nil?
     return true if league.owner_id == current_user.id

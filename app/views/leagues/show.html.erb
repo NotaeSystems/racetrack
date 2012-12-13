@@ -21,7 +21,7 @@
   <%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
 <%end%>
 
-  <% if is_league_owner?(@league) %>
+  <% if is_league_manager?(@league) %>
 <%= link_to 'Edit', edit_league_path(@league), :class => 'btn btn-warning' %>
     <%= link_to "Pending Members: #{@pending_members_count}", leagueusers_path(:league_id => @league.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
 <%end%>

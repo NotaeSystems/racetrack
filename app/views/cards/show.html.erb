@@ -20,7 +20,7 @@
 <p>
   <%= @card.description %><%= render :partial => 'cards/credits' %>
 </p>
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
    <% if @card.status == 'Open'%>
    <%= link_to "Close #{@track.card_alias}", close_card_path(@card),  :class => 'btn btn-mini btn-warning' , data: { confirm: 'Are you sure? This will close this card' }%>
    <%else%>
@@ -37,7 +37,7 @@
     <th>Name</th>
     <th>Status</th>
     <th>Description</th>
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
     <th></th>
 
  <%end%>
@@ -48,7 +48,7 @@
     <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-success btn-block' %></td>
     <td><%=race.betting_status%></td>
     <td><%= race.description %></td>
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
     <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %> <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
  <%end%>
   </tr>
@@ -57,7 +57,7 @@
 
 <br />
 
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
 <%= link_to "New #{@track.race_alias}", new_race_path(:card_id => @card.id), :class => 'btn btn-mini btn-warning' %>
 
 

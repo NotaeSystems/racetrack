@@ -30,7 +30,7 @@ Total Pool: <%= @race.total_bets%>
   <b>End time:</b>
   <%= @race.post_time.strftime("%B %d at %I:%M %p %Z") %>
 </p>
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
     <%if @race.status == 'Open' %>
       <%= link_to "Close #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Close'), :class => 'btn btn-mini btn-warning' %>
     <%else%>
@@ -72,7 +72,7 @@ Total Pool: <%= @race.total_bets%>
 <%else%>
     <td><%=@betting_status%></td>
 <%end%>
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
     <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
    
 <%end%>
@@ -81,7 +81,7 @@ Total Pool: <%= @race.total_bets%>
 </table>
 
 <br />
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
 <%= link_to "New #{@track.horse_alias}", new_horse_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
 
 

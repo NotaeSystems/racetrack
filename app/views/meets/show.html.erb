@@ -22,7 +22,7 @@
     <td><%= link_to card.name, card_path(card), :class => 'btn btn-success btn-block' %></td>
     <td><%= card.status%></td>
     <td><%= card.description %></td>
-    <%if user_is_track_owner?(@track) %>
+    <%if user_is_track_manager?(@track) %>
 
       <td><%= link_to "Edit #{@track.card_alias}", edit_card_path(card),  :class => 'btn btn-mini btn-warning' %></td>
       <td><%= link_to "Destroy-#{@track.card_alias}", card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
@@ -35,7 +35,7 @@
 
 
 
-<%if user_is_track_owner?(@track) %>
+<%if user_is_track_manager?(@track) %>
 <%= link_to "New #{@track.card_alias} for #{@meet.name}", new_card_path(:meet_id => @meet.id), :class => 'btn btn-mini btn-warning' %>
   <%= link_to "Edit #{@track.card_alias}-#{@meet.name}", edit_meet_path(@meet), :class => 'btn btn-mini btn-warning' %> |
 <%end%>
