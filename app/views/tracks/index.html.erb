@@ -41,11 +41,8 @@
     <%else%>
       <td>No Owner</td>
     <%end%>
-    <%if track.public?%>
-      <td>Public</td>
-    <%else%>
-      <td>Private</td>
-    <%end%>
+    <td><%=track.membership %></td>
+
     <td><%= track.status %></td>
     <td><%= track.description %></td>
     <td><%=track.trackusers.count%></td>

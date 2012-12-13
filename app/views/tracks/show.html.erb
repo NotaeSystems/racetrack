@@ -9,27 +9,53 @@
 
 <%end%>
 <div class='track_box'>
- <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
+ <h1> <%= link_to @track.name, track_path(:id => @track.id) %>  <%="-#{@track.status}" unless @track.status ==  'Open'%> <%="-#{@track.membership}" unless @track.membership ==  'Public'%></h1>
 <div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true">
 </div>
 
 
 <br />
-  <%= @track.description %>
-  <%if user_is_track_member?(@track) %>
-    <%=link_to "Quit as #{@track.member_alias}", quit_track_path(:id => @track.id), data: { confirm: "Are you sure? This will remove you as a #{@track.member_alias} of #{@track.name} and you lose all handicapping rankings!" }, :class => 'btn btn-mini btn-danger' %>
-  <%else%>
-    <%=link_to "Join as #{@track.member_alias}", join_track_path(:id => @track.id), :class => 'btn btn-mini btn-success' %>
-  <%end%>
+  <%= @track.description %> 
+
   
+<% if user_signed_in? %>
+  <% if is_track_member?(@track) %>
+       <%= link_to "Quit #{@track.name}", quit_track_path(:id => @track.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as a member of the Track #{@track.name}!" } %>
+  <%elsif @track.membership == 'Public' %>
+      <%= link_to "Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Member'), :class => 'btn btn-mini btn-success' %>
+  <% elsif is_pending_track_member?(@track) %>
+        Membership Pending
+
+  <%elsif @track.membership == 'Private' %>
+      <%= link_to "Request Permission to Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Pending' ), :class => 'btn btn-mini btn-success' %>
+  <%elsif @track.status == 'Pending' %>
+      Not accepting Members at this time.
+  <%end%>
+ 
+  
+<%else%>
+
+  <p>Login or Sign Up to Join the Track</p>
+<%end%>
+
+
+
+
+
+
+
   <%if user_is_track_owner?(@track) %>
-    <%=link_to "Track #{@track.member_alias}", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+
+    <%=link_to "Track Members", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+<%if @track.membership == 'Private' %>
+    <%= link_to "Pending Members: #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
+<%end%>
     <%= link_to "New #{@track.meet_alias}", new_meet_path(:track_id => @track.id), :class => 'btn btn-mini btn-warning' %>
     <%= link_to "Edit #{@track.track_alias}", edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
   <%end%>
 </div>
 
-
+<%if @track.status == 'Public' || is_track_member?(@track) %>
 <div class='meet_box'>
 <h2> <%=@track.meet_alias.pluralize%> for <%= @track.name %></h2>
 
@@ -58,3 +84,8 @@
 <fb:comments-count href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>"></fb:comments-count> comments 
 
 <div class="fb-comments" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-width="470" data-num-posts="10"></div>
+
+<%else%>
+
+
+<%end%>

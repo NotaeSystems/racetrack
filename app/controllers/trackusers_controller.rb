@@ -2,8 +2,18 @@ class TrackusersController < ApplicationController
   # GET /trackusers
   # GET /trackusers.json
   def index
-    @track = Track.find(params[:track_id])
-    @trackusers = Trackuser.where(:track_id => @track.id) 
+    if params[:status] == 'Pending'
+      @track = Track.find(params[:track_id])
+     @search = Trackuser.where(:track_id => @track.id, :status => 'Pending').page(params[:page]).includes(:track, :user).per_page(30).order('nickname').search(params[:q])
+
+    elsif params[:track_id]
+      @track = Track.find(params[:track_id])
+     @search = Trackuser.where(:track_id => @track.id).page(params[:page]).includes(:track, :user).per_page(30).order('nickname').search(params[:q])
+    else
+      @track = Track.find(params[:q][:track_id_eql])
+     @search = Trackuser.where(:track_id => @track.id).page(params[:page]).includes(:track, :user).per_page(30).order('nickname').search(params[:q])
+    end
+    @trackusers = @search.result
 
     respond_to do |format|
       format.html # index.html.erb

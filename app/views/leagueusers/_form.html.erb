@@ -4,7 +4,7 @@
   <div class="form-inputs">
     <%= f.input :nickname %>
     <% if is_league_manager?(@league)%>
-    <%= f.select :status, ['Member', 'Manager', 'Pending', 'Moderator'] %>
+    <%= f.select :status, ['Member', 'Manager', 'Pending', 'Banned'] %>
     <%= f.input :active %>
     <%end%>
 

@@ -16,32 +16,45 @@
 </p>
 <%end%>
 
-<%if @league.status == 'Public' || is_league_member?(@league) %>
-  <%= link_to 'Members', leagueusers_path(:id => @league.id), :class => 'btn' %>
+<%if @league.membership == 'Public' || is_league_member?(@league) %>
+  <%= link_to 'Members', leagueusers_path(:league_id => @league.id), :class => 'btn' %>
   <%= link_to 'Meets', meetleagues_path(:league_id => @league.id), :class => 'btn' %>
 <%end%>
 
+  <% if is_league_owner?(@league) %>
+<%= link_to 'Edit', edit_league_path(@league), :class => 'btn btn-warning' %>
+    <%= link_to "Pending Members: #{@pending_members_count}", leagueusers_path(:league_id => @league.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
+<%end%>
+
+
+
 <% if user_signed_in? %>
-  <% unless is_league_member?(@league) %>
-    <%if @league.status == 'Public' %>
-      <%= link_to "Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Member'), :class => 'btn' %>
-    <%else%>
-      <% if is_pending_member?(@league) %>
+  <% if is_league_member?(@league) %>
+       <%= link_to "Quit #{@league.name}", quit_league_path(:id => @league.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as a member of the League #{@league.name}!" } %>
+  <%elsif @league.membership == 'Public' %>
+      <%= link_to "Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Member'), :class => 'btn btn-mini btn-success' %>
+  <% elsif is_pending_league_member?(@league) %>
         Membership Pending
-      <%else%> 
-      
-        <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn' %>
-      <%end%>
-    <%end%>
-  <%else%>
-    
-       <%= link_to "Quit #{@league.name}", quit_league_path(:id => @league.id), :class => 'btn btn-danger', :data => { :confirm => "Are you sure? This will remove you as a member of #{@league.name}!" } %>
-   
+
+  <%elsif @league.membership == 'Private' %>
+      <%= link_to "Request Permission to Join #{@league.name}", join_league_path(:id => @league.id, :status => 'Pending' ), :class => 'btn btn-mini btn-success' %>
+  <%elsif @league.status == 'Pending' %>
+      Not accepting Members at this time.
   <%end%>
+ 
+  
 <%else%>
 
-  <p>Sign In or Sign Up to Join the League</p>
+  <p>Login or Sign Up to Join the League</p>
 <%end%>
+
+
+
+
+
+
+
+
 
 
 <h5>Comments on <%=@league.name%></h5>

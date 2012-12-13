@@ -5,17 +5,21 @@ class TracksController < ApplicationController
 
 
   def join
+
     @track = Track.find(params[:id])
-    @track.join(current_user)
-
-    redirect_to @track, notice: "#{@track.name} was successfully joined!" 
-
+     @status = params[:status]
+    @track.join(current_user, @status)
+    if @status = 'Member'
+      redirect_to @track, notice: "#{@track.name} was successfully joined!" 
+    else
+      redirect_to @track, notice: "Membership pending in #{@track.name}" 
+    end
   end
 
   def quit
     @track = Track.find(params[:id])
     @track.quit(current_user)
-    redirect_to mytracks_path, notice: "You were successfully removed as member of #{@track.name}!" 
+    redirect_to @track, notice: "You were successfully removed as member of #{@track.name}!" 
   end
 
   def index
@@ -56,7 +60,8 @@ class TracksController < ApplicationController
   # GET /tracks/1.json
   def show
     @track = Track.find(params[:id])
-    @comments = @track.comments
+    #@comments = @track.comments
+    @pending_members_count = Trackuser.where(:status => 'Pending', :track_id => @track.id).count
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @track }

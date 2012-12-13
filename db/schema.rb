@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121212014437) do
+ActiveRecord::Schema.define(:version => 20121213101642) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(:version => 20121212014437) do
     t.boolean  "active"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+    t.string   "membership"
   end
 
   create_table "leagueusers", :force => true do |t|
@@ -243,6 +244,7 @@ ActiveRecord::Schema.define(:version => 20121212014437) do
     t.string   "credit_alias"
     t.string   "member_alias"
     t.string   "bet_alias"
+    t.string   "membership"
   end
 
   create_table "trackusers", :force => true do |t|

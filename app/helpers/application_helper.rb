@@ -5,11 +5,11 @@ module ApplicationHelper
     current_user.has_role?(role)
   end
 
-  def user_is_track_member?(track)
+  def is_track_member?(track)
    return false if current_user.nil?
    trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id).first
    unless trackuser.blank?
-     return true if trackuser.status == 'Member'
+     return true if ['Member', 'Manager'].include?(trackuser.status)
    end  
    return false
   end
@@ -27,16 +27,26 @@ module ApplicationHelper
 
   def is_league_member?(league)
     return false if current_user.nil?
+    return true if league.owner_id == current_user.id
     leagueuser = Leagueuser.where("user_id = ? and league_id = ? and status NOT IN ('Pending', 'Banned')", current_user.id, league.id).first
     return false if leagueuser.blank?
     #return true if leagueuser.active == true
     true
   end  
 
-  def is_pending_member?(league)
+  def is_pending_league_member?(league)
     return false if current_user.nil?
+
     leagueuser = Leagueuser.where("user_id = ? and league_id = ? and status = 'Pending'", current_user.id, league.id).first
     return false if leagueuser.blank?
+    #return true if leagueuser.active == true
+    true
+  end
+
+  def is_pending_track_member?(track)
+    return false if current_user.nil?
+    trackuser = Trackuser.where("user_id = ? and track_id = ? and status = 'Pending'", current_user.id, track.id).first
+    return false if trackuser.blank?
     #return true if leagueuser.active == true
     true
   end

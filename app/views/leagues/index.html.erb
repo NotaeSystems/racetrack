@@ -13,7 +13,11 @@
   </div>
   <div class="field">
     <%= f.label :status_cont, "Status" %>
-    <%= f.select :status_cont, ['Public','Private','Closed']  %>
+    <%= f.select :status_cont, ['Open','Closed']  %>
+  </div>
+  <div class="field">
+    <%= f.label :membership_cont, "Membership" %>
+    <%= f.select :membership_cont, ['Member','Pending','Manager','Banned']  %>
   </div>
   <div class="actions"><%= f.submit "Search" %></div>
 <% end %>

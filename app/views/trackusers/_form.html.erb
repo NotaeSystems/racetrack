@@ -4,12 +4,12 @@
 
   <div class="form-inputs">
     <%= f.input :nickname %>
-    <%= f.select :status, ['Member', 'Removed', 'Banned'] %>
-    <%= f.input :allow_comments %>
+    <%= f.select :status, ['Member', 'Pending', 'Removed', 'Banned', 'Manager'] %>
+
 
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit %>
+    <%= f.button :submit, 'Update Member' %>
   </div>
 <% end %>

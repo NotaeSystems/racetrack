@@ -41,7 +41,7 @@ class LeaguesController < ApplicationController
   # GET /leagues/1.json
   def show
     @league = League.find(params[:id])
-
+    @pending_members_count = Leagueuser.where(:status => 'Pending', :league_id => @league.id).count
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @league }

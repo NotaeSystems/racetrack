@@ -4,6 +4,7 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Pending', 'Open', 'Closed', 'Trash'],  :selected =>@track.status %>
+    <%= f.input :membership, :collection => ['Public', 'Private'],  :selected =>@track.membership %>
     <%= f.input :description %>
 
 
@@ -17,7 +18,6 @@
     <%else%>  
       <%= f.hidden_field :owner_id %>
     <%end%>
-    <%= f.input :public %>
     <%= f.input :track_alias %>
     <%= f.input :meet_alias %>
     <%= f.input :card_alias %>
