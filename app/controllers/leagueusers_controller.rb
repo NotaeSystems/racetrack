@@ -9,7 +9,7 @@ class LeagueusersController < ApplicationController
     elsif params[:league_id]
       @league = League.find(params[:league_id])
      @search = Leagueuser.where(:league_id => @league.id).page(params[:page]).includes(:league, :user).per_page(30).order('nickname').search(params[:q])
-    else
+    elsif params[
       @league = League.find(params[:q][:league_id_eql])
      @search = Leagueuser.where(:league_id => @league.id).page(params[:page]).includes(:league, :user).per_page(30).order('nickname').search(params[:q])
     end
@@ -89,7 +89,7 @@ class LeagueusersController < ApplicationController
     @leagueuser.quit
 
     respond_to do |format|
-      format.html  { redirect_to leagueusers_url(:id => @league.id), notice: 'League Member was successfully removed.' }
+      format.html  { redirect_to leagueusers_url(:league_id => @league.id), notice: 'League Member was successfully removed.' }
       format.json { head :no_content }
     end
   end
