@@ -10,12 +10,10 @@
 
 
 <div class='track_box'>
-<h1> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id)%></h1>
+<strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->
+<strong>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet,  :class => 'btn btn-mini btn-success' %></strong>
 </div>
-<div class='meet_box'>
-<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %>--<%=@meet.status%></h2>
-<%= render :partial => 'meets/credits' %>
-</div>
+
 <div class='card_box'>
 <h3> <%= @track.card_alias%>:<%= link_to @card.name, card_path(:id => @card.id) %>-<%= @card.status%></h3>
 
@@ -47,7 +45,7 @@
 
 <% @races.each do |race| %>
   <tr>
-    <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-block' %></td>
+    <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-success btn-block' %></td>
     <td><%=race.betting_status%></td>
     <td><%= race.description %></td>
 <%if user_is_track_owner?(@track) %>

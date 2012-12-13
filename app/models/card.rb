@@ -9,7 +9,6 @@ class Card < ActiveRecord::Base
   def refresh_credits(user, credit_type, amount)
    
    Credit.create( :user_id => user.id,
-                   :meet_id => self.id,
                    :amount => amount,
                    :credit_type => credit_type,
                    :card_id => self.id,
@@ -22,17 +21,19 @@ class Card < ActiveRecord::Base
 
   def close
     ## calculate total credits of all users that bet on card
-    total_rebuy_credits = self.credits.where("credit_type IN ('Rebuy','Initial')").sum(:amount)
+    total_rebuy_credits = self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')").sum(:amount)
     logger.debug  "total rebuy_credits = #{total_rebuy_credits}"
-    number_of_card_bettors = self.credits.where("credit_type IN ('Initial')").count
+    number_of_card_bettors = self.credits.where("credit_type IN ('Initial', 'Borrowed')").count
     logger.debug "total number bettors = #{number_of_card_bettors}"
     ## find all users that bet in the card
-    credits = self.credits.where("credit_type IN ('Initial')")
+    credits = self.credits.where("credit_type IN ('Initial', 'Borrowed')")
     credits.each do  |credit|
       user = credit.user
       logger.info "User is #{user.name}"
       total_user_credits = user.credits.where("card_id = ?", self.id).sum(:amount)
       logger.info "total user credits is #{total_user_credits}"
+      ##TO bettor repays borrowed credits
+      #self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')").update_all(:amount => (-credit.amount), :credit_type = 'Paid Back')
       ## create ranking record for card
      # Ranking.create( :user_id => user.id,
      #                 :card_id => self.id,

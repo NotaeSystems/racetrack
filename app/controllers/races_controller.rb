@@ -58,7 +58,7 @@ class RacesController < ApplicationController
     @meet = @race.card.meet
     @comments = @race.comments
     @card = @race.card
-  #  @initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
+    @initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @race }

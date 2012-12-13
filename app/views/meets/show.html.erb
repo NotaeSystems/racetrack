@@ -1,8 +1,6 @@
 <div class='track_box'>
- <h1> <%= link_to @track.name, track_path(:id => @track.id) %> </h1>
-<%if user_is_track_owner?(@track) %>
-  <%=link_to "#{@track.track_alias} #{@track.member_alias.pluralize}", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
-<%end%>
+<h4> Track: <%= link_to @track.name, track_path(:id => @track.id),:class => 'btn btn-mini btn-success' %></h4> 
+
 
 </div>
 <div class='meet_box'>
@@ -21,7 +19,7 @@
 
 <% @cards.each do |card| %>
   <tr>
-    <td><%= link_to card.name, card_path(card), :class => 'btn btn-block' %></td>
+    <td><%= link_to card.name, card_path(card), :class => 'btn btn-success btn-block' %></td>
     <td><%= card.status%></td>
     <td><%= card.description %></td>
     <%if user_is_track_owner?(@track) %>

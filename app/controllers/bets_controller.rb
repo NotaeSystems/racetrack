@@ -151,13 +151,15 @@ class BetsController < ApplicationController
     @card = @horse.race.card
     @track = @card.meet.track
     ## see if bettor is member of this track
-    logger.info "Getting ready to create or find trackuser"
+    logger.info "Getting ready to create or find trackuser\n"
     trackuser = Trackuser.find_or_create_by_user_id_and_track_id(:user_id =>current_user.id, :track_id =>@track.id, :role => 'Handicapper', :allow_comments => false, :nickname => current_user.name, :status => 'Member')
     ## see if bettor has been given initial card credits
     initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
+    logger.info "Initial credits = #{initial_credits.amount unless initial_credits.blank?}"
     return unless initial_credits.nil?
     ## TODO check for source of credits later may be from meet
-    @card.refresh_credits(current_user, 'Initial', @card.initial_credits)
+    logger.info "Refreshing credits- #{@card.initial_credits}\n"
+    @card.refresh_credits(current_user, 'Borrowed', @card.initial_credits)
   end
 
 end

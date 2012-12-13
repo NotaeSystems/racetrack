@@ -7,16 +7,18 @@
  });
  </script>
 <%end%>
-<h1> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id)%></h1>
+
+
+<strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->
+<strong>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet,  :class => 'btn btn-mini btn-success' %>
+</strong>->
+<strong><%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id),:class => 'btn btn-mini btn-success' %></strong>
+
+
+
+
 <div class='box2'>
-<h2>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet %>--<%=@meet.status%></h2>
-<%= render :partial => 'meets/credits' %>
-</div>
-<div class='box2'>
-<h3> <%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id) %>--<%=@card.status%></h3>
 <%= render :partial => 'cards/credits' %>
-</div>
-<div class='box2'>
 <h4><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h4>
 
 Total Pool: <%= @race.total_bets%>

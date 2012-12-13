@@ -9,7 +9,7 @@
 
 <%end%>
 <div class='track_box'>
- <h1> <%= link_to @track.name, track_path(:id => @track.id) %>  <%="-#{@track.status}" unless @track.status ==  'Open'%> <%="-#{@track.membership}" unless @track.membership ==  'Public'%></h1>
+ <h1> <%=  @track.name %>  <%="-#{@track.status}" unless @track.status ==  'Open'%> <%="-#{@track.membership}" unless @track.membership ==  'Public'%></h1>
 <div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true">
 </div>
 
@@ -55,7 +55,7 @@
   <%end%>
 </div>
 
-<%if @track.status == 'Public' || is_track_member?(@track) %>
+<%if @track.membership == 'Public' || is_track_member?(@track) %>
 <div class='meet_box'>
 <h2> <%=@track.meet_alias.pluralize%> for <%= @track.name %></h2>
 
@@ -63,7 +63,7 @@
 
 <% @track.meets.each do |meet| %>
   <tr>
-    <td><%=link_to  meet.name, track_meet_path(:id => meet.id, :track_id => @track.id), :class => 'btn btn-block' %></td>
+    <td><%=link_to  meet.name, track_meet_path(:id => meet.id, :track_id => @track.id), :class => 'btn btn-success btn-block' %></td>
      <td><%=meet.status%></td>
     <td><%= meet.description %></td>
 
