@@ -45,7 +45,7 @@ Total Pool: <%= @race.total_bets%>
 
 <% @horses.each do |horse| %>
   <tr>
-    <td><%= horse.name %></td>
+    <td><strong><%= horse.name %></strong></td>
     <td><%= horse.description %></td>
     <td><%= horse.finish %></td>
     <td>Total <%=@track.bet_alias%>: <%= horse.total_bets %> Odds: <%=horse.odds%></td>
