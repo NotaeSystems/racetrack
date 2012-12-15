@@ -2,7 +2,7 @@
 <ul class="nav">
   <% if user_signed_in? %>
     <% if session[:provider] == 'facebook' %>
-      <li>Logged in through <%= image_tag('f_logo.png',:size => "32x32") %> </li>
+      <li><%= image_tag('f_logo.png',:size => "32x32") %> </li>
     <%elsif session[:provider] == 'twitter' %>
       <li><%= image_tag('twitter.png',:size => "32x32") %> </li>
     <%end%>
