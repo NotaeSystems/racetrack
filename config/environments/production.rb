@@ -87,3 +87,5 @@ Myapp::Application.configure do
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 end
+ENV['TWITTER_KEY'] = 'sTQuYl70gH0TffTjy1JCRA'
+ENV['TWITTER_SECRET'] = 'oLoARTIDNKkkrFjR77qdmLurYb8HIGiA6v7Ts6D2PU8'

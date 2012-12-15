@@ -95,6 +95,16 @@ class User < ActiveRecord::Base
 
   end
 
+  def twitter
+    #@facebook ||= Koala::Facebook::API.new(oauth_token('facebook'))
+   # block_given? ? yield(@facebook) : @facebook
+   # rescue Koala::Facebook::APIError
+   # logger.info e.to_s
+   # nil
+
+
+  end
+
   def is_track_owner?(track)
     return false if track.nil?
     return true if self.has_role? :admin
