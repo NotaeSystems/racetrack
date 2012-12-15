@@ -14,7 +14,7 @@
 <p>
   <%= @league.description %>
 </p>
-      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"  data-count="none" data-text="Come join our league <%=@league.name%>." data-url="<%= league_url(:id => @league.id) %>"  >Tweet</a>
+      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"  data-count="none" data-text="Come join our league #<%=@league.name%> at #fantasyoddsmaker. <%=@league.description%>" data-url="<%= league_url(:id => @league.id) %>"  >Tweet</a>
 <%end%>
 
 <%if @league.membership == 'Public' || is_league_member?(@league) %>
