@@ -9,7 +9,8 @@
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
      <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> 
   
-      <strong><%= link_to 'Invite Friends', '#', :id => :app_request, :class => 'btn btn-mini btn-info' %> 
+      <strong><%= link_to 'Invite Facebook Friends', '#', :id => :app_request, :class => 'btn btn-mini btn-info' %> 
+      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"  data-count="none" data-text="Come test your handicapping skills with me."	data-url="<%= home_url %>"  >Tweet</a>
     <% if current_user.has_role? :admin %></strong>
   
      <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
@@ -31,3 +32,8 @@ return false;
   });
 
 </script>
+ 
+
+
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
