@@ -4,7 +4,7 @@
     <% if session[:provider] == 'facebook' %>
       <li>Logged in through <%= image_tag('f_logo.png',:size => "32x32") %> </li>
     <%elsif session[:provider] == 'twitter' %>
-      <li>Logged in through <%= image_tag('twitter.png',:size => "32x32") %> </li>
+      <li><%= image_tag('twitter.png',:size => "32x32") %> </li>
     <%end%>
    <li>
    <strong><%= link_to "#{session[:provider]} Logout-#{current_user.name}", destroy_user_session_path, :method=>'delete', :class => 'btn btn-mini btn-info' %>       </strong> 
