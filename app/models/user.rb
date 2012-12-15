@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
    Achievementuser.find_or_create_by_user_id_and_achievement_id(:user_id => self.id,
                            :achievement_id => achievement.id
                            )
-   if provider = 'facebook'
+   if provider == 'facebook'
   ##TODO add achievement to Facebook achievements
         oauth = Koala::Facebook::OAuth.new(FACEBOOK_APP_ID, FACEBOOK_SECRET)
         token = oauth.get_app_access_token
