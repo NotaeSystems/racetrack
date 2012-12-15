@@ -38,10 +38,13 @@ class AuthenticationsController < ApplicationController
         new_user.avatar = auth["info"]["image"]
         new_user.status = 'Member'
         new_user.add_role :user
+        session[:provider] = auth['provider']
         if new_user.save(:validate => false)
          ## assign neophyte achievement to user
-          new_user.add_achievement('Neophyte')
-          session[:provider] = auth['provider']
+
+           new_user.add_achievement('Neophyte', session[:provider])
+     
+
           flash[:notice] = "Account created and signed in successfully with #{session[:provider]}."
          # if auth[:provider].to_s == 'facebook'
            # new_user.facebook.put_wall_post("I joined Fantasy Odds Maker.",  :link => "http://www.fantasyoddsmaker.com}")

@@ -16,12 +16,13 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
 
-  def add_achievement(achievement_name)
+  def add_achievement(achievement_name, provider = nil)
    achievement = Achievement.where(:name => achievement_name, :status => 'Site').first
 
    Achievementuser.find_or_create_by_user_id_and_achievement_id(:user_id => self.id,
                            :achievement_id => achievement.id
                            )
+   if provider = 'facebook'
   ##TODO add achievement to Facebook achievements
         oauth = Koala::Facebook::OAuth.new(FACEBOOK_APP_ID, FACEBOOK_SECRET)
         token = oauth.get_app_access_token
@@ -42,6 +43,7 @@ class User < ActiveRecord::Base
          e.response
          logger.debug "Error assigning achievement #{achievement.name} #{e.response}"
         end
+    end
   end
 
   def password_required?
