@@ -11,6 +11,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => "Must be logged in "
   end
 
+  def user_is_track_manager?(track)
+   return false if current_user.nil?
+   return true if current_user.has_role?('admin')
+   current_user.is_track_manager?(track)
+  end
+
 private
 
   def user_time_zone(&block)

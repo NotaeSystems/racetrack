@@ -1,5 +1,6 @@
 class Horse < ActiveRecord::Base
   belongs_to :race
+  belongs_to :track
   has_many :bets, :dependent => :destroy
   attr_accessible :description, :finish, :name, :race_id, :status, :track_id
 

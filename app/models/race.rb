@@ -1,6 +1,7 @@
 class Race < ActiveRecord::Base
   has_many :horses
   belongs_to :card
+  belongs_to :track
   has_many :bets
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments   

@@ -55,7 +55,7 @@ Myapp::Application.routes.draw do
 
   resources :horses do
       collection do
-        #get ''
+        post 'sort'
       end
       member do
         get 'scratch'
@@ -94,6 +94,7 @@ Myapp::Application.routes.draw do
         #get 'message'
       end
       member do
+        post 'sort'
         get 'close'
         get 'open'
         get 'message'
@@ -146,12 +147,12 @@ Myapp::Application.routes.draw do
     resources :races do
       collection do
        get 'send_message'
-        #get 'members'
+       post 'sort'
       end
       member do
         get 'close'
         get 'payout'
-        
+        post 'sort'
         #get 'credits'
       end 
       ### track/meets

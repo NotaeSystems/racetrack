@@ -2,6 +2,10 @@ class HorsesController < ApplicationController
   # GET /horses
   # GET /horses.json
 
+  def sort
+    render nothing: true
+  end
+
   def scratch
     @horse = Horse.find(params[:id])
     @horse.scratch

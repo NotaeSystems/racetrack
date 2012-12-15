@@ -3,6 +3,18 @@ class RacesController < ApplicationController
   # GET /races.json
   before_filter :check_for_winners, :only => [:payout]
 
+
+  def sort
+    @race = Race.find(params[:id])
+    if user_is_track_manager?(@race.track)
+      params[:horse].each_with_index do |id, index|
+        Horse.where(:race_id => @race.id).update_all({position: index+1}, {id: id})
+      end
+    end
+    render nothing: true
+  end
+
+
  def send_message
    channel = 'test_channel'
    id = 'greet'
@@ -53,7 +65,7 @@ class RacesController < ApplicationController
   def show
     @race = Race.find(params[:id])
     @betting_status = @race.betting_status
-    @horses = @race.horses
+    @horses = @race.horses.order('position')
     @track = @race.card.meet.track
     @meet = @race.card.meet
     @comments = @race.comments

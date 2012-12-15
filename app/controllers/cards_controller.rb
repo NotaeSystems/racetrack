@@ -2,6 +2,16 @@ class CardsController < ApplicationController
   # GET /cards
   # GET /cards.json
 
+  def sort
+    @card = Card.find(params[:id])
+    if user_is_track_manager?(@card.meet.track)
+      params[:race].each_with_index do |id, index|
+        Race.where(:card_id => @card.id).update_all({position: index+1}, {id: id})
+      end
+    end
+    render nothing: true
+  end
+
   def push_message
     @card = Card.find(params[:card_id])
     @track = @card.meet.track
@@ -141,4 +151,11 @@ class CardsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private 
+
+  def is_track_manager?
+   return true if user_is_track_manager?
+
+   end
 end

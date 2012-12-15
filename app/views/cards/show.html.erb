@@ -5,6 +5,20 @@
  card_channel.bind('<%="card#{@card.id}"%>', function(data) {
    alert(data.greeting);
  });
+
+(function() {
+
+  jQuery(function() {
+    return $('#races').sortable({
+      axis: 'y',
+      update: function() {
+        return $.post(('<%=sort_card_url(:id => @card.id)%>'), $(this).sortable('serialize'));
+      }
+    });
+  });
+
+}).call(this);
+
  </script>
 <%end%>
 
@@ -32,8 +46,9 @@
 <%end%>
 <h4> <%=@track.race_alias.pluralize%></h4>
 
-<table class='table table-striped table-bordered table-condensed'>
-  <tr>
+<table id='races' class='table table-striped table-bordered table-condensed'>
+<tr>
+    <th>Number</th>
     <th>Name</th>
     <th>Status</th>
     <th>Description</th>
@@ -42,9 +57,11 @@
 
  <%end%>
   </tr>
-
+  <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
 <% @races.each do |race| %>
-  <tr>
+
+  <tr id="race_<%=race.id%>">
+    <td><%=race.position%></td>
     <td><%= link_to race.name, race_path(:id => race.id), :class => 'btn btn-success btn-block' %></td>
     <td><%=race.betting_status%></td>
     <td><%= race.description %></td>
@@ -52,7 +69,9 @@
     <td><%= link_to 'Edit', edit_race_path(race), :class => 'btn btn-mini btn-warning' %> <%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
  <%end%>
   </tr>
+
 <% end %>
+</tbody>
 </table>
 
 <br />

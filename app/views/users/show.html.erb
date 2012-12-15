@@ -5,5 +5,6 @@
 <% if user_has_role?('admin')%>
 <%=link_to 'New Credits', new_credit_path(:user_id => @user.id), :class => 'btn btn-mini btn-warning' %>
 <%=link_to 'Create Track', new_track_path(:user_id => @user.id), :class => 'btn btn-mini btn-warning' %>
+<%=link_to 'Bets', bets_path(:user => @user.id), :class => 'btn btn-mini btn-warning' %>
 <%end%>
 

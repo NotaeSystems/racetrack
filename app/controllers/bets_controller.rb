@@ -7,9 +7,20 @@ class BetsController < ApplicationController
   before_filter :check_credits_for_zero_balance, :only => [:new]
   before_filter :check_credits_for_sufficient_balance, :only => [:create]
 
-  def index
-    @bets = Bet.all
 
+
+  def index
+    if params[:user]
+      @bets = Bet.where(:user_id => params[:user] ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:race]
+      @bets = Bet.where(:race_id =>params[:race] ).page(params[:page]).per_page(30)
+    elsif params[:card]
+      @bets = Bet.where(:card_id =>params[:card] ).page(params[:page]).per_page(30)
+    elsif params[:trac]
+      @bets = Bet.where(:track_id =>params[:track] ).page(params[:page]).per_page(30)
+    else
+      @bets = Bet.page(params[:page]).per_page(30)
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @bets }
@@ -66,7 +77,8 @@ class BetsController < ApplicationController
     @track = @meet.track
     @horse = Horse.find(params[:bet][:horse_id])
     @card = @horse.race.card
-    @bet.status = 'Open'
+    @bet.status = 'Pending'
+    @bet.card_id = @card.id
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,

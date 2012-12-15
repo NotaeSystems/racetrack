@@ -5,6 +5,19 @@
  card_channel.bind('<%="card#{@race.card.id}"%>', function(data) {
    alert(data.greeting);
  });
+
+(function() {
+
+  jQuery(function() {
+    return $('#races').sortable({
+      axis: 'y',
+      update: function() {
+        return $.post(('<%=sort_race_url(:id => @race.id)%>'), $(this).sortable('serialize'));
+      }
+    });
+  });
+
+}).call(this);
  </script>
 <%end%>
 
@@ -21,7 +34,7 @@
 <%= render :partial => 'cards/credits' %>
 <h4><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h4>
 
-Total Pool: <%= @race.total_bets%>
+<%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
  <p> <%= @race.description %></p>
 <p>
   <b>Start time:</b>
@@ -41,10 +54,15 @@ Total Pool: <%= @race.total_bets%>
 <td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 
-<table class='table table-striped table-bordered table-condensed'>
+<table id='horses' class='table table-striped table-bordered table-condensed'>
 
+  <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
 <% @horses.each do |horse| %>
-  <tr>
+
+  <tr id="horse_<%=horse.id%>">
+
+
+    <td><strong><%= horse.position %></strong></td>
     <td><strong><%= horse.name %></strong></td>
     <td><%= horse.description %></td>
     <td><%= horse.finish %></td>
@@ -78,6 +96,7 @@ Total Pool: <%= @race.total_bets%>
 <%end%>
   </tr>
 <% end %>
+ </tbody>
 </table>
 
 <br />

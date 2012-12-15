@@ -21,9 +21,15 @@ gem 'omniauth-facebook'
 gem 'oauth2'
 gem 'koala'
 ###########################
+
+#### twitter ####
+gem 'omniauth-twitter'
+
+################
 gem 'delayed_job_active_record'
 gem 'rest-client'
 gem 'ransack'
+gem 'acts_as_list'
 
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'

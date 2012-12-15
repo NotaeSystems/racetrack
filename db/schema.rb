@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121213101642) do
+ActiveRecord::Schema.define(:version => 20121215121313) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -57,6 +57,7 @@ ActiveRecord::Schema.define(:version => 20121213101642) do
     t.integer  "race_id"
     t.string   "status"
     t.integer  "track_id"
+    t.integer  "card_id"
   end
 
   create_table "cards", :force => true do |t|
@@ -121,6 +122,7 @@ ActiveRecord::Schema.define(:version => 20121213101642) do
     t.datetime "updated_at",  :null => false
     t.string   "status"
     t.integer  "track_id"
+    t.integer  "position"
   end
 
   create_table "leagues", :force => true do |t|
@@ -180,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20121213101642) do
     t.datetime "updated_at",         :null => false
     t.string   "status"
     t.integer  "track_id"
+    t.integer  "position"
   end
 
   create_table "rankings", :force => true do |t|

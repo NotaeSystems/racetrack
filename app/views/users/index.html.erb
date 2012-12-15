@@ -29,8 +29,9 @@
   <tbody>
   <% @users.each do |user| %>
     <tr>
-        <td><%= link_to user.name, login_as_path(:user_id => user.id) %></td>
-        <td><%= user.email %></td>
+        <td><%= link_to "Login as #{user.name}", login_as_path(:user_id => user.id), :class => 'btn' %>
+</td>
+        <td><%= link_to user.email,user_path(:id => user.id), :class => 'btn' %></td>
         <td><%= user.created_at.to_date %></td>
         <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
         <td>

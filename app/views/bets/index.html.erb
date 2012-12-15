@@ -1,31 +1,29 @@
 <h1>Listing bets</h1>
-
-<table>
+<%= will_paginate @bets %>
+<table class='table table-striped table-bordered table-condensed'>
   <tr>
-    <th>User</th>
+    <th>Member</th>
     <th>Horse</th>
     <th>Amount</th>
     <th>Bet type</th>
-    <th>Meet</th>
-    <th></th>
-    <th></th>
-    <th></th>
+    <th>Status</th>
+    <th>Date</th>
+
   </tr>
 
 <% @bets.each do |bet| %>
   <tr>
-    <td><%= bet.user_id %></td>
-    <td><%= bet.horse_id %></td>
+       <td><%= image_tag avatar_url(bet.user) %><br />
+    <small><%= bet.user.name %></small></td>
+    <td><%= link_to "#{bet.horse.track.name} -> #{bet.horse.race.card.meet.name} -> #{bet.horse.race.card.name}-#{bet.horse.name}", race_path(:id => bet.horse.race.id), :class => 'btn btn-block' %></td>
     <td><%= bet.amount %></td>
     <td><%= bet.bet_type %></td>
-    <td><%= bet.meet_id %></td>
-    <td><%= link_to 'Show', bet %></td>
-    <td><%= link_to 'Edit', edit_bet_path(bet) %></td>
-    <td><%= link_to 'Destroy', bet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <td><%= bet.status %></td>
+    <td><%= bet.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
+
   </tr>
 <% end %>
 </table>
-
+<%= will_paginate @bets %>
 <br />
 
-<%= link_to 'New Bet', new_bet_path %>

@@ -9,6 +9,7 @@
     <%#= link_to "Refresh Credits", refresh_credits_card_path(:id => @card.id) %>
   <%end%>
 <%= link_to "#{@card.meet.track.card_alias} Rankings", rankings_path(:card_id => @card.id), :class => 'btn btn-mini'%>
+<%= link_to "#{@card.meet.track.card_alias} Bets", bets_path(:card => @card.id), :class => 'btn btn-mini'%>
 <%else%>
 <h3>Login or Signup for Free 100 Credits and start bidding today</h3>
 <%end%>
