@@ -63,7 +63,7 @@ Myapp::Application.routes.draw do
       end 
 
   end
-
+  match "myaccount" => "users#myaccount", :as => :myaccount
   match "myleagues" => "users#myleagues", :as => :myleagues
   match "mytracks" => "users#mytracks", :as => :mytracks
   match "mycredits" => "users#mycredits", :as => :mycredits

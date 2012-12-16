@@ -9,7 +9,7 @@
    <li>
    <strong><%= link_to " Logout-#{current_user.name}", destroy_user_session_path, :method=>'delete', :class => 'btn btn-mini btn-info' %>       </strong> 
     </li>
-    <li>    <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong> </li>   
+
   <% else %>
     <li>
       <strong>    <%= link_to 'Login with Facebook', '/auth/facebook/', :class => 'btn btn-mini btn-info' %></strong>

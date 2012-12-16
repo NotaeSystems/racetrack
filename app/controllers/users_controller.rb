@@ -22,6 +22,11 @@ class UsersController < ApplicationController
    @trackusers = Trackuser.member.where("user_id = ?", current_user.id)
   end
 
+  def myaccount
+
+
+  end
+
   def mybets
     if params[:user]
       @title = 'All My Bets'
