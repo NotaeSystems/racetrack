@@ -50,13 +50,15 @@
 <%if @track.membership == 'Private' %>
     <%= link_to "Pending Members: #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
 <%end%>
-    <%= link_to "New #{@track.meet_alias}", new_meet_path(:track_id => @track.id), :class => 'btn btn-mini btn-warning' %>
     <%= link_to "Edit #{@track.track_alias}", edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
   <%end%>
 </div>
 
 <%if @track.membership == 'Public' || is_track_member?(@track) %>
 <div class='meet_box'>
+<%if user_is_track_manager?(@track) %>
+  <%= link_to "New #{@track.meet_alias}", new_meet_path(:track_id => @track.id), :class => 'btn btn-mini btn-warning' %>
+<%end%>
 <h2> <%=@track.meet_alias.pluralize%> for <%= @track.name %></h2>
 
 <table class='table table-striped table-bordered table-condensed'>

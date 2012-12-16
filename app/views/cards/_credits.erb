@@ -1,8 +1,10 @@
 <% if user_signed_in? %>
       <%  initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first%>
 
-  <h4><%=@track.credit_alias.pluralize%>  Balance for <%=@card.name%>: <%=current_user.card_balance(@card) %>  <%if initial_credits.blank?%>
-   Bet and Get <%=@card.initial_credits%> Free Credits
+  <h4><%=@track.credit_alias.pluralize%>  Balance for <%=@card.name%>: <%=current_user.card_balance(@card) %> 
+
+ <%if initial_credits.blank?%>
+     Bet and Get <%=@card.initial_credits%> Free Credits
    <%end%></h4>
 
   <%if current_user.meet_balance(@card) == 0 %>

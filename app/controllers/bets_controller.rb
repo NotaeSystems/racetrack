@@ -171,7 +171,7 @@ class BetsController < ApplicationController
     return unless initial_credits.nil?
     ## TODO check for source of credits later may be from meet
     logger.info "Refreshing credits- #{@card.initial_credits}\n"
-    @card.refresh_credits(current_user, 'Borrowed', @card.initial_credits)
+    @card.refresh_credits(current_user, 'Initial', @card.initial_credits)
   end
 
 end

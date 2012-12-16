@@ -6,8 +6,8 @@ class Track < ActiveRecord::Base
   has_many :trackusers
   has_many :trackleagues
   has_many :leagues, :through => :trackleagues
-  scope :active, where(:open => true)
-  scope :open, where(:status => 'Open')
+  #scope :active, where(:open => true)
+  scope :active, where(:status => 'Open')
   scope :closed, where(:status => 'Closed')
   scope :pending, where(:status => 'Pending')
   belongs_to :owner, :class_name => "User"
