@@ -21,7 +21,8 @@ class AuthenticationsController < ApplicationController
       ## check to see if user with email exists
 
       email = auth['extra']['raw_info']['email']
-      existing_user = User.where("email = ?", email).first
+     # existing_user = User.where("email = ?", email).first
+       existing_user = current_user
       if existing_user
         existing_user.apply_omniauth(auth)
         existing_user.name = auth["info"]["name"]
