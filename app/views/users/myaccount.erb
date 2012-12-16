@@ -4,12 +4,12 @@
 <div>
      
 
-     <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong>
-     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
-     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
-     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> 
-     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini btn-info' %> </strong> 
-     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini btn-info' %> </strong> 
+     <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong><br /><br />
+     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong> <br />   <br />    
+     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  <br /><br />
+     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
+     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
+     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
 
     <% if current_user.has_role? :admin %></strong>
   
