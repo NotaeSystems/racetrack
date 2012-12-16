@@ -23,7 +23,10 @@
     <td><%= credit.description %></td>
     <td><%= credit.credit_type %></td>
     <td><%= credit.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
+     <% if current_user.has_role? :admin %>
 
+       <td><%= link_to 'Edit', edit_credit_path(credit) %><td>
+     <%end%>
   </tr>
 <% end %>
 </table>
