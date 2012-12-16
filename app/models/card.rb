@@ -12,6 +12,7 @@ class Card < ActiveRecord::Base
                    :amount => amount,
                    :credit_type => credit_type,
                    :card_id => self.id,
+                   :meet_id => self.meet_id,
                    :description => 'Refreshed credits',
                    :track_id => self.meet.track.id
                  )

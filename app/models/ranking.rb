@@ -1,6 +1,6 @@
 class Ranking < ActiveRecord::Base
 belongs_to :user
 belongs_to :meet
-
-  attr_accessible :amount, :meet_id, :rank, :user_id
+belongs_to :card
+  attr_accessible :amount, :meet_id, :rank, :user_id, :card_id
 end

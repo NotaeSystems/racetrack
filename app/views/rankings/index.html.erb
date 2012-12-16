@@ -28,8 +28,11 @@ Your Rank: <%=@rank%>
     <small><%= ranking.user.name %></small></td>
 
     <td><%= ranking.amount %></td>
-   <td><%= rank %></td>
+   <td><%= rank %>xxx</td>
+     <% if current_user.has_role? :admin %>
 
+       <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>
+     <%end%>
   </tr>
 <% end %>
 </table>
@@ -50,10 +53,13 @@ Your Rank: <%=@rank%>
     <td><%= ranking.user.name %></td>
     <td><%= ranking.amount %></td>
    <td><%= rank %></td>
-    <td><%= ranking.card_id %></td>
-    <td><%= ranking.meet_id %></td>
-    <td><%= ranking.user_id %></td>
+    <td><%= ranking.card.name unless ranking.card.blank? %></td>
+    <td><%= ranking.meet.name unless ranking.meet.blank?%></td>
+    <td><%= ranking.user.name %></td>
+     <% if current_user.has_role? :admin %>
 
+       <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>
+     <%end%>
 
   </tr>
 <%end%>
