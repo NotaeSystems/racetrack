@@ -20,6 +20,8 @@
   
 <% if user_signed_in? %>
   <% if is_track_member?(@track) %>
+   <%= link_to "My #{@track.track_alias} Credits", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>
+   <%= link_to "My #{@track.track_alias} Bets", mybets_path(:track => @track.id), :class => 'btn btn-mini'%>
        <%= link_to "Quit #{@track.name}", quit_track_path(:id => @track.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as a member of the Track #{@track.name}!" } %>
   <%elsif @track.membership == 'Public' %>
       <%= link_to "Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Member'), :class => 'btn btn-mini btn-success' %>

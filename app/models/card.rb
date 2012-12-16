@@ -33,7 +33,18 @@ class Card < ActiveRecord::Base
       total_user_credits = user.credits.where("card_id = ?", self.id).sum(:amount)
       logger.info "total user credits is #{total_user_credits}"
       ##TO bettor repays borrowed credits
-      #self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')").update_all(:amount => (-credit.amount), :credit_type = 'Paid Back')
+      borrowed_credits = self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')")
+      borrowed_credits.each do |borrowed|
+        Credit.create( :user_id => borrowed.user_id,
+                   :amount => -borrowed.amount,
+                   :credit_type => 'Paid Back',
+                   :card_id => borrowed.card_id,
+                   :meet_id => borrowed.meet_id,
+                   :track_id => borrowed.track_id,
+                   :description => "Paid back #{borrowed.credit_type} credits. Credit id: #{borrowed.id}",
+                   :track_id => borrowed.track_id
+                 )
+      end
       ## create ranking record for card
      # Ranking.create( :user_id => user.id,
      #                 :card_id => self.id,

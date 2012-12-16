@@ -4,6 +4,8 @@
     <%#= link_to "#{@track.meet_alias.pluralize}", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>
 <%= link_to "#{@meet.track.meet_alias} Rankings", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
+<%= link_to "My #{@meet.track.meet_alias}  Credits", mycredits_path(:meet => @meet.id), :class => 'btn btn-mini'%>
+<%= link_to "My #{@meet.track.meet_alias} Bets", mybets_path(:meet => @meet.id), :class => 'btn btn-mini'%>
 <%else%>
 <h3>Login or Signup for Free <%=@track.credit_alias.pluralize%></h3>
 <%end%>

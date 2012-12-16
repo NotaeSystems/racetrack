@@ -36,7 +36,9 @@
 
 <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
  <p> <%= @race.description %></p>
-<p>
+<% if user_signed_in? %>
+  <%= link_to "My #{@meet.track.race_alias} Bets", mybets_path(:race => @race.id), :class => 'btn btn-mini'%>
+<%end%>
   <b>Start time:</b>
   <%= @race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %>
 ---

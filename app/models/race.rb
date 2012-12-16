@@ -1,5 +1,5 @@
 class Race < ActiveRecord::Base
-  has_many :horses
+  has_many :horses, :dependent => :destroy
   belongs_to :card
   belongs_to :track
   has_many :bets
@@ -53,7 +53,7 @@ class Race < ActiveRecord::Base
       next if winner_odds == 0
       #payoff_odds = winner_odds / winners_size
       #logger.debug "payoff_odds = #{payoff_odds}\n"
-      winner.bets.where(:status => 'Open').each do |bet|
+      winner.bets.where(:status => 'Pending').each do |bet|
         bettor = bet.user
         bet_amount = bet.amount
         logger.debug "horse bet amount: #{bet_amount}\n"
@@ -75,6 +75,9 @@ class Race < ActiveRecord::Base
         bettor.update_card_ranking(winner.race.card, bet_payoff)
       end
     end
+    ## find all other bets and mark as Losing Bet
+    losers = self.bets.where(:status => 'Pending')
+    losers.update_all(:status => 'Losing Bet')
     self.status = 'Paid Out'
     self.save
   end

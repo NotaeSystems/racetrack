@@ -1,0 +1,27 @@
+<h1><%=@title%></h1>
+<%= will_paginate @bets %>
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Horse</th>
+    <th>Amount</th>
+    <th>Bet type</th>
+    <th>Status</th>
+    <th>Date</th>
+
+  </tr>
+
+<% @bets.each do |bet| %>
+  <tr>
+
+    <td><%= link_to "#{bet.horse.track.name} -> #{bet.horse.race.card.meet.name} -> #{bet.horse.race.card.name}-#{bet.horse.name}", race_path(:id => bet.horse.race.id), :class => 'btn btn-block' %></td>
+    <td><%= bet.amount %></td>
+    <td><%= bet.bet_type %></td>
+    <td><%= bet.status %></td>
+    <td><%= bet.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
+
+  </tr>
+<% end %>
+</table>
+<%= will_paginate @bets %>
+<br />
+

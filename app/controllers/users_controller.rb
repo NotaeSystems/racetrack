@@ -22,6 +22,54 @@ class UsersController < ApplicationController
    @trackusers = Trackuser.member.where("user_id = ?", current_user.id)
   end
 
+  def mybets
+    if params[:user]
+      @title = 'All My Bets'
+      @bets = Bet.where(:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:card]
+       @card = Card.where(:id => params[:card]).first
+       @track = @card.track
+       @title = "All My #{@track.card_alias} Bets"
+       @bets = Bet.where(:card_id =>params[:card],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:track]
+       @title = 'All My Track Bets'
+       @bets = Bet.where(:track_id =>params[:track],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:meet]
+       @title = 'All My Meet Bets'
+       @bets = Bet.where(:meet_id =>params[:meet],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:race]
+       @race = Race.where(:id => params[:race]).first
+       @track = @race.track
+       @title = "All My #{@track.race_alias} Bets"
+       @bets = Bet.where(:race_id =>params[:race],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    else
+      @title = 'All My Bets'
+       @bets= Bet.where(:user_id => current_user.id).order('created_at DESC').page(params[:page]).per_page(30)
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @bets }
+    end
+  end
+
+  def mycredits
+    if params[:user]
+      @credits = Credit.where(:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:card]
+       @credits = Credit.where(:card_id =>params[:card],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:track]
+       @credits = Credit.where(:track_id =>params[:track],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:meet]
+       @credits = Credit.where(:meet_id =>params[:meet],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    else
+       @credits= Credit.where(:user_id => current_user.id).order('created_at DESC').page(params[:page]).per_page(30)
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @bets }
+    end
+  end
+
   def my_owned_tracks
    @tracks = Track.where(:owner_id => current_user.id)
   end

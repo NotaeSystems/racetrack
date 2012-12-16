@@ -66,6 +66,8 @@ Myapp::Application.routes.draw do
 
   match "myleagues" => "users#myleagues", :as => :myleagues
   match "mytracks" => "users#mytracks", :as => :mytracks
+  match "mycredits" => "users#mycredits", :as => :mycredits
+  match "mybets" => "users#mybets", :as => :mybets
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
 

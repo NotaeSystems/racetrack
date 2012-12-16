@@ -2,9 +2,12 @@ class Track < ActiveRecord::Base
 
   acts_as_taggable
   has_many :meets, :dependent => :destroy
+  has_many :cards, :dependent => :destroy
+  has_many :races, :dependent => :destroy
+  has_many :horses, :dependent => :destroy
   has_many :comments
-  has_many :trackusers
-  has_many :trackleagues
+  has_many :trackusers,  :dependent => :destroy
+  has_many :trackleagues, :dependent => :destroy
   has_many :leagues, :through => :trackleagues
   #scope :active, where(:open => true)
   scope :active, where(:status => 'Open')

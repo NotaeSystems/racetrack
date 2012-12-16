@@ -8,7 +8,8 @@
      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
      <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> 
-  
+     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini btn-info' %> </strong> 
+     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini btn-info' %> </strong> 
       <strong><%= link_to 'Invite Facebook Friends', '#', :id => :app_request, :class => 'btn btn-mini btn-info' %> 
       <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"  data-count="none" data-text="Come test your handicapping skills with me."	data-url="<%= home_url %>"  >Tweet</a>
     <% if current_user.has_role? :admin %></strong>
