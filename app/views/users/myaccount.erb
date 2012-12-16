@@ -1,0 +1,39 @@
+
+
+
+<div>
+     
+
+     <strong><%= link_to 'Edit account', edit_user_registration_path, :class => 'btn btn-mini btn-info' %></strong>
+     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong>        
+     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  
+     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> 
+     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini btn-info' %> </strong> 
+     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini btn-info' %> </strong> 
+
+    <% if current_user.has_role? :admin %></strong>
+  
+     <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
+
+    <%end%>
+</div>
+<br />
+
+<script language="javascript" type="text/javascript">
+
+ $('#app_request').click(function () {
+    FB.ui({
+     appId: '<%=FACEBOOK_APP_ID%>',
+     method: 'apprequests',
+      message: 'Hi, Test your Handicapping skills. Come compete with me.',
+      data: 'Handicapping Game.'
+    });
+return false;
+  });
+
+</script>
+ 
+
+
+
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
