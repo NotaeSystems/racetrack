@@ -1,7 +1,7 @@
 Myapp::Application.routes.draw do
   
   resources :achievementusers
-
+  resources :authentications
   resources :achievements do
       collection do
         #get ''

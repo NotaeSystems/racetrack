@@ -1,5 +1,26 @@
 class AuthenticationsController < ApplicationController
  
+  def index
+    @authentications = Authentication.page(params[:page]).per_page(30)
+  end
+
+  def edit
+    @authentication = Authentication.find(params[:id])
+  end
+
+  def update
+    @authentication = Authentication.find(params[:id])
+
+    respond_to do |format|
+      if @authentication.update_attributes(params[:authentication])
+        format.html { redirect_to @authentication,  notice: 'Authentication was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @card.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
  def create
     auth = request.env["omniauth.auth"]
