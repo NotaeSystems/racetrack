@@ -5,11 +5,18 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  has_many :credits
+ # belongs_to :meet
+
+  has_many :credits, :dependent => :delete_all
+  has_many :bets, :dependent => :delete_all
   has_many :authentications, :dependent => :delete_all
-  belongs_to :meet
-  has_many :comments
-  has_many :trackusers
+
+  has_many :comments, :dependent => :delete_all
+  has_many :trackusers, :dependent => :delete_all
+  has_many :leagueusers, :dependent => :delete_all
+  has_many :achievementusers, :dependent => :delete_all
+  has_many :rankings, :dependent => :delete_all
+
   #devise :database_authenticatable, :registerable, 
   #       :recoverable, :rememberable, :trackable, :validatable
 
