@@ -2,11 +2,20 @@ class UsersController < ApplicationController
   #before_filter :authenticate_user!
 
   def add_role
-   user_id =params[:user_id]
+   user_id = params[:user_id]
    role = params[:role_id]
 
    user = User.where(:id => user_id).first
    user.add_role :admin
+   redirect_to users_path
+  end
+
+  def remove_role
+   user_id = params[:user_id]
+   role = params[:role_id]
+
+   user = User.where(:id => user_id).first
+   user.remove_role :admin
    redirect_to users_path
   end
 

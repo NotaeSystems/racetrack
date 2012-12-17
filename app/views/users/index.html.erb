@@ -35,13 +35,16 @@
         <td><%= user.created_at.to_date %></td>
         <%if user.has_role? :admin %>      <%#= user.roles.last.name.titleize unless user.roles.first.nil? %>
          <td>Admin</td>
+         <%else%>
+         <td></td>
         <%end%>
 
-        <td>
-          <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
-          <%= render user %>
-        </td>
+
+        <%if user.has_role? :admin %> 
+          <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" },  :class => 'btn btn-mini') %></td>  
+         <%else%>
           <td><%= link_to("Add Admin role", add_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" },  :class => 'btn btn-mini') %></td>  
+         <%end%>
         <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>                                       
     </tr>
   <% end %>
