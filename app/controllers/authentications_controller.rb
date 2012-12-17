@@ -55,7 +55,7 @@ def create
     if @authentication.user.present?
       # The identity we found had a user associated with it so let's 
       # just log them in here
-      self.current_user = @authentication.user
+      current_user = @authentication.user
       redirect_to myaccount_url, notice: "Signed in!"
     else
       # No user associated with the identity so we need to create a new one
