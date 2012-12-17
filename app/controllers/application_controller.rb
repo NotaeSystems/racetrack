@@ -39,6 +39,9 @@ class ApplicationController < ActionController::Base
  end
 
 private
+  def authorize
+    redirect_to login_url, alert: "Not authorized" if current_user.nil?
+  end
 
   def user_time_zone(&block)
     Time.use_zone(current_user.time_zone, &block)

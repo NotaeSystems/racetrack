@@ -1,7 +1,11 @@
 Myapp::Application.routes.draw do
   
+  #get "sessions/new"
+  resources :users
+  resources :sessions
   resources :achievementusers
   resources :authentications
+
   resources :achievements do
       collection do
         #get ''
@@ -71,6 +75,9 @@ Myapp::Application.routes.draw do
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
   match "backdoor" => "authentications#backdoor", :as => :backdoor
+get 'signup', to: 'users#new', as: 'signup'
+get 'login', to: 'sessions#new', as: 'login'
+get 'logout', to: 'sessions#destroy', as: 'logout'
 
 
  ### Pusher ###############
@@ -123,7 +130,6 @@ Myapp::Application.routes.draw do
 #  end
   root :to => "home#index"
 
-  resources :users
 
   ##### tracks
     resources :tracks do

@@ -33,6 +33,7 @@ GEM
     acts_as_list (0.1.9)
     addressable (2.3.2)
     arel (3.0.2)
+    bcrypt-ruby (3.0.1)
     bootstrap-sass (2.1.0.0)
     builder (3.0.3)
     cancan (1.6.8)
@@ -243,6 +244,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on
   acts_as_list
+  bcrypt-ruby (~> 3.0.0)
   bootstrap-sass (>= 2.1.0.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)

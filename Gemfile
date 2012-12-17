@@ -36,6 +36,7 @@ group :assets do
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+gem 'bcrypt-ruby', '~> 3.0.0'
 gem 'jquery-rails'
 gem "unicorn", ">= 4.3.1", :group => :production
 gem "rspec-rails", ">= 2.11.0", :group => [:development, :test]

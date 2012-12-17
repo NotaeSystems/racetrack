@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_secure_password
+
   #rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -15,6 +17,10 @@ class User < ActiveRecord::Base
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
+
+  def password_digest
+    encrypted_password
+  end
 
   def has_role?(role)
     return true
