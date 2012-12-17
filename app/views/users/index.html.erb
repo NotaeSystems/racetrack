@@ -45,7 +45,7 @@
          <%else%>
           <td><%= link_to("Add Admin role", add_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" },  :class => 'btn btn-mini') %></td>  
          <%end%>
-        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>                                       
+        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>                                       
     </tr>
   <% end %>
   </tbody>
