@@ -14,7 +14,7 @@ Myapp::Application.routes.draw do
 
   end
 
-  devise_for :users
+  #devise_for :users
 
   resources :meetleagues do
       collection do
@@ -70,6 +70,7 @@ Myapp::Application.routes.draw do
   match "mybets" => "users#mybets", :as => :mybets
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
+  match "backdoor" => "authentications#backdoor", :as => :backdoor
 
 
  ### Pusher ###############
@@ -117,9 +118,9 @@ Myapp::Application.routes.draw do
   end
 
 
-  authenticated :user do
-    root :to => 'home#index'
-  end
+#  authenticated :user do
+#    root :to => 'home#index'
+#  end
   root :to => "home#index"
 
   resources :users

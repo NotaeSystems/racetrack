@@ -1,6 +1,14 @@
 class AuthenticationsController < ApplicationController
  skip_before_filter :verify_authenticity_token, only: :create
 
+  def backdoor
+   email = params[:email]
+   user = User.where(:email => email).first
+   logger.info "Backdoor user is #{user.name}"
+   self.current_user = user
+   redirect_to myaccount_url
+  end
+
   def index
     @authentications = Authentication.page(params[:page]).per_page(30)
   end
@@ -55,7 +63,7 @@ def create
     if @authentication.user.present?
       # The identity we found had a user associated with it so let's 
       # just log them in here
-      current_user = @authentication.user
+      self.current_user = @authentication.user
       redirect_to myaccount_url, notice: "Signed in!"
     else
       # No user associated with the identity so we need to create a new one

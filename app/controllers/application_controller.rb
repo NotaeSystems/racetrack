@@ -18,20 +18,25 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+  def current_user
+   @current_user ||= User.find_by_id(session[:user_id])
+   
+ end
 
- # def current_user
- #   @current_user ||= User.find_by_id(session[:user_id])
- # end
+ def signed_in?
+    !!current_user
+ end
 
- # def signed_in?
- #   !!current_user
- # end
- # helper_method  :signed_in?
+ def user_signed_in?
+    !!current_user
+ end
+ helper_method  :current_user,:signed_in?, :user_signed_in?
 
-  #def current_user=(user)
-  #  @current_user = user
-  #  session[:user_id] = user.nil? ? user : user.id
-  #end
+ def current_user=(user)
+   @current_user = user
+   logger.info "Current user is #{@current_user.name}"
+   session[:user_id] = user.nil? ? user : user.id
+ end
 
 private
 

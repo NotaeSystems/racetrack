@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  rolify
+  #rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -8,13 +8,17 @@ class User < ActiveRecord::Base
   belongs_to :meet
   has_many :comments
   has_many :trackusers
-  devise :database_authenticatable, :registerable, 
-         :recoverable, :rememberable, :trackable, :validatable
+  #devise :database_authenticatable, :registerable, 
+  #       :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
+
+  def has_role?(role)
+    return true
+  end
 
   def add_achievement(achievement_name, provider = nil)
    achievement = Achievement.where(:name => achievement_name, :status => 'Site').first
