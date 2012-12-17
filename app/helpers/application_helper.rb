@@ -83,6 +83,7 @@ module ApplicationHelper
   end
 
   def avatar_url(user)
+   return nil if user.blank?
     if user.avatar.present?
       user.avatar
    else
