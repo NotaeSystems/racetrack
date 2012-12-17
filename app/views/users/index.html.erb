@@ -33,7 +33,10 @@
 </td>
         <td><%= link_to user.email,edit_user_path(:id => user.id), :class => 'btn' %></td>
         <td><%= user.created_at.to_date %></td>
-        <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
+        <%if user.has_role? :admin %>      <%#= user.roles.last.name.titleize unless user.roles.first.nil? %>
+         <td>Admin</td>
+        <%end%>
+
         <td>
           <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
           <%= render user %>
