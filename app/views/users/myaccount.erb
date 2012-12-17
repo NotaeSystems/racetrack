@@ -4,16 +4,21 @@
 <div>
      
 
-     <strong><%= link_to 'Edit account', edit_user_path(:id => current_user.id), :class => 'btn btn-mini btn-info' %></strong><br /><br />
-      <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini btn-info' %></strong>
-      <strong>    <%= link_to 'Associate My Twitter Account', '/auth/twitter/', :class => 'btn btn-mini btn-info' %></strong>
-     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini btn-info' %> </strong> <br />   <br />    
-     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini btn-info' %> </strong>  <br /><br />
-     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
-     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
-     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini btn-info' %> </strong> <br /><br />
 
+
+     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />    
+     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />
+    <strong><%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini '  %></strong><br /><br />
+
+
+     <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini ' %> </strong> <br /><br />
+     <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini' %> </strong> <br /><br />
+      <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini ' %></strong>
+      <strong>    <%= link_to 'Associate My Twitter Account', '/auth/twitter/', :class => 'btn btn-mini ' %></strong><br /><br />
+
+     <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini ' %> </strong> <br /><br />
     <% if current_user.has_role? :admin %></strong>
+     <strong><%= link_to 'Edit account', edit_user_path(:id => current_user.id), :class => 'btn btn-mini btn-info ' %></strong><br /><br />
   
      <strong>  <%= link_to 'Admin', users_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
 
