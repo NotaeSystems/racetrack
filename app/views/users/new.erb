@@ -29,7 +29,7 @@
     <%= f.password_field :password_confirmation %>
   </div>
 
-    <%= f.input :time_zone, :priority => /US/ %>
+    <%= f.time_zone_select :time_zone %>
   <div class="actions"><%= f.submit "Sign Up" %></div>
 <% end %>
 

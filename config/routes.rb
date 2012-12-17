@@ -75,6 +75,7 @@ Myapp::Application.routes.draw do
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
   match "backdoor" => "authentications#backdoor", :as => :backdoor
+get 'add_role', to: 'users#add_role', as: 'add_role'
 get 'signup', to: 'users#new', as: 'signup'
 get 'login', to: 'sessions#new', as: 'login'
 get 'logout', to: 'sessions#destroy', as: 'logout'

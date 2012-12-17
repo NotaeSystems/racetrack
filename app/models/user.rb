@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_secure_password
 
-  #rolify
+  rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -18,13 +18,15 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
 
-  def password_digest
-    encrypted_password
-  end
+ # def password_digest
+ #   encrypted_password
+ # end
 
-  def has_role?(role)
-    return true
-  end
+ # def has_role?(role)
+ #   role = Role.where(:name => role, :resource_id => self.id).first
+   # logger.info = "Role = #{role.inspect}"
+ #   return true if role
+ # end
 
   def add_achievement(achievement_name, provider = nil)
    achievement = Achievement.where(:name => achievement_name, :status => 'Site').first

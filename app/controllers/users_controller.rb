@@ -1,6 +1,14 @@
 class UsersController < ApplicationController
   #before_filter :authenticate_user!
 
+  def add_role
+   user_id =params[:user_id]
+   role = params[:role_id]
+
+   user = User.where(:id => user_id).first
+   user.add_role :admin
+   redirect_to users_path
+  end
 
   def login_as
     @user = User.find(params[:user_id])
@@ -97,7 +105,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       session[:user_id] = @user.id
-      redirect_to root_url, notice: "Thank you for signing up!"
+      redirect_to edit_user_path(@user), notice: "Thank you for signing up! Be sure to set your Time Zone!"
     else
       render "new"
     end
@@ -115,17 +123,21 @@ class UsersController < ApplicationController
   end  
 
   def update
-    authorize! :update, @user, :message => 'Not authorized as an administrator.'
+   # authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
     @user.name = params[:user][:name]
     @user.email = params[:user][:email]
+    unless params[:user][:password].blank?
+      @user.password = params[:user][:password]
+      @user.password_confirmation = params[:user][:password_confirmation]
+    end
     @user.time_zone = params[:user][:time_zone]
 
    # if @user.update_attributes(params[:user], :as => :admin)
      if @user.save
-      redirect_to users_path, :notice => "User updated."
+      redirect_to myaccount_path, :notice => "User updated."
     else
-      redirect_to users_path, :alert => "Unable to update user."
+      redirect_to myaccount_path, :alert => "Unable to update user."
     end
   end
     
