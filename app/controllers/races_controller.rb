@@ -2,7 +2,8 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
   before_filter :check_for_winners, :only => [:payout]
-
+  before_filter :check_for_placers, :only => [:payout]
+  before_filter :check_for_showers, :only => [:payout]
 
   def sort
     @race = Race.find(params[:id])
@@ -153,6 +154,28 @@ class RacesController < ApplicationController
     winners_size = winners.size
     return if winners_size > 0
     flash[:error] = "Cannot pay out there is no winner!"
+    redirect_to race_path(:id => @race.id)
+
+  end
+
+  def check_for_placers
+    return unless @race.place?
+    @race = Race.find(params[:id])
+    winners = @race.horses.where("finish = 2")
+    winners_size = winners.size
+    return if winners_size > 0
+    flash[:error] = "Cannot pay out there is no place finish!"
+    redirect_to race_path(:id => @race.id)
+
+  end
+
+  def check_for_showers
+    return unless @race.show?
+    @race = Race.find(params[:id])
+    winners = @race.horses.where("finish = 3")
+    winners_size = winners.size
+    return if winners_size > 0
+    flash[:error] = "Cannot pay out there is no show finish!"
     redirect_to race_path(:id => @race.id)
 
   end

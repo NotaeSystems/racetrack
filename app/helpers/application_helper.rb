@@ -1,4 +1,19 @@
 module ApplicationHelper
+
+  def allowed_bets
+    allowed_bets_list = []
+    if @horse.race.win?
+      allowed_bets_list = allowed_bets_list + ['Win']
+    end
+    if @horse.race.place?   
+      allowed_bets_list = allowed_bets_list + ['Place']
+    end
+    if @horse.race.show? 
+      allowed_bets_list = allowed_bets_list + ['Show']
+    end
+    allowed_bets_list
+  end
+
   def user_has_role?(role)
     return false if current_user.nil?
     return true if current_user.has_role?('admin')

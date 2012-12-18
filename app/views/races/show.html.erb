@@ -68,7 +68,7 @@
     <td><strong><%= horse.name %></strong></td>
     <td><%= horse.description %></td>
     <td><%= horse.finish %></td>
-    <td>Total <%=@track.bet_alias%>: <%= horse.total_bets %> Odds: <%=horse.odds%></td>
+    <td>Total <%=@track.bet_alias%>: Win Pot: <%= horse.total_bets('Win') %> Odds: <%=horse.odds('Win')%></td>
 
 <%if @race.betting_status == 'Open' %>
   <%if horse.status == 'Open'%>

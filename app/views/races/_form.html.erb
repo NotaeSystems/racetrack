@@ -8,6 +8,16 @@
     <%= f.hidden_field :track_id, :value => @track.id %>
     <%= f.input :start_betting_time %>
     <%= f.input :post_time %>
+
+    <%= f.label 'Win Bet Allowed' %>
+    <%= f.check_box :win, :label => 'Win Bet Allowed' %>
+
+    <%= f.label 'Place Bet Allowed' %>
+    <%= f.check_box :place, :label => 'Place Bet Allowed' %>
+
+    <%= f.label 'Show Bet Allowed' %>
+    <%= f.check_box :show, :label => 'Show Bet Allowed' %>
+
     <%= f.input :description %>
 
   </div>
