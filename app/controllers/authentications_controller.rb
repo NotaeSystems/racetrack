@@ -72,6 +72,7 @@ def create
       session[:provider] = auth['provider']
       @authentication.user = new_user
       @authentication.save()
+      current_user = new_user
       redirect_to myaccount_url, notice: "Welcome! Your are now signed in."
     end
   end

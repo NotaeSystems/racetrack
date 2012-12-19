@@ -3,6 +3,7 @@
 </strong>->
 <strong><%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id),:class => 'btn btn-mini btn-success' %></strong>
 <h2>Exacta Wager</h2>
+<h3><%=@race.name %><h3>
 <%= render :partial => 'cards/credits' %>
 
 <%= simple_form_for(@bet, :url => create_exacta_path) do |f| %>
