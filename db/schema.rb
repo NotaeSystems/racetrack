@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121218130234) do
+ActiveRecord::Schema.define(:version => 20121218154807) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -58,6 +58,10 @@ ActiveRecord::Schema.define(:version => 20121218130234) do
     t.string   "status"
     t.integer  "track_id"
     t.integer  "card_id"
+    t.integer  "win_id"
+    t.integer  "place_id"
+    t.integer  "show_id"
+    t.integer  "fourth_id"
   end
 
   create_table "cards", :force => true do |t|
@@ -188,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20121218130234) do
     t.boolean  "show"
     t.boolean  "quintella"
     t.boolean  "trifecta"
+    t.boolean  "exacta"
   end
 
   create_table "rankings", :force => true do |t|

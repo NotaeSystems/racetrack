@@ -75,6 +75,10 @@ Myapp::Application.routes.draw do
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
   match "backdoor" => "authentications#backdoor", :as => :backdoor
+  match "exacta" => "bets#exacta", :as => :exacta
+  match "trifecta" => "bets#trifecta", :as => :trifecta
+  post "create_exacta" => "bets#create_exacta", :as => :create_exacta
+
 get 'add_role', to: 'users#add_role', as: 'add_role'
 get 'remove_role', to: 'users#remove_role', as: 'remove_role'
 get 'signup', to: 'users#new', as: 'signup'

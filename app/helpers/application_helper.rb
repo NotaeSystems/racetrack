@@ -1,5 +1,14 @@
 module ApplicationHelper
+  def horses_list
+    horse_array = Array.new
+    horses = @race.horses.where(:status => 'Open')
+    horses.each do |horse|
+     horse_array << [horse.name, horse.id]
+    end
+    return horse_array
+  end
 
+  
   def allowed_bets
     allowed_bets_list = []
     if @horse.race.win?

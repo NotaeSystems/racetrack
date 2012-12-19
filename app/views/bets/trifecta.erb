@@ -1,0 +1,32 @@
+<strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->
+<strong>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet,  :class => 'btn btn-mini btn-success' %>
+</strong>->
+<strong><%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id),:class => 'btn btn-mini btn-success' %></strong>
+<h2>Exacta Wager</h2>
+<%= render :partial => 'cards/credits' %>
+
+<%= simple_form_for(@bet, :url => create_exacta_path) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+
+    <%= f.hidden_field :user_id , :value => current_user.id%>
+    <%= f.hidden_field :race_id , :value => @race.id%>
+    <%= f.hidden_field :track_id , :value => @track.id%>
+    <%= f.input :amount, :required => true %>
+    <%= f.input :bet_type %>
+    <%= f.label 'Winner' %>
+    <%= f.select :win_id,  horses_list %>
+    <%= f.label 'Place' %>
+    <%= f.select :place_id, horses_list %>
+    <%= f.label 'show' %>
+    <%= f.select :show_id, horses_list %>
+
+
+    <%= f.hidden_field :meet_id , :value => @bet.meet_id%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, @track.bet_alias %>
+  </div>
+<% end %>

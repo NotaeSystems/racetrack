@@ -16,7 +16,13 @@
     <%= f.check_box :place, :label => 'Place Bet Allowed' %>
 
     <%= f.label 'Show Bet Allowed' %>
-    <%= f.check_box :show, :label => 'Show Bet Allowed' %>
+    <%= f.check_box :show %>
+
+    <%= f.label 'Exacta Bet Allowed' %>
+    <%= f.check_box :exacta %>
+
+    <%= f.label 'Trifecta Bet Allowed' %>
+    <%= f.check_box :trifecta %>
 
     <%= f.input :description %>
 

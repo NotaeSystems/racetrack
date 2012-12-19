@@ -55,7 +55,13 @@
    <%= link_to "Delete #{@track.race_alias}", @race, method: :delete, data: { confirm: 'Are you sure? This will delete this race.' }, :class => 'btn btn-mini btn-danger' %>
 <td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
-
+<br /><br />
+<%if @race.exacta?%>
+<%= link_to 'Exacta', exacta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+<%end%>
+<%if @race.trifecta?%>
+<%= link_to 'Trifecta', trifecta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+<%end%>
 <table id='horses' class='table table-striped table-bordered table-condensed'>
 
   <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
@@ -75,7 +81,8 @@
     <% if user_signed_in? %>
 
       <%unless @initial_credits.blank?%>
-        <td><%= link_to @track.bet_alias, new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
+        <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id, :race_id => @race.id), :class => 'btn btn-success' %></td>
+       
       <%else%>
         <td><%= link_to "#{@track.bet_alias} and Get #{@card.initial_credits} #{@track.credit_alias.pluralize}", new_bet_path(:horse_id => horse.id), :class => 'btn btn-success' %></td>
       <%end%>

@@ -2,10 +2,10 @@ class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
     before_filter :login_required
-  before_filter :check_for_initial_credits, :only => [:new]
-  before_filter :check_for_post_time, :only => [:create]
-  before_filter :check_credits_for_zero_balance, :only => [:new]
-  before_filter :check_credits_for_sufficient_balance, :only => [:create]
+  before_filter :check_for_initial_credits, :only => [:new, :exacta]
+  before_filter :check_for_post_time, :only => [:create, :create_exacta]
+  before_filter :check_credits_for_zero_balance, :only => [:new, :exacta]
+  before_filter :check_credits_for_sufficient_balance, :only => [:create, :create_exacta]
 
 
 
@@ -38,8 +38,61 @@ class BetsController < ApplicationController
     end
   end
 
+  def exacta
+
+      @race = Race.find(params[:race_id])
+      @meet = @race.card.meet
+      @card = @race.card
+      @track = @race.track
+    if current_user
+      @bet = Bet.new
+      @bet.user_id = current_user.id
+      @bet.meet_id = @race.card.meet.id
+      @bet.race_id = @race.id
+      @bet.bet_type = 'Exacta'
+      
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @bet }
+      end
+   else
+
+      respond_to do |format|
+        format.html{ redirect_to race_path(:id => @horse.race.id), notice: "You must be logged in to bet" }
+        format.json { render json: @bet }
+     end
+    end
+  end
+
+  def trifecta
+
+      @race = Race.find(params[:race_id])
+      @meet = @race.card.meet
+      @card = @race.card
+      @track = @race.track
+    if current_user
+      @bet = Bet.new
+      @bet.user_id = current_user.id
+      @bet.meet_id = @race.card.meet.id
+      @bet.race_id = @race.id
+      @bet.bet_type = 'Trifecta'
+      
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @bet }
+      end
+   else
+
+      respond_to do |format|
+        format.html{ redirect_to race_path(:id => @horse.race.id), notice: "You must be logged in to bet" }
+        format.json { render json: @bet }
+     end
+    end
+  end
   # GET /bets/new
   # GET /bets/new.json
+
+
   def new
 
       @horse = Horse.find(params[:horse_id])
@@ -99,6 +152,35 @@ class BetsController < ApplicationController
     end
   end
 
+  def create_exacta
+    @bet = Bet.new(params[:bet])
+    @meet = Meet.find(params[:bet][:meet_id])
+    @track = @meet.track
+    @race = Race.where(:id => params[:bet][:race_id]).first
+    #@horse = Horse.find(params[:bet][:horse_id])
+    @card = @race.card
+    @bet.status = 'Pending'
+    @bet.card_id = @card.id
+    respond_to do |format|
+      if @bet.save
+         credit = Credit.create(:user_id => current_user.id,
+                           :meet_id => @meet.id,
+                           :amount => -@bet.amount,
+                           :description => "Deduction for Bet",
+                           :card_id => @card.id,
+                           :credit_type => "Bet Deduction",
+                           :track_id => @track.id
+                             ) 
+     current_user.update_ranking(@meet.id, -@bet.amount)
+        format.html { redirect_to race_path(:id => @race), notice: 'Bet was successfully created.' }
+        format.json { render json: @bet, status: :created, location: @bet }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @bet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # PUT /bets/1
   # PUT /bets/1.json
   def update
@@ -130,37 +212,37 @@ class BetsController < ApplicationController
   private
 
   def check_credits_for_zero_balance
-     
-      @horse = Horse.find(params[:horse_id])
-      @card = @horse.race.card
+      @race = Race.find(params[:race_id])
+      @card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > 0
       flash[:warning] = "Sorry, you are out of credits for this card."
-      redirect_to race_path(:id => @horse.race.id)
+      redirect_to race_path(:id => @race.id)
   end
 
   def check_credits_for_sufficient_balance
       @amount = params[:bet][:amount].to_i
-      @horse = Horse.find(params[:bet][:horse_id])
-      @card = @horse.race.card
+      @race = Race.find(params[:bet][:race_id])
+      @card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > @amount 
       flash[:warning] = "Sorry, you do not have enough card credits for this bet."
-      redirect_to race_path(:id => @horse.race.id)
+      redirect_to race_path(:id => @race.id)
   end
 
   def check_for_post_time
-    @horse = Horse.find(params[:bet][:horse_id])
-    post_time = @horse.race.post_time
+    @race = Race.find(params[:bet][:race_id])
+    post_time = @race.post_time
     return if post_time > Time.zone.now
     flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
-    redirect_to race_path(:id => @horse.race.id)
+    redirect_to race_path(:id => @race.id)
      
   end
  
   def check_for_initial_credits
-      @horse = Horse.find(params[:horse_id])
-    @card = @horse.race.card
+    #  @horse = Horse.find(params[:horse_id])
+    @race = Race.find(params[:race_id])
+    @card = @race.card
     @track = @card.meet.track
     ## see if bettor is member of this track
     logger.info "Getting ready to create or find trackuser\n"
