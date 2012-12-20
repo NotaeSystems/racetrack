@@ -12,7 +12,7 @@
 
 <% @authentications.each do |authentication| %>
   <tr>
-    <td><%= authentication.user.name unless autghentication.user.blank? %></td>
+    <td><%= authentication.user.name unless authentication.user.blank? %></td>
     <td><%= authentication.provider %></td>
     <td><%= authentication.uid %>></td>
     <td><%= authentication.token %></td>
