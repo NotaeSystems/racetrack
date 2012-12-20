@@ -33,4 +33,13 @@ class Authentication < ActiveRecord::Base
      end
 
   end
+
+  def destroy
+   # authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
+    authentication = Authentication.find(params[:id])
+
+      authentication.destroy
+      redirect_to users_path, :notice => "User deleted."
+
+  end
 end
