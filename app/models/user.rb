@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-  has_secure_password
+  before_save :encrypt_password
+
 
   rolify
   # Include default devise modules. Others available are:
@@ -21,9 +22,29 @@ class User < ActiveRecord::Base
   #       :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
+  attr_accessor :password, :password_confirmation
+
   attr_accessible :role_ids, :as => :admin
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
   validates_presence_of     :name   
+
+  def encrypt_password
+    if password.present?
+      self.password_salt = BCrypt::Engine.generate_salt
+      self.encrypted_password = BCrypt::Engine.hash_secret(password, password_salt)
+    end
+  end
+
+  def self.authenticate(email, password)
+    user = find_by_email(email)
+    if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.password_salt)
+      user
+    else
+      nil
+    end
+  end
+
+
 
  # def password_digest
  #   encrypted_password

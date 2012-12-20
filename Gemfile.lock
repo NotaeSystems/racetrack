@@ -244,7 +244,7 @@ PLATFORMS
 DEPENDENCIES
   acts-as-taggable-on
   acts_as_list
-  bcrypt-ruby (~> 3.0.0)
+  bcrypt-ruby
   bootstrap-sass (>= 2.1.0.0)
   cancan (>= 1.6.8)
   capybara (>= 1.1.2)
