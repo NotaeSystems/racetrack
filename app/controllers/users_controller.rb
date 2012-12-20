@@ -141,7 +141,7 @@ class UsersController < ApplicationController
       @user.password_confirmation = params[:user][:password_confirmation]
     end
     @user.time_zone = params[:user][:time_zone]
-
+    @user.encrypt_password(params[:user][:password])
    # if @user.update_attributes(params[:user], :as => :admin)
      if @user.save
       redirect_to myaccount_path, :notice => "User updated."
