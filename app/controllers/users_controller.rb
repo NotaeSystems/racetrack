@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  #before_filter :authenticate_user!
+  before_filter :login_required, :except => [:new, :create]
 
   def add_role
    user_id = params[:user_id]
@@ -114,7 +114,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       session[:user_id] = @user.id
-      redirect_to edit_user_path(@user), notice: "Thank you for signing up! Be sure to set your Time Zone!"
+      redirect_to myaccount_path(@user), notice: "Thank you for signing up! Be sure to set your Time Zone!"
     else
       render "new"
     end
