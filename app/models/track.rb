@@ -18,6 +18,9 @@ class Track < ActiveRecord::Base
                    :meet_alias, :card_alias, :race_alias, :horse_alias, :credit_alias, :member_alias, 
                    :bet_alias, :tag_list, :membership
 
+  def to_param
+    "#{id}-#{name}".parameterize
+  end
 
   def quit(user)
     trackuser = Trackuser.where(:user_id => user.id, :track_id => self.id).first

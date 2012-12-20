@@ -114,7 +114,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if @user.save
       session[:user_id] = @user.id
-      redirect_to myaccount_path(@user), notice: "Thank you for signing up! Be sure to set your Time Zone!"
+      redirect_to myaccount_path(@user), notice: "Thank you for registering"
     else
       render "new"
     end

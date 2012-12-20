@@ -88,7 +88,8 @@ class TracksController < ApplicationController
     @track.bet_alias = 'Wager'
     @track.credit_alias = 'Points'
     @track.public = true
-
+    @user = current_user
+    @user.email = ''
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @track }

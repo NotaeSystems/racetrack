@@ -1,4 +1,24 @@
 <h1>New track for <%=@owner.name%></h1>
 <p>Start your own Track and get your friends or co-workers to be handicappers. Set your own contests. Who will win Sunday' big game?  Will that movie star marry this year? The potential contests are unlimited! See who can best handicap future events. </p>
-<%= render 'form' %>
 
+<%if is_logged_in? %>
+  <%if current_user.encrypted_password.blank?%>
+    <p> You must register first in order to own a track.</p>
+    <h2>Register <%= @user.name %></h2>
+    <%= simple_form_for(@user, :html => { :method => :put, :class => 'form-vertical'}) do |f| %>
+      <%= f.error_notification %>
+      <%= f.input :name,  :label => 'Nick Name:',:autofocus => true %>
+
+
+      <%= f.input :email, :required => true %>
+      <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
+      <%= f.input :password_confirmation%>
+
+      <%= f.input :time_zone, :priority => /US/ %>
+      <%= f.button :submit, 'Update', :class => 'btn-primary' %>
+    <% end %>
+
+  <%else%>
+    <%= render 'form' %>
+  <%end%>
+<%end%>
