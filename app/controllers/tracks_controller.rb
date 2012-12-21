@@ -1,6 +1,7 @@
 class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
+  before_filter :login_required, :except => [:join, :index, :show, :tag_cloud]
   before_filter :check_for_number_tracks, :only => [:new]
 
 
@@ -89,7 +90,7 @@ class TracksController < ApplicationController
     @track.credit_alias = 'Points'
     @track.public = true
     @user = current_user
-    @user.email = ''
+    @user.email = 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @track }

@@ -171,6 +171,7 @@ get 'logout', to: 'sessions#destroy', as: 'logout'
       end
       member do
         get 'close'
+        get 'cancel'
         get 'payout'
         post 'sort'
         #get 'credits'

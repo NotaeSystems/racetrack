@@ -6,13 +6,31 @@ class Race < ActiveRecord::Base
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
-                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta
+                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, :morning_line, :results 
 
-
+  def cancel
+      self.bets.where(:status => 'Pending').each do |bet|
+        Credit.create(:user_id => bet.user_id,
+                           :meet_id => bet.meet_id,
+                           :amount => bet.amount,
+                           :description => "#{self.name}--Canceled. Returned bet.",
+                           :card_id => self.race.card_id,
+                           :credit_type => "Race cancelled",
+                           :track_id => self.track_id
+                             ) 
+       bet.status = 'Cancelled'
+       bet.amount = 0
+       self.status = 'Cancelled'
+       self.save
+       bet.save
+       bet.user.update_ranking(self.race.card.meet.id, bet.amount)
+     end
+  end
 
   def betting_status
     return 'Paid Out' if self.status == 'Paid Out'
     return 'Closed' if self.status == 'Closed'
+    return 'Finished' if self.status == 'Finished'
 
     ## check card status
     return 'Closed' if self.card.status == 'Closed'
@@ -113,7 +131,7 @@ class Race < ActiveRecord::Base
     ## find all other bets and mark as Losing Bet
     losers = self.bets.where(:status => 'Pending')
     losers.update_all(:status => 'Losing Bet')
-    self.status = 'Paid Out'
+    self.status = 'Finished'
     self.save
   end
   

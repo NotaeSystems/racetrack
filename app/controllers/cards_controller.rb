@@ -1,7 +1,7 @@
 class CardsController < ApplicationController
   # GET /cards
   # GET /cards.json
-
+  before_filter :login_required, :except => [:show]
   def sort
     @card = Card.find(params[:id])
     if user_is_track_manager?(@card.meet.track)

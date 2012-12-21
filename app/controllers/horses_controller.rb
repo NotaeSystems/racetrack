@@ -1,6 +1,7 @@
 class HorsesController < ApplicationController
   # GET /horses
   # GET /horses.json
+  before_filter :login_required, :except => [:index, :show]
 
   def sort
     render nothing: true

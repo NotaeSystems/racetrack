@@ -1,5 +1,5 @@
 class PusherController < ApplicationController
-
+  before_filter :login_required
 
  def send_message
    @channel = params[:channel]

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121220103254) do
+ActiveRecord::Schema.define(:version => 20121221132501) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -193,6 +193,8 @@ ActiveRecord::Schema.define(:version => 20121220103254) do
     t.boolean  "quintella"
     t.boolean  "trifecta"
     t.boolean  "exacta"
+    t.text     "morning_line"
+    t.text     "results"
   end
 
   create_table "rankings", :force => true do |t|

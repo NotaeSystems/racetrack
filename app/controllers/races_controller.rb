@@ -36,9 +36,17 @@ class RacesController < ApplicationController
     ## award credits to winners
     ## determine odds
     respond_to do |format|
-      format.html { redirect_to @race, notice: 'Race was successfully closed.' }
+      format.html { redirect_to @race, notice: "Race was successfully #{status}." }
       format.json { render json: @race }
     end
+  end
+
+
+  def cancel
+    @race = Race.find(params[:id])
+    @race.cancel
+    flash[:notice] = 'Race was successfully Cancelled and Bets returned.'
+    redirect_to @race
   end
 
   def payout

@@ -1,6 +1,7 @@
 class AchievementsController < ApplicationController
   # GET /achievements
   # GET /achievements.json
+  before_filter :login_required, :except => [:show]
   def facebook
        @achievement = Achievement.find(params[:id])
 

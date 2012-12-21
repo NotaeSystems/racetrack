@@ -1,7 +1,7 @@
 
 
-
-<div class='box2'>
+<%unless current_user.blank? %>
+  <div class='box2'>
      
 
      <strong><%= link_to 'Dashboard', myaccount_path, :class => 'btn btn-mini btn-info' %> </strong>  
@@ -29,6 +29,11 @@ return false;
   });
 
 </script>
+
+<%else%>
+     <strong><%= link_to 'Home', root_path, :class => 'btn btn-mini btn-info' %> </strong> 
+
+<%end%>
  
 
 

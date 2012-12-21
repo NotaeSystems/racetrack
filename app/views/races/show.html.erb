@@ -47,21 +47,31 @@
 </p>
 <%if user_is_track_manager?(@track) %>
     <%if @race.status == 'Open' %>
-      <%= link_to "Close #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Close'), :class => 'btn btn-mini btn-warning' %>
-    <%else%>
+      <%= link_to "Close #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Closed'), :class => 'btn btn-mini btn-warning' %>
+      <%= link_to "Pending Payout #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Pending Payout'), :class => 'btn btn-mini btn-warning' %>
+    <% elsif @race.status == 'Pending Payout' %>
       <%= link_to "Open #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Open'), :class => 'btn btn-mini btn-warning' %>
       <%= link_to "Payout #{@track.race_alias}", payout_race_path(:id => @race.id), :class => 'btn btn-mini btn-warning', data: { confirm: 'Are you sure? This will payout this race.' } %>
+    <%else%>
+      <%= link_to "Open #{@track.race_alias}", close_race_path(:id => @race.id, :status => 'Open'), :class => 'btn btn-mini btn-warning' %>
+
     <%end%>
    <%= link_to "Delete #{@track.race_alias}", @race, method: :delete, data: { confirm: 'Are you sure? This will delete this race.' }, :class => 'btn btn-mini btn-danger' %>
+      <%= link_to "Cancel  #{@track.race_alias}", cancel_race_path(@race, :status => 'Canceled'), :class => 'btn btn-mini btn-warning', data: { confirm: 'Are you sure? This will cancel this race.' } %>
 <td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 <br /><br />
-<%if @race.exacta?%>
-<%= link_to 'Exacta', exacta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+
+<%if @race.status == 'Open' %>
+  <%if @race.exacta?%>
+    <%= link_to 'Exacta', exacta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+  <%end%>
+  <%if @race.trifecta?%>
+    <%= link_to 'Trifecta', trifecta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+ <%end%>
 <%end%>
-<%if @race.trifecta?%>
-<%= link_to 'Trifecta', trifecta_path(:race_id => @race.id), :class => 'btn btn-success' %>
-<%end%>
+
+    <%if @race.status == 'Open' || @race.status == 'Pending Payout' %>
 <table id='horses' class='table table-striped table-bordered table-condensed'>
 
   <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
@@ -107,15 +117,43 @@
 <% end %>
  </tbody>
 </table>
+<%end%>
 
+<%if @race.status == 'Finished' %>
+<p><%=@race.results %></p>
+<h4>Results</h4>
+<table id='horses' class='table table-striped table-bordered table-condensed'>
+
+  <tbody id="races">
+<% @horses.order('finish').each do |horse| %>
+
+  <tr id="horse_<%=horse.id%>">
+
+    <td><%= horse.finish %></td>
+    <td><strong><%= horse.position %></strong></td>
+    <td><strong><%= horse.name %></strong></td>
+    <td><%= horse.description %></td>
+    <td>Total <%=@track.bet_alias%>: Win Pot: <%= horse.total_bets('Win') %> Odds: <%=horse.odds('Win')%></td>
 <br />
+  </tr>
+<% end %>
+ </tbody>
+</table>
+<%end%>
+
+<%if @race.status == 'Canceled' %>
+<p> Race is canceled.</p>
+<%end%>
 <%if user_is_track_manager?(@track) %>
 <%= link_to "New #{@track.horse_alias}", new_horse_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
 
 
 <%end%>
 </div>
-
+<div class='morning_line'>
+<h4>Morning Line</h4>
+<%= @race.morning_line %>
+</div>
 <h5>Comments on <%=@race.name%></h5>
 
 </div>

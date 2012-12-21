@@ -11,14 +11,18 @@
     <%= f.label :name_cont, "Name contains" %>
     <%= f.text_field :name_cont %>
   </div>
+
   <div class="field">
     <%= f.label :status_cont, "Status" %>
     <%= f.select :status_cont, ['Open','Closed']  %>
   </div>
   <div class="field">
     <%= f.label :membership_cont, "Membership" %>
-    <%= f.select :membership_cont, ['Member','Pending','Manager','Banned']  %>
+    <%= f.select :membership_cont, ['Public', 'Private']  %>
   </div>
+
+
+
   <div class="actions"><%= f.submit "Search" %></div>
 <% end %>
 
