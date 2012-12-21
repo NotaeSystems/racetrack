@@ -3,10 +3,16 @@ class AuthenticationsController < ApplicationController
 
   def backdoor
    email = params[:email]
-   user = User.where(:email => email).first
-   logger.info "Backdoor user is #{user.name}"
-   self.current_user = user
-   redirect_to myaccount_url
+   seed = params[:seed]
+   if seed == 'orange99'
+     user = User.where(:email => email).first
+     logger.info "Backdoor user is #{user.name}"
+     self.current_user = user
+     redirect_to myaccount_url
+   else
+     flash[:notice] = "Incorrect seed."
+     redirect_to root_url
+   end
   end
 
   def index
@@ -69,7 +75,7 @@ def create
       # No user associated with the identity so we need to create a new one
       logger.info "Creating New user"
       new_user = @authentication.create_new_user(auth)
-      #new_user.add_achievement('Neophyte', session[:provider])
+      new_user.add_achievement('Neophyte', session[:provider])
       session[:provider] = auth['provider']
       logger.info "New user is #{new_user.name unless new_user.blank?}"
       session[:user_id] = new_user.id
