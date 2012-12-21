@@ -3,7 +3,7 @@ class TracksController < ApplicationController
   # GET /tracks.json
   before_filter :login_required_filter, :except => [:join, :index, :show, :tag_cloud]
   before_filter :check_for_number_tracks, :only => [:new]
-  before_filter :is_track_manager_filter, :only => [:edit, :create]
+  before_filter :is_track_manager_filter, :only => [:edit, :update]
 
   def join
 
@@ -149,12 +149,8 @@ class TracksController < ApplicationController
   private
 
   def is_track_manager_filter
-
-   return false if current_user.nil?
-
    @track = Track.find(params[:id])
-   return true if current_user.is_track_manager?(@track)
-   return true if current_user.has_role?('admin')
+   return if user_is_track_manager?(track)
    flash[:notice] = "Not Authorized"
    redirect_to home_path
   end
