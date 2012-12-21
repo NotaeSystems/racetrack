@@ -78,7 +78,7 @@ def create
 
       session[:provider] = auth['provider']
       logger.info "New user is #{new_user.name unless new_user.blank?}"
-      #session[:user_id] = new_user.id
+      session[:user_id] = new_user.id
       @authentication.user = current_user
       @authentication.save()
       new_user.add_achievement('Neophyte', session[:provider])
