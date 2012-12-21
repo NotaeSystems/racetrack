@@ -14,13 +14,13 @@ class BetsController < ApplicationController
     if params[:user]
       @bets = Bet.where(:user_id => params[:user] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:race]
-      @bets = Bet.where(:race_id =>params[:race] ).page(params[:page]).per_page(30)
+      @bets = Bet.where(:race_id =>params[:race] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:card]
-      @bets = Bet.where(:card_id =>params[:card] ).page(params[:page]).per_page(30)
+      @bets = Bet.where(:card_id =>params[:card] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:trac]
-      @bets = Bet.where(:track_id =>params[:track] ).page(params[:page]).per_page(30)
+      @bets = Bet.where(:track_id =>params[:track] ).order('created_at DESC').page(params[:page]).per_page(30)
     else
-      @bets = Bet.page(params[:page]).per_page(30)
+      @bets = Bet.order('created_at DESC').page(params[:page]).per_page(30)
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -104,7 +104,8 @@ class BetsController < ApplicationController
       @bet.user_id = current_user.id
       @bet.meet_id = @horse.race.card.meet.id
       @bet.race_id = @horse.race.id
-      
+      @bet.card_id = @horse.card.id  
+      @bet.track_id = @horse.track    
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @bet }
