@@ -1,10 +1,11 @@
 class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
-    before_filter :login_required_filter
+  before_filter :login_required_filter
   before_filter :check_for_initial_credits, :only => [:new, :exacta]
-  before_filter :check_for_post_time, :only => [:create, :create_exacta]
   before_filter :check_credits_for_zero_balance, :only => [:new, :exacta]
+
+  before_filter :check_for_post_time, :only => [:create, :create_exacta]
   before_filter :check_credits_for_sufficient_balance, :only => [:create, :create_exacta]
 
 
@@ -211,34 +212,6 @@ class BetsController < ApplicationController
 
   private
 
-  def check_credits_for_zero_balance
-      #@race = Race.find(params[:race_id])
-      #@card = @race.card
-      balance = current_user.card_balance(@card)
-      return if balance > 0
-      flash[:warning] = "Sorry, you are out of credits for this card."
-      redirect_to race_path(:id => @race.id)
-  end
-
-  def check_credits_for_sufficient_balance
-      @amount = params[:bet][:amount].to_i
-     # @race = Race.find(params[:bet][:race_id])
-      #@card = @race.card
-      balance = current_user.card_balance(@card)
-      return if balance > @amount 
-      flash[:warning] = "Sorry, you do not have enough card credits for this bet."
-      redirect_to race_path(:id => @race.id)
-  end
-
-  def check_for_post_time
-    @race = Race.find(params[:bet][:race_id])
-    post_time = @race.post_time
-    return if post_time > Time.zone.now
-    flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
-    redirect_to race_path(:id => @race.id)
-     
-  end
- 
   def check_for_initial_credits
     @horse = Horse.find(params[:horse_id])
     @race = @horse.race
@@ -255,5 +228,39 @@ class BetsController < ApplicationController
     logger.info "Refreshing credits- #{@card.initial_credits}\n"
     @card.refresh_credits(current_user, 'Initial', @card.initial_credits)
   end
+
+  def check_credits_for_zero_balance
+      #@race = Race.find(params[:race_id])
+      #@card = @race.card
+      balance = current_user.card_balance(@card)
+      return if balance > 0
+      flash[:warning] = "Sorry, you are out of credits for this card."
+      redirect_to race_path(:id => @race.id)
+  end
+
+
+  def check_for_post_time
+    @race = Race.find(params[:bet][:race_id])
+    
+    post_time = @race.post_time
+    return if post_time > Time.zone.now
+    flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
+    redirect_to race_path(:id => @race.id)
+     
+  end
+
+
+  def check_credits_for_sufficient_balance
+      @amount = params[:bet][:amount].to_i
+      #@race = Race.find(params[:bet][:race_id])
+      @card = @race.card
+      balance = current_user.card_balance(@card)
+      return if balance > @amount 
+      flash[:warning] = "Sorry, you do not have enough card credits for this bet."
+      redirect_to race_path(:id => @race.id)
+  end
+
+ 
+
 
 end
