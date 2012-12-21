@@ -75,12 +75,13 @@ def create
       # No user associated with the identity so we need to create a new one
       logger.info "Creating New user"
       new_user = @authentication.create_new_user(auth)
-      new_user.add_achievement('Neophyte', session[:provider])
+
       session[:provider] = auth['provider']
       logger.info "New user is #{new_user.name unless new_user.blank?}"
-      session[:user_id] = new_user.id
+      #session[:user_id] = new_user.id
       @authentication.user = current_user
       @authentication.save()
+      new_user.add_achievement('Neophyte', session[:provider])
       redirect_to myaccount_url, notice: "Welcome! Your are now signed in."
     end
   end
