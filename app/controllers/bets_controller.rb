@@ -212,8 +212,8 @@ class BetsController < ApplicationController
   private
 
   def check_credits_for_zero_balance
-      @race = Race.find(params[:race_id])
-      @card = @race.card
+      #@race = Race.find(params[:race_id])
+      #@card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > 0
       flash[:warning] = "Sorry, you are out of credits for this card."
@@ -222,8 +222,8 @@ class BetsController < ApplicationController
 
   def check_credits_for_sufficient_balance
       @amount = params[:bet][:amount].to_i
-      @race = Race.find(params[:bet][:race_id])
-      @card = @race.card
+     # @race = Race.find(params[:bet][:race_id])
+      #@card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > @amount 
       flash[:warning] = "Sorry, you do not have enough card credits for this bet."
@@ -231,7 +231,7 @@ class BetsController < ApplicationController
   end
 
   def check_for_post_time
-    @race = Race.find(params[:bet][:race_id])
+    #@race = Race.find(params[:bet][:race_id])
     post_time = @race.post_time
     return if post_time > Time.zone.now
     flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
