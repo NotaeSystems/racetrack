@@ -231,7 +231,7 @@ class BetsController < ApplicationController
   end
 
   def check_for_post_time
-    #@race = Race.find(params[:bet][:race_id])
+    @race = Race.find(params[:bet][:race_id])
     post_time = @race.post_time
     return if post_time > Time.zone.now
     flash[:warning] = "Sorry, post time has passed. No futher betting allowd."
