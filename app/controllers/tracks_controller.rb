@@ -150,7 +150,7 @@ class TracksController < ApplicationController
 
   def is_track_manager_filter
    @track = Track.find(params[:id])
-   return if user_is_track_manager?(track)
+   return true if user_is_track_manager?(@track)
    flash[:notice] = "Not Authorized"
    redirect_to home_path
   end
