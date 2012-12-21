@@ -2,6 +2,7 @@ class CardsController < ApplicationController
   # GET /cards
   # GET /cards.json
   before_filter :login_required_filter, :except => [:show]
+  before_filter :is_track_manager_filter, :only => [:edit, :update]
   def sort
     @card = Card.find(params[:id])
     if user_is_track_manager?(@card.meet.track)
@@ -152,10 +153,12 @@ class CardsController < ApplicationController
     end
   end
 
-  private 
-
-  def is_track_manager?
-   return true if user_is_track_manager?
-
-   end
+  private
+  def is_track_manager_filter
+   @card = Card.find(params[:id])
+   @track = @card.track
+   return true if user_is_track_manager?(@track)
+   flash[:notice] = "Not Authorized"
+   redirect_to home_path
+  end
 end
