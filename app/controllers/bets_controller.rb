@@ -213,8 +213,7 @@ class BetsController < ApplicationController
   private
 
   def check_for_initial_credits
-    @horse = Horse.find(params[:horse_id])
-    @race = @horse.race
+    @race = Race.find(params[:race_id])
     @card = @race.card
     @track = @card.meet.track
     ## see if bettor is member of this track
@@ -230,8 +229,8 @@ class BetsController < ApplicationController
   end
 
   def check_credits_for_zero_balance
-      #@race = Race.find(params[:race_id])
-      #@card = @race.card
+      @race = Race.find(params[:race_id])
+      @card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > 0
       flash[:warning] = "Sorry, you are out of credits for this card."
@@ -252,7 +251,7 @@ class BetsController < ApplicationController
 
   def check_credits_for_sufficient_balance
       @amount = params[:bet][:amount].to_i
-      #@race = Race.find(params[:bet][:race_id])
+     @race = Race.find(params[:bet][:race_id])
       @card = @race.card
       balance = current_user.card_balance(@card)
       return if balance > @amount 
