@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :login_required, :except => [:new, :create]
+  before_filter :login_required_filter, :except => [:new, :create]
+  before_filter :user_is_admin_filter?, :only => [:login_as, :add_role, :remove_role, :index, :destroy]
 
   def add_role
    user_id = params[:user_id]

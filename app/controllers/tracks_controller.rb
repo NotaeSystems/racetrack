@@ -1,7 +1,7 @@
 class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
-  before_filter :login_required, :except => [:join, :index, :show, :tag_cloud]
+  before_filter :login_required_filter, :except => [:join, :index, :show, :tag_cloud]
   before_filter :check_for_number_tracks, :only => [:new]
 
 

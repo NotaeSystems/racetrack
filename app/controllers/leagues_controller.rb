@@ -1,7 +1,7 @@
 class LeaguesController < ApplicationController
   # GET /leagues
   # GET /leagues.json
-  before_filter :login_required, :except => [:index, :show, :tag_cloud]
+  before_filter :login_required_filter, :except => [:index, :show, :tag_cloud]
 
   def join
      @league = League.find(params[:id])

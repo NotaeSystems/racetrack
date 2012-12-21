@@ -1,7 +1,7 @@
 class MeetsController < ApplicationController
   # GET /meets
   # GET /meets.json
-  before_filter :login_required, :except => [:show]
+  before_filter :login_required_filter, :except => [:show]
 
   def refresh_credits
     @meet = Meet.find(params[:id])

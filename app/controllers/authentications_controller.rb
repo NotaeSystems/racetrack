@@ -1,5 +1,7 @@
 class AuthenticationsController < ApplicationController
- skip_before_filter :verify_authenticity_token, only: :create
+  before_filter :login_required_filter, :except => [:backdoor,  :create]
+  before_filter :user_is_admin_filter?, :only => [:index]
+  skip_before_filter :verify_authenticity_token, only: :create
 
   def backdoor
    email = params[:email]

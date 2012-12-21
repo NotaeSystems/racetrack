@@ -1,6 +1,7 @@
 class RacesController < ApplicationController
   # GET /races
   # GET /races.json
+   before_filter :login_required_filter
   before_filter :check_for_winners, :only => [:payout]
   before_filter :check_for_placers, :only => [:payout]
   before_filter :check_for_showers, :only => [:payout]

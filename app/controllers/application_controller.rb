@@ -6,16 +6,15 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
   
-  def login_required
-    return true if current_user
-    redirect_to root_path, :alert => "Must be logged in "
-  end
+
 
   def user_is_track_manager?(track)
    return false if current_user.nil?
    return true if current_user.has_role?('admin')
    current_user.is_track_manager?(track)
   end
+
+
 
   protected
   def current_user
@@ -41,6 +40,17 @@ class ApplicationController < ActionController::Base
 private
   def authorize
     redirect_to login_url, alert: "Not authorized" if current_user.nil?
+  end
+
+  def login_required_filter
+    return true if current_user
+    redirect_to root_path, :alert => "Must be logged in "
+  end
+
+  def user_is_admin_filter?
+   return false if current_user.nil?
+   return true if current_user.has_role?('admin')
+   redirect_to root_path, :alert => "Not Authorized! "
   end
 
   def user_time_zone(&block)

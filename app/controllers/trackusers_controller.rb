@@ -1,7 +1,7 @@
 class TrackusersController < ApplicationController
   # GET /trackusers
   # GET /trackusers.json
-  before_filter :login_required, :except => ['index',:show]
+  before_filter :login_required_filter, :except => ['index',:show]
 
   def index
     if params[:status] == 'Pending'
