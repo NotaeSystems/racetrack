@@ -15,7 +15,7 @@
   <tr>
        <td><%= image_tag avatar_url(bet.user) %><br />
     <small><%= bet.user.name %></small></td>
-    <td><%= link_to "#{bet.horse.track.name} -> #{bet.horse.race.card.meet.name} -> #{bet.horse.race.card.name}-#{bet.horse.name}", race_path(:id => bet.horse.race.id), :class => 'btn btn-block' %></td>
+    <td><%= link_to "#{bet.track.name unless bet.track.blank?} -> #{bet.meet.name unless bet.meet.blank?} -> #{bet.card.name unless bet.card.blank}-#{bet.horse.name}", race_path(:id => bet.horse.race.id), :class => 'btn btn-block' %></td>
     <td><%= bet.amount %></td>
     <td><%= bet.bet_type %></td>
     <td><%= bet.status %></td>

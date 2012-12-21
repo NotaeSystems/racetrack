@@ -6,13 +6,15 @@
   <div class="form-inputs">
 
     <%= f.hidden_field :user_id , :value => current_user.id%>
-    <%= f.hidden_field :horse_id , :value => @bet.horse_id%>
-    <%= f.hidden_field :race_id , :value => @horse.race.id%>
     <%= f.hidden_field :track_id , :value => @track.id%>
+    <%= f.hidden_field :meet_id , :value => @meet.id%>
+    <%= f.hidden_field :card_id , :value => @meet.id%>
+    <%= f.hidden_field :race_id , :value => @horse.race.id%>
+    <%= f.hidden_field :horse_id , :value => @bet.horse_id%>
+
     <%= f.input :amount, :required => true %>
     <%= f.select :bet_type ,allowed_bets %>
 
-    <%= f.hidden_field :meet_id , :value => @bet.meet_id%>
   </div>
 
   <div class="form-actions">
