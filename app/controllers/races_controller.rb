@@ -2,9 +2,11 @@ class RacesController < ApplicationController
   # GET /races
   # GET /races.json
    before_filter :login_required_filter
+   before_filter :is_track_manager_filter, :only =>[:edit, :update, :push_message, :close, :cancel, :open, :send_message, :payout]
   before_filter :check_for_winners, :only => [:payout]
   before_filter :check_for_placers, :only => [:payout]
   before_filter :check_for_showers, :only => [:payout]
+
 
   def sort
     @race = Race.find(params[:id])
@@ -156,6 +158,14 @@ class RacesController < ApplicationController
   end
 
   private
+
+  def is_track_manager_filter
+   @race = Race.find(params[:id])
+   @track = @race.track
+   return true if user_is_track_manager?(@track)
+   flash[:notice] = "Not Authorized"
+   redirect_to home_path
+  end
 
   def check_for_winners
     @race = Race.find(params[:id])
