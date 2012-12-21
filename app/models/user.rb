@@ -158,8 +158,8 @@ class User < ActiveRecord::Base
     return false if track.nil?
     return true if track.owner_id == self.id
     return true if self.has_role? :admin
-    leagueuser = Leagueuser.where(:user_id => self.id, :track_id => track.id, :status => 'Manager').first
-    return true unless leagueuser.blank?
+    trackuser = Trackuser.where(:user_id => self.id, :track_id => track.id, :status => 'Manager').first
+    return true unless trackuser.blank?
     false
     
   end
