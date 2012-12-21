@@ -2,6 +2,7 @@ class MeetsController < ApplicationController
   # GET /meets
   # GET /meets.json
   before_filter :login_required_filter, :except => [:show]
+  before_filter :is_track_manager_filter, :only => [:edit, :update]
 
   def refresh_credits
     @meet = Meet.find(params[:id])
@@ -97,5 +98,13 @@ class MeetsController < ApplicationController
       format.html { redirect_to track_url(:id => @track.id) }
       format.json { head :no_content }
     end
+  end
+  private
+  def is_track_manager_filter
+   @meet = Meet.find(params[:id])
+   @track = @meet.track
+   return true if user_is_track_manager?(@track)
+   flash[:notice] = "Not Authorized"
+   redirect_to home_path
   end
 end
