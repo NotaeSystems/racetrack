@@ -240,8 +240,8 @@ class BetsController < ApplicationController
   end
  
   def check_for_initial_credits
-    #  @horse = Horse.find(params[:horse_id])
-    @race = Race.find(params[:race_id])
+    @horse = Horse.find(params[:horse_id])
+    @race = @horse.race
     @card = @race.card
     @track = @card.meet.track
     ## see if bettor is member of this track
