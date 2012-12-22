@@ -1,6 +1,8 @@
 class LeagueusersController < ApplicationController
   # GET /leagueusers
   # GET /leagueusers.json
+  before_filter :is_league_manager_filter, :only =>[:edit, :update]
+
   def index
     if params[:status] == 'Pending'
       @league = League.find(params[:league_id])
@@ -92,5 +94,15 @@ class LeagueusersController < ApplicationController
       format.html  { redirect_to leagueusers_url(:league_id => @league.id), notice: 'League Member was successfully removed.' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def is_league_manager_filter
+   @leagueuser = Leagueuser.find(params[:id])
+   @league = @leagueuser.league
+   return true if user_is_league_manager?(@league)
+   flash[:error] = "Not Authorized as League Manager"
+   redirect_to(message_path)
   end
 end

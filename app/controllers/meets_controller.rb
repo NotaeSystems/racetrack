@@ -104,7 +104,7 @@ class MeetsController < ApplicationController
    @meet = Meet.find(params[:id])
    @track = @meet.track
    return true if user_is_track_manager?(@track)
-   flash[:notice] = "Not Authorized"
-   redirect_to home_path
+   flash[:error] = "Not Authorized as Track Manager"
+   redirect_to(message_path)
   end
 end

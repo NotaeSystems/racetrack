@@ -19,6 +19,15 @@ class ApplicationController < ActionController::Base
   end
 
 
+  def user_is_league_manager?(league)
+   return false if league.nil?
+   return false if current_user.nil?
+   return true if current_user.has_role?('admin')
+   return true if league.owner_id == current_user.id
+   leagueuser = Leagueuser.where(:user_id => current_user.id, :league_id => league.id, :status => 'Manager').first
+   return true unless leagueuser.blank?
+   false
+  end
 
   protected
   def current_user
@@ -33,7 +42,14 @@ class ApplicationController < ActionController::Base
  def user_signed_in?
     !!current_user
  end
- helper_method  :current_user,:signed_in?, :user_signed_in?
+
+  def user_is_admin?
+   return false if current_user.nil?
+   return true if current_user.has_role?('admin')
+   false
+  end
+
+ helper_method  :current_user,:signed_in?, :user_signed_in?, :user_is_admin?
 
  def current_user=(user)
    @current_user = user

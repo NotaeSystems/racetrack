@@ -38,10 +38,10 @@ module ApplicationHelper
    return false
   end
 
-  def user_is_admin?
-   return false if current_user.nil?
-   return true if current_user.has_role?('admin')
-  end
+ # def user_is_admin?
+ #  return false if current_user.nil?
+ #  return true if current_user.has_role?('admin')
+ # end
 
   def user_is_track_owner?(track)
    return false if current_user.nil?

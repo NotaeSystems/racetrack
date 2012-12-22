@@ -94,7 +94,7 @@
         <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id, :race_id => @race.id), :class => 'btn btn-success' %></td>
        
       <%else%>
-        <td><%= link_to "#{@track.bet_alias} and Get #{@card.initial_credits} #{@track.credit_alias.pluralize}", new_bet_path(:horse_id => horse.id,:race_id => @race.id), :class => 'btn btn-success' %></td>
+        <td><%= link_to "#{@track.bet_alias} and Get #{@card.initial_credits} #{@track.credit_alias.pluralize}", new_bet_path(:horse_id => horse.id, :race_id => @race.id), :class => 'btn btn-success' %></td>
       <%end%>
     <%else%>
       <td><%= link_to "Login to #{@track.bet_alias}", new_user_session_path , :class => 'btn btn-mini btn-info' %> </td>

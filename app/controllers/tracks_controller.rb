@@ -151,8 +151,8 @@ class TracksController < ApplicationController
   def is_track_manager_filter
    @track = Track.find(params[:id])
    return true if user_is_track_manager?(@track)
-   flash[:notice] = "Not Authorized"
-   redirect_to home_path
+   flash[:error] = "Not Authorized as Track Manager"
+   redirect_to(message_path)
   end
 
   def check_for_number_tracks
@@ -160,7 +160,7 @@ class TracksController < ApplicationController
     count = Track.where(:owner_id => current_user.id).count
     if count > 1
      flash[:notice] = "Sorry you can only own one track at this time."
-     redirect_to home_path
+     redirect_to(message_path)
     end
   end
 end

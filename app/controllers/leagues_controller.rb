@@ -2,17 +2,24 @@ class LeaguesController < ApplicationController
   # GET /leagues
   # GET /leagues.json
   before_filter :login_required_filter, :except => [:index, :show, :tag_cloud]
+  before_filter :is_league_manager_filter, :only =>[:edit, :update]
 
   def join
      @league = League.find(params[:id])
-     @status = params[:status]
-     
+     #@status = params[:status]
+     if @league.membership == 'Public'
+       @status = 'Member'
+       message = 'Welcome. You have successfully joined!.'
+     else
+       @status = 'Pending'
+       messsage = 'Your membership is pending. Please check back later.'
+     end
      leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => @status)
       logger.info "session provider is #{session[:provider]}\n"
        if session[:provider].to_s == 'facebook'
        #     current_user.facebook.put_wall_post("I joined the league #{@league.name} on  Fantasy Odds Maker. Come compete with me.", :description => @league.description, :link => "http://www.fantasyoddsmaker.com/leagues/#{@league.id}")
        end
-       redirect_to @league, notice: 'Welcome. You have successfully joined!.'
+       redirect_to @league, notice: message
   end
 
   def quit
@@ -112,4 +119,14 @@ class LeaguesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def is_league_manager_filter
+   @league = League.find(params[:id])
+   return true if user_is_league_manager?(@league)
+   flash[:error] = "Not Authorized as League Manager"
+   redirect_to(message_path)
+  end
+
 end

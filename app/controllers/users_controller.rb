@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :login_required_filter, :except => [:new, :create]
   before_filter :user_is_admin_filter?, :only => [:login_as, :add_role, :remove_role, :index, :destroy]
+  before_filter :check_for_user, :only => [:edit, :update]
 
   def add_role
    user_id = params[:user_id]
@@ -129,25 +130,33 @@ class UsersController < ApplicationController
   
   def edit
     @user = User.find(params[:id])
+    if current_user == @user.id || user_is_admin?
+    
+    else
 
+    end
   end  
 
   def update
    # authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
-    @user.name = params[:user][:name]
-    @user.email = params[:user][:email]
-    unless params[:user][:password].blank?
-      @user.password = params[:user][:password]
-      @user.password_confirmation = params[:user][:password_confirmation]
-    end
-    @user.time_zone = params[:user][:time_zone]
-    @user.encrypt_password
-   # if @user.update_attributes(params[:user], :as => :admin)
-     if @user.save
-      redirect_to myaccount_path, :notice => "User updated."
+    if current_user == @user.id || user_is_admin?
+      @user.name = params[:user][:name]
+      @user.email = params[:user][:email]
+      unless params[:user][:password].blank?
+        @user.password = params[:user][:password]
+        @user.password_confirmation = params[:user][:password_confirmation]
+      end
+      @user.time_zone = params[:user][:time_zone]
+      @user.encrypt_password
+      # if @user.update_attributes(params[:user], :as => :admin)
+      if @user.save
+        redirect_to myaccount_path, :notice => "User updated."
+      else
+        redirect_to myaccount_path, :alert => "Unable to update user."
+      end
     else
-      redirect_to myaccount_path, :alert => "Unable to update user."
+        redirect_to message_path, :error => "Unable to update user."
     end
   end
     
@@ -160,5 +169,13 @@ class UsersController < ApplicationController
     else
       redirect_to users_path, :notice => "Can't delete yourself."
     end
+  end
+  private
+
+  def check_for_user
+    @user = User.find(params[:id])
+    return true if current_user.id == @user.id || user_is_admin?
+    flash[:error] = "Not Authorized"
+    redirect_to(message_path)
   end
 end

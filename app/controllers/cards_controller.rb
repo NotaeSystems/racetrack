@@ -159,7 +159,7 @@ class CardsController < ApplicationController
    @card = Card.find(params[:id])
    @track = @card.track
    return true if user_is_track_manager?(@track)
-   flash[:notice] = "Not Authorized"
-   redirect_to home_path
+   flash[:notice] = "Not Authorized as Track Manager"
+   redirect_to(message_path)
   end
 end

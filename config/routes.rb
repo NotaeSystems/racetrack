@@ -67,6 +67,7 @@ Myapp::Application.routes.draw do
       end 
 
   end
+  match "message" => "home#message", :as => :message
   match "privacy" => "home#privacy", :as => :privacy
   match "terms" => "home#terms", :as => :terms
   match "about" => "home#about", :as => :about

@@ -2,6 +2,7 @@ class TrackusersController < ApplicationController
   # GET /trackusers
   # GET /trackusers.json
   before_filter :login_required_filter, :except => ['index',:show]
+  before_filter :is_track_manager_filter, :only => [:edit, :update]
 
   def index
     if params[:status] == 'Pending'
@@ -94,4 +95,15 @@ class TrackusersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def is_track_manager_filter
+   @trackuser = Trackuser.find(params[:id])
+   @track = @trackuser.track
+   return true if user_is_track_manager?(@track)
+   flash[:error] = "Not Authorized as Track Manager"
+   redirect_to(message_path)
+  end
+
 end

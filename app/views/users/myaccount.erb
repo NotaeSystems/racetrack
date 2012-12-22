@@ -13,8 +13,7 @@
 
      <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini ' %> </strong> <br /><br />
      <strong><%= link_to 'All My Bets', mybets_path, :class => 'btn btn-mini' %> </strong> <br /><br />
-      <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini ' %></strong>
-      <strong>    <%= link_to 'Associate My Twitter Account', '/auth/twitter/', :class => 'btn btn-mini ' %></strong><br /><br />
+
 
      <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini ' %> </strong> <br /><br /> <p>Your Name: <%=current_user.name%> <br />Time Zone: <%=current_user.time_zone %>  <br /> <strong><%= link_to 'Edit account', edit_user_path(:id => current_user.id), :class => 'btn btn-mini btn-info ' %></strong></p>
   
@@ -25,7 +24,8 @@
     <%end%>
 </div>
 <br />
-
+      <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini ' %></strong>
+      <strong>    <%= link_to 'Associate My Twitter Account', '/auth/twitter/', :class => 'btn btn-mini ' %></strong><br /><br />
 <script language="javascript" type="text/javascript">
 
  $('#app_request').click(function () {

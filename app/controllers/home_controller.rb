@@ -5,5 +5,7 @@ class HomeController < ApplicationController
 
   end
 
-
+  def message
+   @message = params[:message]
+  end
 end
