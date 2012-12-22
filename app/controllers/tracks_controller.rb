@@ -90,7 +90,9 @@ class TracksController < ApplicationController
     @track.credit_alias = 'Points'
     @track.public = true
     @user = current_user
-    @user.email = 
+    if current_user.encrypted_password.blank?
+      @user.email = ''
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @track }
