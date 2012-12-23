@@ -60,7 +60,7 @@ class MeetsController < ApplicationController
   # POST /meets.json
   def create
     @meet = Meet.new(params[:meet])
-
+    @meet.site_id = @site.id
     respond_to do |format|
       if @meet.save
         format.html { redirect_to @meet, notice: 'Meet was successfully created.' }

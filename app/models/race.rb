@@ -159,7 +159,8 @@ class Race < ActiveRecord::Base
                    :credit_type => bet_type,
                    :card_id => card_id,
                    :description => "Winnings: #{self.name} on #{bet_type}",
-                   :track_id => self.track_id
+                   :track_id => self.track_id,
+                   :site_id => self.site_id
                  
                  )
         bet.status = 'Paid Out'
@@ -203,7 +204,8 @@ class Race < ActiveRecord::Base
                    :credit_type => bet_type,
                    :card_id => card_id,
                    :description => "Winnings: #{self.name} on #{bet_type} on #{horse.name}",
-                   :track_id => self.track_id
+                   :track_id => self.track_id,
+                   :site_id => self.site_id
                  
                  )
         bet.status = 'Paid Out'

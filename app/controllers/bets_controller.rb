@@ -104,7 +104,7 @@ class BetsController < ApplicationController
       @bet.user_id = current_user.id
       @bet.meet_id = @horse.race.card.meet.id
       @bet.race_id = @horse.race.id
-      @bet.card_id = @horse.card.id  
+      @bet.card_id = @horse.card_id  
       @bet.track_id = @horse.track    
       respond_to do |format|
         format.html # new.html.erb
@@ -134,6 +134,7 @@ class BetsController < ApplicationController
     @card = @horse.race.card
     @bet.status = 'Pending'
     @bet.card_id = @card.id
+    @bet.site_id = @bet.site_id
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,
@@ -221,18 +222,18 @@ class BetsController < ApplicationController
     logger.info "Getting ready to create or find trackuser\n"
     trackuser = Trackuser.find_or_create_by_user_id_and_track_id(:user_id =>current_user.id, :track_id =>@track.id, :role => 'Handicapper', :allow_comments => false, :nickname => current_user.name, :status => 'Member')
     ## see if bettor has been given initial card credits
-    initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
-    logger.info "Initial credits = #{initial_credits.amount unless initial_credits.blank?}"
-    return unless initial_credits.nil?
+   # initial_credits = Credit.where("user_id = ? and credit_type = 'Initial' and card_id = ?", current_user.id, @card.id).first
+    #logger.info "Initial credits = #{initial_credits.amount unless initial_credits.blank?}"
+    #return unless initial_credits.nil?
     ## TODO check for source of credits later may be from meet
-    logger.info "Refreshing credits- #{@card.initial_credits}\n"
-    @card.refresh_credits(current_user, 'Initial', @card.initial_credits)
+    #logger.info "Refreshing credits- #{@card.initial_credits}\n"
+    #@card.refresh_credits(current_user, 'Initial', @card.initial_credits)
   end
 
   def check_credits_for_zero_balance
       @race = Race.find(params[:race_id])
       @card = @race.card
-      balance = current_user.card_balance(@card)
+      balance = current_user.credits_balance
       return if balance > 0
       flash[:warning] = "Sorry, you are out of credits for this card."
       redirect_to race_path(:id => @race.id)
@@ -254,8 +255,8 @@ class BetsController < ApplicationController
       @amount = params[:bet][:amount].to_i
      @race = Race.find(params[:bet][:race_id])
       @card = @race.card
-      balance = current_user.card_balance(@card)
-      return if balance > @amount 
+      balance = current_user.credits_balance
+      return if balance >= @amount 
       flash[:warning] = "Sorry, you do not have enough card credits for this bet."
       redirect_to race_path(:id => @race.id)
   end

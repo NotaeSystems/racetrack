@@ -1,8 +1,9 @@
 class Horse < ActiveRecord::Base
   belongs_to :race
   belongs_to :track
+  belongs_to :card
   has_many :bets, :dependent => :destroy
-  attr_accessible :description, :finish, :name, :race_id, :status, :track_id
+  attr_accessible :description, :finish, :name, :race_id, :status, :track_id, :card_id
 
   def total_bets(bet_type = nil)
     if bet_type

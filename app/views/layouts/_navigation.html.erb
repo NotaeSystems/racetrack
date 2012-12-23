@@ -1,24 +1,2 @@
 <%= link_to "Fantasy Odds Maker", root_path, :class => 'brand' %>
-<ul class="nav">
-  <% if user_signed_in? %>
-    <% if session[:provider] == 'facebook' %>
-      <li><%= image_tag('f_logo.png',:size => "32x32") %> </li>
-    <%elsif session[:provider] == 'twitter' %>
-      <li><%= image_tag('twitter.png',:size => "32x32") %> </li>
-    <%end%>
-   <li>
-   <strong><%= link_to " Logout-#{current_user.name}", logout_path, :class => 'btn btn-mini btn-info' %>       </strong> 
-    </li>
 
-  <% else %>
-    <li>
-      <strong>    <%= link_to 'Login with Facebook', '/auth/facebook/', :class => 'btn btn-mini btn-info' %></strong>
-      <strong>    <%= link_to 'Login with Twitter', '/auth/twitter/', :class => 'btn btn-mini btn-info' %></strong>
-    </li>
-    <li>
-      <strong> <%= link_to 'Login', login_path , :class => 'btn btn-mini btn-info' %></strong>  
-      <strong> <%= link_to 'Sign up', signup_path, :class => 'btn btn-mini btn-info' %> </strong>         
-    </li>
-  <% end %>
-
-</ul>

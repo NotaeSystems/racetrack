@@ -59,7 +59,7 @@ class HorsesController < ApplicationController
   # POST /horses.json
   def create
     @horse = Horse.new(params[:horse])
-
+    @horse.site_id = @site.id
     respond_to do |format|
       if @horse.save
         format.html { redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully created.' }

@@ -1,5 +1,7 @@
 Myapp::Application.routes.draw do
   
+  resources :sites
+
   #get "sessions/new"
   resources :users
   resources :sessions
@@ -88,6 +90,7 @@ Myapp::Application.routes.draw do
 get 'add_role', to: 'users#add_role', as: 'add_role'
 get 'remove_role', to: 'users#remove_role', as: 'remove_role'
 get 'signup', to: 'users#new', as: 'signup'
+get 'borrow', to: 'users#borrow_credits', as: 'borrow'
 get 'login', to: 'sessions#new', as: 'login'
 get 'logout', to: 'sessions#destroy', as: 'logout'
 

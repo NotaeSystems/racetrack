@@ -6,17 +6,17 @@ class CreditsController < ApplicationController
     if params[:user]
       @credits = Credit.where(:user_id => params[:user] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:card]
-       @credits = Credit.where(:card_id =>params[:card] ).page(params[:page]).per_page(30)
+       @credits = Credit.where(:card_id =>params[:card] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:track]
-       @credits = Credit.where(:track_id =>params[:track] ).page(params[:page]).per_page(30)
+       @credits = Credit.where(:track_id =>params[:track] ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:meet]
-       @credits = Credit.where(:meet_id =>params[:meet] ).page(params[:page]).per_page(30)
+       @credits = Credit.where(:meet_id =>params[:meet] ).order('created_at DESC').page(params[:page]).per_page(30)
     else
-       @credits= Credit.page(params[:page]).per_page(30)
+       @credits= Credit.page(params[:page]).order('created_at DESC').per_page(30)
     end
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @bets }
+      format.json { render json: @credits }
     end
   end
 

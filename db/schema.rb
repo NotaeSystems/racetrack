@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121221132501) do
+ActiveRecord::Schema.define(:version => 20121223132141) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "token"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "site_id"
   end
 
   create_table "bets", :force => true do |t|
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.integer  "place_id"
     t.integer  "show_id"
     t.integer  "fourth_id"
+    t.integer  "site_id"
   end
 
   create_table "cards", :force => true do |t|
@@ -75,6 +77,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "status"
     t.integer  "initial_credits"
     t.integer  "track_id"
+    t.integer  "site_id"
   end
 
   create_table "comments", :force => true do |t|
@@ -99,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "status"
     t.integer  "card_id"
     t.integer  "track_id"
+    t.integer  "site_id"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -127,6 +131,8 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "status"
     t.integer  "track_id"
     t.integer  "position"
+    t.integer  "site_id"
+    t.integer  "card_id"
   end
 
   create_table "leagues", :force => true do |t|
@@ -138,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.string   "membership"
+    t.integer  "site_id"
   end
 
   create_table "leagueusers", :force => true do |t|
@@ -167,6 +174,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.datetime "updated_at",      :null => false
     t.string   "status"
     t.integer  "initial_credits"
+    t.integer  "site_id"
   end
 
   create_table "pusher_channels", :force => true do |t|
@@ -195,6 +203,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.boolean  "exacta"
     t.text     "morning_line"
     t.text     "results"
+    t.integer  "site_id"
   end
 
   create_table "rankings", :force => true do |t|
@@ -206,6 +215,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.datetime "updated_at", :null => false
     t.integer  "card_id"
     t.integer  "track_id"
+    t.integer  "site_id"
   end
 
   create_table "roles", :force => true do |t|
@@ -218,6 +228,23 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
   add_index "roles", ["name"], :name => "index_roles_on_name"
+
+  create_table "sites", :force => true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "owner_id"
+    t.integer  "initial_credits"
+    t.string   "facebook_key"
+    t.string   "facebook_secret"
+    t.string   "twitter_key"
+    t.string   "twitter_secret"
+    t.string   "domain"
+    t.string   "slug"
+    t.string   "status"
+    t.string   "sanctioned"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer  "tag_id"
@@ -260,6 +287,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "member_alias"
     t.string   "bet_alias"
     t.string   "membership"
+    t.integer  "site_id"
   end
 
   create_table "trackusers", :force => true do |t|
@@ -292,6 +320,7 @@ ActiveRecord::Schema.define(:version => 20121221132501) do
     t.string   "avatar"
     t.string   "password_digest"
     t.string   "password_salt"
+    t.integer  "site_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

@@ -1,0 +1,22 @@
+<%= simple_form_for(@site) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :description %>
+    <%= f.input :owner_id %>
+    <%= f.input :initial_credits %>
+    <%= f.input :facebook_key %>
+    <%= f.input :facebook_secret %>
+    <%= f.input :twitter_key %>
+    <%= f.input :twitter_secret %>
+    <%= f.input :domain %>
+    <%= f.input :slug %>
+    <%= f.input :status %>
+    <%= f.input :sanctioned %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

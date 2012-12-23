@@ -83,6 +83,7 @@ def create
       session[:user_id] = new_user.id
       @authentication.user = current_user
       @authentication.save()
+      new_user.award_initial_credits(@site.initial_credits)
       new_user.add_achievement('Neophyte', session[:provider])
       redirect_to myaccount_url, notice: "Welcome! Your are now signed in."
     end

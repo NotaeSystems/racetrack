@@ -16,7 +16,7 @@
 <% @credits.each do |credit| %>
   <tr>
     <td><%= credit.user.name %></td>
-    <td><%= credit.track.name %></td>
+    <td><%= credit.track.name unless credit.track.blank?%></td>
     <td><%= credit.meet.name unless credit.meet.blank? %></td>
     <td><%= credit.card.name  unless credit.card.blank? %></td>
     <td><%= credit.amount %></td>

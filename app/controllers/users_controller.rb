@@ -3,6 +3,22 @@ class UsersController < ApplicationController
   before_filter :user_is_admin_filter?, :only => [:login_as, :add_role, :remove_role, :index, :destroy]
   before_filter :check_for_user, :only => [:edit, :update]
 
+  def borrow_credits
+    if current_user.credits_balance > 0
+      redirect_to myaccount_path, :alert => "You can borrow additional credits only if you have a zero balance"
+    else
+      message = current_user.borrow_credits(@site.initial_credits)
+      source = params[:race_id]
+    
+      if params[:race_id]
+        race = Race.find(params[:race_id])
+        redirect_to race_path(race), :alert => message
+      else
+        redirect_to myaccount_path, :alert => message
+      end
+    end
+  end
+
   def add_role
    user_id = params[:user_id]
    role = params[:role_id]
@@ -43,7 +59,7 @@ class UsersController < ApplicationController
   end
 
   def myaccount
-
+   @credits_balance = current_user.credits_balance
 
   end
 
@@ -86,6 +102,8 @@ class UsersController < ApplicationController
        @credits = Credit.where(:track_id =>params[:track],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:meet]
        @credits = Credit.where(:meet_id =>params[:meet],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+    elsif params[:site]
+       @credits = Credit.where(:site_id =>params[:site],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
     else
        @credits= Credit.where(:user_id => current_user.id).order('created_at DESC').page(params[:page]).per_page(30)
     end
@@ -115,9 +133,12 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
+    @user.site_id = @site.id
     if @user.save
+
       session[:user_id] = @user.id
-      redirect_to myaccount_path(@user), notice: "Thank you for registering"
+      current_user.award_initial_credits(@site.initial_credits)
+      redirect_to myaccount_path(@user), notice: "Thank you for registering. You have been awarded #{@site.initial_credits} Free Credits. You are not ready to start handicapping."
     else
       render "new"
     end

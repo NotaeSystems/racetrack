@@ -108,7 +108,7 @@ class TracksController < ApplicationController
   # POST /tracks.json
   def create
     @track = Track.new(params[:track])
-
+    @track.site_id = @site.id
     respond_to do |format|
       if @track.save
         format.html { redirect_to @track, notice: 'Track was successfully created.' }

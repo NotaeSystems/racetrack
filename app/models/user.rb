@@ -25,8 +25,37 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation
 
   attr_accessible :role_ids, :as => :admin
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status
+  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status, :site_id
   validates_presence_of     :name   
+
+  def award_initial_credits(amount)
+    Credit.create( :user_id => self.id,
+                   :amount => amount,
+                   :description => 'Initial Credits',
+                   :site_id => self.site_id
+                 )
+
+  end
+
+  def borrow_credits(amount)
+    ## see if bettor is member of this track
+       
+       ## see if bettor has been given initial card credits or borrowed in last last 24 hours
+       initial_credits = Credit.where("user_id = ? and credit_type IN ('Initial', 'Borrowed') and created_at > ?",self.id, Time.now - 24.hours)
+  
+    return "Sorry, you have borrowed credits within past 24 hours" unless initial_credits.blank?
+    logger.info "initial or borrowed credits ion last 24 hours are nil now creating borrowed credits"
+    ## TODO check for source of credits later may be from meet
+    logger.info "Refreshing credits- #{amount} credits\n"
+    Credit.create( :user_id => self.id,
+                   :amount => amount,
+                   :description => 'Borrowed credits',
+                   :credit_type => 'Borrowed', 
+                   :site_id => self.site_id
+                 )
+    return "You have borrowed #{amount} credits."
+  end
+
 
   def encrypt_password
     if password.present?
@@ -174,6 +203,16 @@ class User < ActiveRecord::Base
 
   end
   
+  
+  def borrowed_credits_balance
+
+    borrowed =  self.credits.where("credit_type IN ('Borrowed', 'Rebuy')").sum(:amount)
+  end
+
+  def credits_balance
+    winnings =  self.credits.sum(:amount)
+  end
+
   def update_ranking(meet_id, amount)
    ranking = Ranking.where("user_id = ? and meet_id = ?",self.id, meet_id).first
    if ranking
