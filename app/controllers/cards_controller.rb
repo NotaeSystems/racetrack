@@ -92,10 +92,13 @@ class CardsController < ApplicationController
   # GET /cards/new.json
   def new
     meet_id = params[:meet_id]
+    meet = Meet.find(meet_id)
     @card = Card.new
+    @track = meet.track
     @card.meet_id = meet_id
-    @track = @card.meet.track
-    @card.initial_credits = 100
+    @card.track_id = @track.id
+    @track = meet.track
+    @card.initial_credits = meet.initial_credits
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @card }

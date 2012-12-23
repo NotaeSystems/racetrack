@@ -100,6 +100,7 @@ class RacesController < ApplicationController
     @card = Card.find(card_id)
     @race = Race.new
     @track = @card.meet.track
+    @race.win = true
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @race }
