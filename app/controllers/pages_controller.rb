@@ -41,7 +41,7 @@ class PagesController < ApplicationController
   # POST /pages
   # POST /pages.json
   def create
-    @page = Page.find_by_permalink!(params[:id])
+    @page = Page.new(params[:page])
 
     respond_to do |format|
       if @page.save
@@ -58,6 +58,7 @@ class PagesController < ApplicationController
   # PUT /pages/1.json
   def update
     @page = Page.find_by_permalink!(params[:id])
+
     respond_to do |format|
       if @page.update_attributes(params[:page])
         format.html { redirect_to @page, notice: 'Page was successfully updated.' }
