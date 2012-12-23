@@ -23,7 +23,8 @@ class UsersController < ApplicationController
 
   def login_as
     @user = User.find(params[:user_id])
-    sign_in_and_redirect(:user, @user)
+    session[:user_id] = @user.id
+    redirect_to myaccount_path
   end
 
   def myachievements
