@@ -62,7 +62,11 @@ class ApplicationController < ActionController::Base
 private
  
   def determine_site
-    @site = Site.find(1)
+    @site = Site.where("id = 1").first
+    if @site.blank?
+      Site.create(:name => 'Fantasy Odds Maker')
+
+    end
   end
  
   def authorize
