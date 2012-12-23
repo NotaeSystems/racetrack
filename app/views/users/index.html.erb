@@ -1,4 +1,7 @@
+<%=link_to 'Sites', sites_path, :class => 'btn btn-mini btn-warning'  %>
 <h3><%=@count%> Users</h3>
+
+
 <div class="span8">
 
 <%= search_form_for @search do |f| %>
@@ -29,7 +32,7 @@
   <tbody>
   <% @users.each do |user| %>
     <tr>
-        <td><%= link_to "Login as #{user.name}", login_as_path(:user_id => user.id), :class => 'btn' %>
+        <td><%= link_to "Login as #{user.name}", login_as_path(:user_id => user.id), :class => 'btn btn-mini btn-warning' %>
 </td>
         <td><%= link_to user.email,edit_user_path(:id => user.id), :class => 'btn' %></td>
         <td><%= user.created_at.to_date %></td>
@@ -41,11 +44,11 @@
 
 
         <%if user.has_role? :admin %> 
-          <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" },  :class => 'btn btn-mini') %></td>  
+          <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
          <%else%>
-          <td><%= link_to("Add Admin role", add_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" },  :class => 'btn btn-mini') %></td>  
+          <td><%= link_to("Add Admin role", add_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
          <%end%>
-        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>                                       
+        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini btn-warning') unless user == current_user %></td>                                       
     </tr>
   <% end %>
   </tbody>

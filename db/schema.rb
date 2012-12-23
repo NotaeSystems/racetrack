@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223132141) do
+ActiveRecord::Schema.define(:version => 20121223185648) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -176,6 +176,17 @@ ActiveRecord::Schema.define(:version => 20121223132141) do
     t.integer  "initial_credits"
     t.integer  "site_id"
   end
+
+  create_table "pages", :force => true do |t|
+    t.string   "name"
+    t.text     "body"
+    t.integer  "site_id"
+    t.string   "permalink"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "pages", ["permalink"], :name => "index_pages_on_permalink"
 
   create_table "pusher_channels", :force => true do |t|
     t.datetime "created_at", :null => false

@@ -1,5 +1,8 @@
 Myapp::Application.routes.draw do
   
+  resources :pages, except: :show
+
+
   resources :sites
 
   #get "sessions/new"
@@ -193,4 +196,6 @@ get 'logout', to: 'sessions#destroy', as: 'logout'
 
 
  # end
+  get ':id', to: 'pages#show', as: :page
+
 end
