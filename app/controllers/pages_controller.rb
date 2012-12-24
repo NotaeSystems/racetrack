@@ -1,6 +1,8 @@
 class PagesController < ApplicationController
+ before_filter :user_is_admin_filter?
   # GET /pages
   # GET /pages.json
+
   def index
     @pages = Page.all
 
@@ -13,12 +15,14 @@ class PagesController < ApplicationController
   # GET /pages/1
   # GET /pages/1.json
   def show
-    @page = Page.find_by_permalink!(params[:id])
-
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @page }
+    @page = Page.where("permalink = ? and site_id = ?", params[:id], @site.id).first
+    if @page.blank? 
+      redirect_to message_path, notice: 'No such page.'
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @page }
+      end
     end
   end
 
@@ -35,14 +39,15 @@ class PagesController < ApplicationController
 
   # GET /pages/1/edit
   def edit
-    @page = Page.find(params[:id])
+    @page = Page.find_by_permalink!(params[:id])
+
   end
 
   # POST /pages
   # POST /pages.json
   def create
     @page = Page.new(params[:page])
-
+    @page.site_id = @site.id
     respond_to do |format|
       if @page.save
         format.html { redirect_to @page, notice: 'Page was successfully created.' }
@@ -58,7 +63,7 @@ class PagesController < ApplicationController
   # PUT /pages/1.json
   def update
     @page = Page.find_by_permalink!(params[:id])
-
+    @page.site_id = @site.id
     respond_to do |format|
       if @page.update_attributes(params[:page])
         format.html { redirect_to @page, notice: 'Page was successfully updated.' }

@@ -1,6 +1,6 @@
 Myapp::Application.routes.draw do
   
-  resources :pages, except: :show
+  resources :pages , except: :show
 
 
   resources :sites
@@ -73,11 +73,11 @@ Myapp::Application.routes.draw do
 
   end
   match "message" => "home#message", :as => :message
-  match "privacy" => "home#privacy", :as => :privacy
-  match "terms" => "home#terms", :as => :terms
-  match "about" => "home#about", :as => :about
-  match "contact" => "home#contact", :as => :contact
-  match "faq" => "home#faq", :as => :faq
+  match "privacy1" => "home#privacy", :as => :privacy
+  match "terms1" => "home#terms", :as => :terms
+  match "about1" => "home#about", :as => :about
+  match "contact1" => "home#contact", :as => :contact
+  match "faq1" => "home#faq", :as => :faq
   match "myaccount" => "users#myaccount", :as => :myaccount
   match "myleagues" => "users#myleagues", :as => :myleagues
   match "mytracks" => "users#mytracks", :as => :mytracks
@@ -197,5 +197,6 @@ get 'logout', to: 'sessions#destroy', as: 'logout'
 
  # end
   get ':id', to: 'pages#show', as: :page
-
+  put ':id', to: 'pages#update', as: :page
+  delete ':id', to: 'pages#destroy', as: :page
 end
