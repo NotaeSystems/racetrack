@@ -1,5 +1,5 @@
 class PagesController < ApplicationController
- before_filter :user_is_admin_filter?, :except => {:show}
+ before_filter :user_is_admin_filter?, :except => [:show]
   # GET /pages
   # GET /pages.json
 
