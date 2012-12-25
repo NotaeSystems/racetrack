@@ -61,12 +61,37 @@ class ApplicationController < ActionController::Base
 
 private
  
+  def check_for_vanity_domains
+
+      @site = Site.vanity(request.domain, request.subdomains)
+
+
+    if @site
+       session[:site_id] = @site.id
+      if request.host == @site.domain
+        set_cookie_domain(@site.domain)
+      end
+    end
+  end
+
   def determine_site
-    @site = Site.where("id = 1").first
+
+      @site = Site.vanity(request.domain, request.subdomains)
+
+
+    if @site
+       session[:site_id] = @site.id
+      if request.host == @site.domain
+        set_cookie_domain(@site.domain)
+      end
+    else
+      @site = Site.where("id = 1").first
+    end
     if @site.blank?
-      Site.create(:name => 'Fantasy Odds Maker')
+     @site =  Site.create(:name => 'Fantasy Odds Maker')
 
     end
+       session[:site_id] = @site.id
   end
  
   def authorize
