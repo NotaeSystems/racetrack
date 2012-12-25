@@ -12,8 +12,11 @@
     <%= f.input :twitter_secret %>
     <%= f.input :domain %>
     <%= f.input :slug %>
-    <%= f.input :status %>
-    <%= f.input :sanctioned %>
+    <%if user_is_site_manager?
+      <%= f.input :status %>
+      <%= f.input :sanctioned %>
+      <%= f.input :max_sites %> 
+    <%end%>
   </div>
 
   <div class="form-actions">
