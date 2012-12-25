@@ -1,5 +1,5 @@
 class AuthenticationsController < ApplicationController
-  before_filter :login_required_filter, :except => [:backdoor,  :create]
+  before_filter :login_required_filter, :except => [:backdoor,  :create, :setup_facebook]
   before_filter :user_is_admin_filter?, :only => [:index]
   skip_before_filter :verify_authenticity_token, only: :create
 
