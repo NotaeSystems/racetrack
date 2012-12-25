@@ -45,11 +45,11 @@ class SitesController < ApplicationController
 
     respond_to do |format|
       if @site.save
-        format.html { redirect_to @site, notice: 'Site was successfully created.' }
-        format.json { render json: @site, status: :created, location: @site }
+        format.html { redirect_to @selected_site, notice: 'Site was successfully created.' }
+        format.json { render json: @selected_site, status: :created, location: @site }
       else
         format.html { render action: "new" }
-        format.json { render json: @site.errors, status: :unprocessable_entity }
+        format.json { render json: @selected_site.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -60,12 +60,12 @@ class SitesController < ApplicationController
     @selected_site = Site.find(params[:id])
 
     respond_to do |format|
-      if @site.update_attributes(params[:site])
-        format.html { redirect_to @site, notice: 'Site was successfully updated.' }
+      if @selected_site.update_attributes(params[:site])
+        format.html { redirect_to @selected_site, notice: 'Site was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @site.errors, status: :unprocessable_entity }
+        format.json { render json: @selected_site.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -73,8 +73,8 @@ class SitesController < ApplicationController
   # DELETE /sites/1
   # DELETE /sites/1.json
   def destroy
-    @site = Site.find(params[:id])
-    @site.destroy
+    @selected+site = Site.find(params[:id])
+    @selected_site.destroy
 
     respond_to do |format|
       format.html { redirect_to sites_url }
