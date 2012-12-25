@@ -14,7 +14,7 @@ class SitesController < ApplicationController
   # GET /sites/1
   # GET /sites/1.json
   def show
-    @site = Site.find(params[:id])
+    @selected_site = Site.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,7 +25,7 @@ class SitesController < ApplicationController
   # GET /sites/new
   # GET /sites/new.json
   def new
-    @site = Site.new
+    @selected_site = Site.new
 
     respond_to do |format|
       format.html # new.html.erb
@@ -35,13 +35,13 @@ class SitesController < ApplicationController
 
   # GET /sites/1/edit
   def edit
-    @site = Site.find(params[:id])
+    @selected_site = Site.find(params[:id])
   end
 
   # POST /sites
   # POST /sites.json
   def create
-    @site = Site.new(params[:site])
+    @selected_site = Site.new(params[:site])
 
     respond_to do |format|
       if @site.save
@@ -57,7 +57,7 @@ class SitesController < ApplicationController
   # PUT /sites/1
   # PUT /sites/1.json
   def update
-    @site = Site.find(params[:id])
+    @selected_site = Site.find(params[:id])
 
     respond_to do |format|
       if @site.update_attributes(params[:site])
