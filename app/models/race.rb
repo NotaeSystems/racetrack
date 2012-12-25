@@ -3,6 +3,7 @@ class Race < ActiveRecord::Base
   belongs_to :card
   belongs_to :track
   has_many :bets
+  has_many :gates
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
@@ -38,6 +39,7 @@ class Race < ActiveRecord::Base
 
     ## if race is open then check for other conditions 
     return 'Pending' if self.status == 'Pending'
+    return 'Pending Payout' if self.status == 'Pending Payout'
 
     return 'Finished' if self.post_time.to_datetime < Time.now.to_datetime
 
@@ -60,17 +62,17 @@ class Race < ActiveRecord::Base
   
   def payout
     # find winners
-    winners = self.horses.where("finish = 1")
+    winners = self.gates.where("finish = 1")
     win_pot = self.bets.where("bet_type = 'Win' and status = 'Pending'").sum(:amount)
     winners_size = winners.size
 
     ### placers
-    placers = self.horses.where("finish IN (1,2)")
+    placers = self.gates.where("finish IN (1,2)")
     place_pot = self.bets.where("bet_type = 'Place' and status = 'Pending'").sum(:amount)
     placers_size = placers.size
 
     ###showers
-    showers = self.horses.where("finish IN (1,2,3)")
+    showers = self.gates.where("finish IN (1,2,3)")
     show_pot = self.bets.where("bet_type = 'Show' and status = 'Pending'").sum(:amount)
     showers_size = showers.size
     #################
@@ -93,8 +95,8 @@ class Race < ActiveRecord::Base
       logger.debug "##################  Inside Exacta"
       exacta_pot = 0
       exacta_winners = nil
-      winner = self.horses.where("finish = 1").first
-      place = self.horses.where("finish = 2").first
+      winner = self.gates.where("finish = 1").first
+      place = self.gates.where("finish = 2").first
 
       unless winner.blank?  || place.blank?
       logger.debug "################## Winner was #{winner.name} Place was #{place.name}"
@@ -113,9 +115,9 @@ class Race < ActiveRecord::Base
       logger.debug "##################  Inside Exacta"
       trifecta_pot = 0
       trifecta_winners = nil
-      winner = self.horses.where("finish = 1").first
-      place = self.horses.where("finish = 2").first
-      show = self.horses.where("finish = 3").first
+      winner = self.gates.where("finish = 1").first
+      place = self.gates.where("finish = 2").first
+      show = self.gates.where("finish = 3").first
 
       unless winner.blank?  || place.blank? || show.blank?
       logger.debug "################## Winner was #{winner.name} Place was #{place.name} Show was #{show.name}"
@@ -172,30 +174,30 @@ class Race < ActiveRecord::Base
   end
 
 
-  def payout_bets(bet_type, horses, pot)
+  def payout_bets(bet_type, gates, pot)
     logger.debug "##################  Paying out #{bet_type}"
  
-    horses.each do |horse|
+    gates.each do |gate|
       card_id = self.card_id
-      logger.debug "#{bet_type} is #{horse.name}"
-      horse_total_bets = horse.total_bets
+      logger.debug "#{bet_type} is #{gate.horse.name}"
+      gate_total_bets = gate.total_bets
       logger.debug "#{bet_type} total bets = #{pot}\n"
       next if pot == 0
       #horse_odds = total_pot / winner_total_bets
-      horse_total_bets = horse.total_bets(bet_type).to_f
-      next if  horse_total_bets == 0
-      floated_odds = pot.to_f / horse.total_bets(bet_type).to_f
-      horse_odds = (floated_odds * 20).round.to_f/20
-      logger.debug "odds = #{horse_odds}\n"
-      next if horse_odds == 0
+      gates_total_bets = gate.total_bets(bet_type).to_f
+      next if  gate_total_bets == 0
+      floated_odds = pot.to_f / gate.total_bets(bet_type).to_f
+      gate_odds = (floated_odds * 20).round.to_f/20
+      logger.debug "odds = #{gate_odds}\n"
+      next if gate_odds == 0
       #payoff_odds = winner_odds / winners_size
       #logger.debug "payoff_odds = #{payoff_odds}\n"
-      horse.bets.where(:status => 'Pending').each do |bet|
+      gate.bets.where(:status => 'Pending').each do |bet|
         bettor = bet.user
         bet_amount = bet.amount
-        logger.debug "horse bet amount: #{bet_amount}\n"
+        logger.debug "gate bet amount: #{bet_amount}\n"
         #horse = bet.horse
-        bet_payoff = bet_amount.to_f * horse_odds
+        bet_payoff = bet_amount.to_f * gate_odds
         logger.debug "#{bet_type} bet payoff: #{bet_payoff}\n"
         # create credit for horse_payoff
         Credit.create( :user_id => bet.user_id,
@@ -203,14 +205,14 @@ class Race < ActiveRecord::Base
                    :amount => bet_payoff,
                    :credit_type => bet_type,
                    :card_id => card_id,
-                   :description => "Winnings: #{self.name} on #{bet_type} on #{horse.name}",
+                   :description => "Winnings: #{self.name} on #{bet_type} on #{gate.horse.name}",
                    :track_id => self.track_id,
                    :site_id => self.site_id
                  
                  )
         bet.status = 'Paid Out'
         bet.save
-        bettor.update_card_ranking(horse.race.card, bet_payoff)
+        bettor.update_card_ranking(gate.race.card, bet_payoff)
       end
     end
 

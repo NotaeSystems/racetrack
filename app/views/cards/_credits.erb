@@ -1,6 +1,6 @@
 <% if user_signed_in? %>
 
-  <h4> Credits Balance : <%=current_user.credits_balance %> 
+  <h4> Credits Balance : <%=current_user.credits_balance.round %> </h4>
 
   <%#if current_user.credits_balance(@card) == 0 %>
     <%#= link_to "Refresh Credits", refresh_credits_card_path(:id => @card.id) %>

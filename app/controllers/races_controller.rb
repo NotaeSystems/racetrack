@@ -77,6 +77,7 @@ class RacesController < ApplicationController
   def show
     @race = Race.find(params[:id])
     @betting_status = @race.betting_status
+    @gates = @race.gates.order('number')
     @horses = @race.horses.order('position')
     @track = @race.card.meet.track
     @meet = @race.card.meet
@@ -170,7 +171,7 @@ class RacesController < ApplicationController
 
   def check_for_winners
     @race = Race.find(params[:id])
-    winners = @race.horses.where("finish = 1")
+    winners = @race.gates.where("finish = 1")
     winners_size = winners.size
     return if winners_size > 0
     flash[:error] = "Cannot pay out there is no winner!"
@@ -181,7 +182,7 @@ class RacesController < ApplicationController
   def check_for_placers
     return unless @race.place?
     @race = Race.find(params[:id])
-    winners = @race.horses.where("finish = 2")
+    winners = @race.gates.where("finish = 2")
     winners_size = winners.size
     return if winners_size > 0
     flash[:error] = "Cannot pay out there is no place finish!"
@@ -192,7 +193,7 @@ class RacesController < ApplicationController
   def check_for_showers
     return unless @race.show?
     @race = Race.find(params[:id])
-    winners = @race.horses.where("finish = 3")
+    winners = @race.gates.where("finish = 3")
     winners_size = winners.size
     return if winners_size > 0
     flash[:error] = "Cannot pay out there is no show finish!"

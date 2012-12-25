@@ -26,7 +26,7 @@ class HorsesController < ApplicationController
   # GET /horses/1.json
   def show
     @horse = Horse.find(params[:id])
-
+    @gates = @horse.gates
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @horse }
@@ -39,7 +39,7 @@ class HorsesController < ApplicationController
     @horse = Horse.new
     @race = Race.find(params[:race_id])
     @track = @race.card.meet.track
-    
+    @horse.stable_id = @track.id
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @horse }
@@ -49,8 +49,8 @@ class HorsesController < ApplicationController
   # GET /horses/1/edit
   def edit
     @horse = Horse.find(params[:id])
-    @race = Race.find(params[:race_id])
-    @track = @race.card.meet.track
+
+    @track = @horse.track
 
 
   end
@@ -60,8 +60,14 @@ class HorsesController < ApplicationController
   def create
     @horse = Horse.new(params[:horse])
     @horse.site_id = @site.id
+    @race = @horse.race
     respond_to do |format|
       if @horse.save
+        Gate.create(:race_id => @horse.race_id,
+                    :number => @race.gates.count + 1,
+                    :horse_id => @horse.id
+                    )
+                    
         format.html { redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully created.' }
         format.json { render json: @horse, status: :created, location: @horse }
       else

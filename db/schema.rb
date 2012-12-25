@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223185648) do
+ActiveRecord::Schema.define(:version => 20121224140048) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -64,6 +64,7 @@ ActiveRecord::Schema.define(:version => 20121223185648) do
     t.integer  "show_id"
     t.integer  "fourth_id"
     t.integer  "site_id"
+    t.integer  "gate_id"
   end
 
   create_table "cards", :force => true do |t|
@@ -121,6 +122,16 @@ ActiveRecord::Schema.define(:version => 20121223185648) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "gates", :force => true do |t|
+    t.integer  "number"
+    t.integer  "horse_id"
+    t.integer  "finish"
+    t.string   "status"
+    t.integer  "race_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "horses", :force => true do |t|
     t.string   "name"
     t.integer  "race_id"
@@ -133,6 +144,7 @@ ActiveRecord::Schema.define(:version => 20121223185648) do
     t.integer  "position"
     t.integer  "site_id"
     t.integer  "card_id"
+    t.integer  "stable_id"
   end
 
   create_table "leagues", :force => true do |t|

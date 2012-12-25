@@ -4,8 +4,12 @@
   <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Open', 'Scratched','Pending Payout', 'Closed'],  :selected => @horse.status %>
-       <%=  f.hidden_field :race_id , :value => @race.id %>
        <%=  f.hidden_field :track_id , :value => @track.id %>
+       <%if @race %>
+       <%=  f.hidden_field :race_id , :value => @race.id %>
+       <%end%>
+    <%=f.label 'Stable'%>
+    <%= f.select :stable_id, tracks_list, :include_blank => true%>
     <%= f.input :description %>
 
     <%= f.input :finish %>

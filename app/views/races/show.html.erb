@@ -31,9 +31,9 @@
 
 
 <div class='box2'>
-<%= render :partial => 'cards/credits' %>
-<h4><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h4>
 
+<h1><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h1>
+<%= render :partial => 'cards/credits' %>
 <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
  <p> <%= @race.description %></p>
 <% if user_signed_in? %>
@@ -77,23 +77,23 @@
 <table id='horses' class='table table-striped table-bordered table-condensed'>
 
   <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
-<% @horses.each do |horse| %>
+<% @gates.each do |gate| %>
 
-  <tr id="horse_<%=horse.id%>">
+  <tr id="gate_<%=gate.id%>">
 
 
-    <td><strong><%= horse.position %></strong></td>
-    <td><strong><%= horse.name %></strong></td>
-    <td><%= horse.description %></td>
-    <td><%= horse.finish %></td>
-    <td>Total <%=@track.bet_alias%>: Win Pot: <%= horse.total_bets('Win') %> Odds: <%=horse.odds('Win')%></td>
+    <td><strong><%= gate.number %></strong></td>
+    <td><strong><%= link_to gate.horse.name, horse_path(gate.horse), :class => 'btn btn-block' %></strong></td>
+    <td><%= gate.horse.description %></td>
+    <td><%= gate.horse.finish %></td>
+    <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
 
 <%if @race.betting_status == 'Open' %>
-  <%if horse.status == 'Open'%>
+  <%if gate.horse.status == 'Open'%>
     <% if user_signed_in? %>
 
       <%unless current_user.credits_balance < 1%>
-        <td><%= link_to 'Bet', new_bet_path(:horse_id => horse.id, :race_id => @race.id), :class => 'btn btn-success' %></td>
+        <td><%= link_to 'Bet', new_bet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
        
       <%else%>
         <td>
@@ -107,38 +107,16 @@
   <%elsif horse.status == 'Scratched' %>
        <td>Scratched</td>
   <%else%>
-     <td><%= horse.status %></td>   
+     <td><%= gate.horse.status %></td>   
 
    <%end%>
 <%else%>
     <td><%=@betting_status%></td>
 <%end%>
 <%if user_is_track_manager?(@track) %>
-    <td><%= link_to "Edit #{@track.horse_alias}", edit_horse_path(horse, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete #{@track.horse_alias}", horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %></td>
+    <td><%= link_to "Edit Gate", edit_gate_path(gate, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete Gate", gate, method: :delete, data: { confirm: 'Are you sure? This will delete this Gate' }, :class => 'btn btn-mini btn-danger' %></td>
    
 <%end%>
-  </tr>
-<% end %>
- </tbody>
-</table>
-<%end%>
-
-<%if @race.status == 'Finished' %>
-<p><%=@race.results %></p>
-<h4>Results</h4>
-<table id='horses' class='table table-striped table-bordered table-condensed'>
-
-  <tbody id="races">
-<% @horses.order('finish').each do |horse| %>
-
-  <tr id="horse_<%=horse.id%>">
-
-    <td><%= horse.finish %></td>
-    <td><strong><%= horse.position %></strong></td>
-    <td><strong><%= horse.name %></strong></td>
-    <td><%= horse.description %></td>
-    <td>Total <%=@track.bet_alias%>: Win Pot: <%= horse.total_bets('Win') %> Odds: <%=horse.odds('Win')%></td>
-<br />
   </tr>
 <% end %>
  </tbody>
@@ -150,17 +128,42 @@
 <%end%>
 <%if user_is_track_manager?(@track) %>
 <%= link_to "New #{@track.horse_alias}", new_horse_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
-
+<%= link_to "New Gate", new_gate_path(:race_id => @race.id), :class => 'btn btn-mini btn-warning' %>
 
 <%end%>
-</div>
+<%if @race.status == 'Finished' %>
+<p><%=@race.results %></p>
+<h4>Results</h4>
+<table id='horses' class='table table-striped table-bordered table-condensed'>
+
+  <tbody id="races">
+<% @race.gates.order('finish').each do |gate| %>
+
+  <tr id="gate_<%=gate.id%>">
+
+    <td><%= gate.finish %></td>
+    <td><strong><%= gate.horse.name %></strong></td>
+    <td><%= gate.horse.description %></td>
+    <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+<br />
+  </tr>
+<% end %>
+ </tbody>
+</table>
+<%end%>
 <div class='morning_line'>
 <h4>Morning Line</h4>
 <%= @race.morning_line %>
 </div>
+
+
+</div>
+
 <h5>Comments on <%=@race.name%></h5>
 
 </div>
 <fb:comments-count href="<%= j "http://www.fantasyoddsmaker.com/races/#{@race.id}/"%>"></fb:comments-count> comments 
 
 <div class="fb-comments" data-href="<%= j "http://www.fantasyoddsmaker.com/cards/#{@race.id}/"%>" data-width="470" data-num-posts="10"></div>
+
+

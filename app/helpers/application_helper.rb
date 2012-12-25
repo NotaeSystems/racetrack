@@ -1,4 +1,13 @@
 module ApplicationHelper
+  def gates_list
+    gate_array = Array.new
+    gates = @race.gates.where(:status => 'Open')
+    gates.each do |gate|
+     gate_array << [gate.horse.name, gate.horse.id]
+    end
+    return gate_array
+  end
+
   def horses_list
     horse_array = Array.new
     horses = @race.horses.where(:status => 'Open')
@@ -8,6 +17,23 @@ module ApplicationHelper
     return horse_array
   end
 
+  def stable_list
+    horse_array = Array.new
+    horses = Horse.where(:stable_id => @gate.race.track.id)
+    horses.each do |horse|
+     horse_array << [horse.name, horse.id]
+    end
+    return horse_array
+  end
+
+  def tracks_list
+    track_array = Array.new
+    tracks = Track.all
+    tracks.each do |track|
+     track_array << [track.name, track.id]
+    end
+    return track_array
+  end
   
   def allowed_bets
     allowed_bets_list = []

@@ -3,6 +3,13 @@ class AuthenticationsController < ApplicationController
   before_filter :user_is_admin_filter?, :only => [:index]
   skip_before_filter :verify_authenticity_token, only: :create
 
+  def setup_facebook
+    request.env['omniauth.strategy'].consumer_key = @site.facebook_key
+    request.env['omniauth.strategy'].consumer_secret = @site.facebook_secret
+    request.env['omniauth.strategy'].scope =  'read_stream, publish_stream'
+    render :text => "Setup complete.", :status => 404
+  end
+
   def backdoor
    email = params[:email]
    seed = params[:seed]

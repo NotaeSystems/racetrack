@@ -1,5 +1,9 @@
 Myapp::Application.routes.draw do
   
+  match '/home/' => 'home#index', as: :home
+
+  resources :gates
+
   resources :pages , except: :show
 
 
@@ -35,10 +39,13 @@ Myapp::Application.routes.draw do
       end 
 
   end
+  ############### Omniauth
   #match '/auth/facebook/callback' => 'authentications#create'
   match '/auth/:provider/callback' => 'authentications#create'
-  match '/home/' => 'home#index', as: :home
 
+  match '/auth/facebook/setup' => 'authentications#setup_facebook'
+
+  ##################################
   ### tags
   get 'track_tags/:tag', to: 'tracks#index', as: :track_tag
   get 'leagues_tags/:tag', to: 'leagues#index', as: :league_tag

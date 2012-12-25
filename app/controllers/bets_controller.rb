@@ -97,6 +97,7 @@ class BetsController < ApplicationController
   def new
 
       @horse = Horse.find(params[:horse_id])
+      @gate = Gate.find(params[:gate_id])
       @meet = @horse.race.card.meet
     if current_user
       @bet = Bet.new
@@ -105,7 +106,8 @@ class BetsController < ApplicationController
       @bet.meet_id = @horse.race.card.meet.id
       @bet.race_id = @horse.race.id
       @bet.card_id = @horse.card_id  
-      @bet.track_id = @horse.track    
+      @bet.track_id = @horse.track   
+      @bet.gate_id = @gate.id 
       respond_to do |format|
         format.html # new.html.erb
         format.json { render json: @bet }
@@ -178,7 +180,12 @@ class BetsController < ApplicationController
         format.html { redirect_to race_path(:id => @race), notice: 'Bet was successfully created.' }
         format.json { render json: @bet, status: :created, location: @bet }
       else
-        format.html { render action: "new" }
+        if @bet.bet_type == 'Exacta'
+        format.html { render action: "exacta" }
+        elsif @bet.bet_type == 'Trifecta'
+           format.html { render action: "trifecta" }
+
+        end
         format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
