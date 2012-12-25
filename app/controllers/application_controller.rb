@@ -76,20 +76,29 @@ private
 
   def determine_site
 
+    if current_user
+      @site = current_user.site
+      if @site.blank?
+        @site = Site.where("id = 1").first
+        current_user.site_id = @site.id
+        current_user.save
+      end
+      session[:site_id] = @site.id
+    else
       @site = Site.vanity(request.domain, request.subdomains)
 
-
-    if @site
-       session[:site_id] = @site.id
-      if request.host == @site.domain
-        set_cookie_domain(@site.domain)
+      if @site
+         session[:site_id] = @site.id
+        if request.host == @site.domain
+          set_cookie_domain(@site.domain)
+        end
+      else
+        @site = Site.where("id = 1").first
       end
-    else
-      @site = Site.where("id = 1").first
-    end
-    if @site.blank?
-     @site =  Site.create(:name => 'Fantasy Odds Maker')
+      if @site.blank?
+        @site =  Site.create(:name => 'Fantasy Odds Maker')
 
+      end
     end
        session[:site_id] = @site.id
   end
