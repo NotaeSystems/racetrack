@@ -13,8 +13,9 @@ class ApplicationController < ActionController::Base
   def user_is_track_manager?(track)
    return false if track.nil?
    return false if current_user.nil?
-   return true if current_user.has_role? :admin
    return true if track.owner_id == current_user.id
+   return true if user_is_site_manager?
+   return true if current_user.has_role? :admin
    trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id, :status => 'Manager').first
    return true unless trackuser.blank?
    false
@@ -24,8 +25,10 @@ class ApplicationController < ActionController::Base
   def user_is_league_manager?(league)
    return false if league.nil?
    return false if current_user.nil?
-   return true if current_user.has_role?('admin')
    return true if league.owner_id == current_user.id
+   return true if user_is_site_manager?
+   return true if current_user.has_role?('admin')
+
    leagueuser = Leagueuser.where(:user_id => current_user.id, :league_id => league.id, :status => 'Manager').first
    return true unless leagueuser.blank?
    false
@@ -51,7 +54,13 @@ class ApplicationController < ActionController::Base
    false
   end
 
- helper_method  :current_user,:signed_in?, :user_signed_in?, :user_is_admin?
+  def user_is_site_manager?
+   return false if current_user.nil?
+   return true if current_user.id == @site.owner_id
+   false
+  end
+
+ helper_method  :current_user,:signed_in?, :user_signed_in?, :user_is_admin?, :user_is_site_manager?
 
  def current_user=(user)
    @current_user = user
