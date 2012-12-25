@@ -49,11 +49,11 @@ class AuthenticationsController < ApplicationController
 def create
   auth = request.env['omniauth.auth']
   # Find an identity here
-  @authentication = Authentication.find_with_omniauth(auth)
+  @authentication = Authentication.find_with_omniauth(auth, @site.id)
 
   if @authentication.nil?
     # If no identity was found, create a brand new one here
-    @authentication = Authentication.create_with_omniauth(auth)
+    @authentication = Authentication.create_with_omniauth(auth, @site.id)
   end
 
   if signed_in?
@@ -83,8 +83,8 @@ def create
     else
       # No user associated with the identity so we need to create a new one
       logger.info "Creating New user"
-      new_user = @authentication.create_new_user(auth)
-
+      new_user = @authentication.create_new_user(auth, @site.id)
+      
       session[:provider] = auth['provider']
       logger.info "New user is #{new_user.name unless new_user.blank?}"
       session[:user_id] = new_user.id

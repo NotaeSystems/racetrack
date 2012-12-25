@@ -64,8 +64,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def self.authenticate(email, password)
-    user = find_by_email(email)
+  def self.authenticate(email, password, site)
+    user = find_by_email_and_site(email, site.id)
     if user && user.encrypted_password == BCrypt::Engine.hash_secret(password, user.password_salt)
       user
     else
