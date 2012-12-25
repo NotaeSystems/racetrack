@@ -9,6 +9,8 @@ class Track < ActiveRecord::Base
   has_many :trackusers,  :dependent => :destroy
   has_many :trackleagues, :dependent => :destroy
   has_many :leagues, :through => :trackleagues
+
+  belongs_to :site
   #scope :active, where(:open => true)
   scope :active, where(:status => 'Open')
   scope :closed, where(:status => 'Closed')
@@ -17,7 +19,7 @@ class Track < ActiveRecord::Base
   attr_accessible :description, :name, :open, :owner_id, :public, :status, :track_alias,
                    :meet_alias, :card_alias, :race_alias, :horse_alias, :credit_alias, :member_alias, 
                    :bet_alias, :tag_list, :membership, :site_id
-
+  
   def to_param
     "#{id}-#{name}".parameterize
   end

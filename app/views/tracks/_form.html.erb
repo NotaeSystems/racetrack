@@ -15,6 +15,7 @@
 
     <% if user_is_admin?%>
       <%= f.input :owner_id %>
+      <%= f.input :site_id %>
     <%else%>  
       <%= f.hidden_field :owner_id %>
     <%end%>

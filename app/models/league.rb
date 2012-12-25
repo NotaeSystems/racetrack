@@ -5,6 +5,7 @@ class League < ActiveRecord::Base
   has_many :trackleagues
   has_many :tracks , :through => :trackleagues
   has_many :meetleagues
-   has_many :meets , :through => :trackleagues 
+  has_many :meets , :through => :trackleagues 
+  belongs_to :site
   attr_accessible :active, :description, :name, :owner_id, :status, :tag_list, :membership
 end

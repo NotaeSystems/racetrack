@@ -165,6 +165,7 @@ class UsersController < ApplicationController
     if current_user == @user.id || user_is_admin?
       @user.name = params[:user][:name]
       @user.email = params[:user][:email]
+      @user.site_id = params[:user][:site_id]
       unless params[:user][:password].blank?
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]

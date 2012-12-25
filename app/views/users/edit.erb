@@ -10,7 +10,9 @@
   <%else%>
   <%= f.hidden_field :email %>
   <%end%>
-
+    <% if user_is_admin?%>
+      <%= f.input :site_id %>
+    <%end%>
     <%= f.input :time_zone, :priority => /US/ %>
   <%= f.button :submit, 'Update', :class => 'btn-primary' %>
 <% end %>

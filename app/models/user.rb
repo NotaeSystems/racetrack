@@ -18,6 +18,8 @@ class User < ActiveRecord::Base
   has_many :achievementusers, :dependent => :delete_all
   has_many :rankings, :dependent => :delete_all
 
+  belongs_to :site
+
   #devise :database_authenticatable, :registerable, 
   #       :recoverable, :rememberable, :trackable, :validatable
 

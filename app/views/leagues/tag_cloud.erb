@@ -1,6 +1,6 @@
 <h3>Search Leagues by Tag.</h3>
 <div id="tag_cloud">
-  <% tag_cloud League.tag_counts, %w[s m l] do |tag, css_class| %>
+  <% tag_cloud @site.leagues.tag_counts, %w[s m l] do |tag, css_class| %>
     <%= link_to tag.name, league_tag_path(tag.name), class: css_class %>
   <% end %>
 </div>

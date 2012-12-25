@@ -32,10 +32,10 @@ class LeaguesController < ApplicationController
   def index
 
   if params[:tag]
-    @search = League.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
+    @search = @site.leagues.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
     @leagues = @search.result
   else
-    @search = League.page(params[:page]).per_page(30).order('name').search(params[:q])
+    @search = @site.leagues.page(params[:page]).per_page(30).order('name').search(params[:q])
     @leagues = @search.result
   end
 
@@ -61,7 +61,7 @@ class LeaguesController < ApplicationController
   def new
     @league = League.new
     @league.owner_id = current_user.id
-
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @league }
@@ -79,7 +79,7 @@ class LeaguesController < ApplicationController
     @league = League.new(params[:league])
     @league.owner_id = current_user.id
     @league.status = 'Public'
-
+    @league.site_id = @site.id
     respond_to do |format|
       if @league.save
      leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => 'Owner')

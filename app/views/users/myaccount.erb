@@ -4,7 +4,7 @@
 <div>
      
 
-    <p>My Credits Balance: <%=current_user.credits_balance %></p>
+    <p>My Credits Balance: <%=current_user.credits_balance.round %></p>
 
      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />    
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />

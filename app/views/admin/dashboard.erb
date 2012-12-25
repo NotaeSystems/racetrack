@@ -27,6 +27,7 @@
           <th>Email</th>
           <th>Registered</th>
           <th>Role</th>
+          <th>Site</th>
           <th></th>
           <th></th>                                      
       </tr>
@@ -44,7 +45,7 @@
          <td></td>
         <%end%>
 
-
+        <td><%= user.site.name unless user.site.blank? %></td>
         <%if user.has_role? :admin %> 
           <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
          <%else%>

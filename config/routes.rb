@@ -5,7 +5,7 @@ Myapp::Application.routes.draw do
   resources :gates
 
   resources :pages , except: :show
-
+  
 
   resources :sites
 
@@ -14,6 +14,7 @@ Myapp::Application.routes.draw do
   resources :sessions
   resources :achievementusers
   resources :authentications
+
 
   resources :achievements do
       collection do
@@ -79,6 +80,12 @@ Myapp::Application.routes.draw do
       end 
 
   end
+  
+  ### administration
+  match "admin/dashboard" => "admin#dashboard", :as => :dashboard_admin
+  match "admin/tracks" => "admin#tracks", :as => :tracks_admin
+
+
   match "message" => "home#message", :as => :message
   match "privacy1" => "home#privacy", :as => :privacy
   match "terms1" => "home#terms", :as => :terms
