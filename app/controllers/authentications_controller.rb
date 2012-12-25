@@ -6,7 +6,7 @@ class AuthenticationsController < ApplicationController
   def setup_facebook
     request.env['omniauth.strategy'].options[:client_id]= @site.facebook_key
     request.env['omniauth.strategy'].options[:client_secret] = @site.facebook_secret
-    request.env['omniauth.strategy'].scope =  'read_stream, publish_stream'
+    #request.env['omniauth.strategy'].options[:scope] =  'read_stream, publish_stream'
     render :text => "Setup complete.", :status => 404
   end
 
