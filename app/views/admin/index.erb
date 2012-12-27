@@ -26,6 +26,7 @@
           <th>Login As</th>
           <th>Email</th>
           <th>Registered</th>
+          <th>Site</th>
           <th>Role</th>
           <th></th>
           <th></th>                                      
@@ -38,6 +39,11 @@
 </td>
         <td><%= link_to user.email,edit_user_path(:id => user.id), :class => 'btn' %></td>
         <td><%= user.created_at.to_date %></td>
+        <%if user.site %>
+          <td><%= user.site.name %>
+        <%else%>
+          <td> No Site </td>
+        <%end%>
         <%if user.has_role? :admin %>      <%#= user.roles.last.name.titleize unless user.roles.first.nil? %>
          <td>Admin</td>
          <%else%>
