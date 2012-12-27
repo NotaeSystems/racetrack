@@ -35,7 +35,7 @@
 <% @tracks.each do |track| %>
   <tr>
     <td><%= link_to track.name , track_path(track), :class => 'btn btn-block'%><br />Tags: <%= raw track.tag_list.map { |t| link_to t, track_tag_path(t) }.join(', ') %></td>
-    <% if track.owner %>
+    <% if track.site %>
        <td><%= image_tag avatar_url(track.owner) %><br />
     <small><%= link_to track.site.name, site_path(track.site)  %></small></td>
     <%else%>
