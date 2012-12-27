@@ -99,6 +99,7 @@ Myapp::Application.routes.draw do
   match "mybets" => "users#mybets", :as => :mybets
   match "myachievements" => "users#myachievements", :as => :myachievements
   match "login_as" => "users#login_as", :as => :login_as
+  match "return_as_admin" => "users#return_as_admin", :as => :return_as_admin
   match "backdoor" => "authentications#backdoor", :as => :backdoor
   match "exacta" => "bets#exacta", :as => :exacta
   match "trifecta" => "bets#trifecta", :as => :trifecta

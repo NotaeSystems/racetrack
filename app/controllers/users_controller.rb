@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   before_filter :login_required_filter, :except => [:new, :create]
-  before_filter :user_is_admin_filter?, :only => [:login_as, :add_role, :remove_role, :index, :destroy]
+  before_filter :user_is_admin_filter?, :only => [ :add_role, :remove_role, :index, :destroy]
+  before_filter :return_as_admin_filter, :only => [:return_as_admin]
   before_filter :check_for_user, :only => [:edit, :update]
 
   def borrow_credits
@@ -38,8 +39,17 @@ class UsersController < ApplicationController
   end
 
   def login_as
+    return_as = current_user.id
     @user = User.find(params[:user_id])
     session[:user_id] = @user.id
+    session[:return_as] = return_as
+    redirect_to myaccount_path
+  end
+
+  def return_as_admin
+    @return_user = User.find(params[:user_id])
+    session[:user_id] = @return_user.id
+    session[:return_as] = nil
     redirect_to myaccount_path
   end
 
@@ -194,6 +204,12 @@ class UsersController < ApplicationController
     end
   end
   private
+
+  def return_as_admin_filter
+      return_to = session[:return_to]
+      return true if return_to == params[:user_id]
+      redirect_to message_path, :notice => "Not Authorized."
+  end
 
   def check_for_user
     @user = User.find(params[:id])
