@@ -1,4 +1,10 @@
+<% if @user.encrypted_password.blank?%>
+<%= link_to 'Register as Registered User', edit_user_path(@user, :register => true) %>
+<h2>Register <%= @user.name %></h2>
+<%else%>
 <h2>Edit <%= @user.name %></h2>
+<%end%>
+
 <%= simple_form_for(@user, :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
   <%= f.error_notification %>
   <%= f.input :name,  :label => 'Nick Name:',:autofocus => true %>
