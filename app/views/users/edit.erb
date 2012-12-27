@@ -1,4 +1,4 @@
-<% if @user.encrypted_password.blank?%>
+<% if @user.encrypted_password.blank?  && params[:register].blank? %>
 <%= link_to 'Register as Registered User', edit_user_path(@user, :register => true) %>
 <h2>Register <%= @user.name %></h2>
 <%else%>
@@ -18,6 +18,7 @@
   <%end%>
     <% if user_is_admin?%>
       <%= f.input :site_id %>
+      <%= f.input :status %>
     <%end%>
     <%= f.input :time_zone, :priority => /US/ %>
   <%= f.button :submit, 'Update', :class => 'btn-primary' %>
