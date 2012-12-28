@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
- before_filter :user_is_admin_filter?
+ before_filter :user_is_admin_filter?, :except => ['leaderboard']
   # GET /sites
   # GET /sites.json
 

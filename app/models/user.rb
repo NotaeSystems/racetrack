@@ -36,7 +36,8 @@ class User < ActiveRecord::Base
                    :description => 'Initial Credits',
                    :site_id => self.site_id
                  )
-
+    self.amount = amount
+    self.save
   end
 
   def borrow_credits(amount)
