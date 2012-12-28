@@ -148,7 +148,7 @@ class UsersController < ApplicationController
 
       session[:user_id] = @user.id
       current_user.award_initial_credits(@site.initial_credits)
-      redirect_to myaccount_path(@user), notice: "Thank you for registering. You have been awarded #{@site.initial_credits} Free Credits. You are not ready to start handicapping."
+      redirect_to myaccount_path(@user), notice: "Thank you for registering. You have been awarded #{@site.initial_credits} Free Credits. You are now ready to start handicapping."
     else
       render "new"
     end
