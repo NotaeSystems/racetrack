@@ -18,7 +18,7 @@
       <%else%>
         <td><%= link_to "#{meetleague.track.name}--#{meetleague.meet.name}" , meet_path(:id => meetleague.meet_id), :class => 'btn btn-block' %></td>
       <%end%>
-      <td><%= link_to "Meet Rankings", rankings_path(:league_id => @league.id, :meet_id => meetleague.meet_id), :class => 'btn' %></td>
+      <td><%= link_to "Meet Leaderboard", rankings_path(:league_id => @league.id, :meet_id => meetleague.meet_id), :class => 'btn' %></td>
       <% if is_league_manager?(@league)%>
         <td><%= link_to 'Remove', meetleague, method: :delete, data: { confirm: 'Are you sure? This will remove this Meet from the League.' }, :class => 'btn btn-danger' %></td>
       <%end%>

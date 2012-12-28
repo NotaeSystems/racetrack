@@ -2,6 +2,16 @@ class SitesController < ApplicationController
  before_filter :user_is_admin_filter?
   # GET /sites
   # GET /sites.json
+
+  def leaderboard
+    @users = @site.users.page(params[:page]).per_page(30).order('amount DESC')
+    if current_user
+      @myrank = @site.users.where(:id => current_user.id).order('amount DESC').index(current_user)
+    else
+      @myrank = 'Not Ranked'
+    end
+  end
+
   def index
     @sites = Site.all
 

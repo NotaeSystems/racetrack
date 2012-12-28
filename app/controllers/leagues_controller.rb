@@ -4,6 +4,16 @@ class LeaguesController < ApplicationController
   before_filter :login_required_filter, :except => [:index, :show, :tag_cloud]
   before_filter :is_league_manager_filter, :only =>[:edit, :update]
 
+  def leaderboard
+     @league = League.find(params[:id])
+     @leagueusers = @league.leagueusers.page(params[:page]).per_page(30).order('amount DESC')
+    if current_user
+      @myrank = @league.leagueusers.where(:id => current_user.id).order('amount DESC').index(current_user)
+    else
+      @myrank = 'Not Ranked'
+    end
+  end
+
   def join
      @league = League.find(params[:id])
      #@status = params[:status]

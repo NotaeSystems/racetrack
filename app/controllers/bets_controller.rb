@@ -98,15 +98,19 @@ class BetsController < ApplicationController
 
       @horse = Horse.find(params[:horse_id])
       @gate = Gate.find(params[:gate_id])
-      @meet = @horse.race.card.meet
+     @race = Race.find(params[:race_id])
+ 
+     @card = @race.card
+     @meet = @card.meet
+     @track = @meet.track
     if current_user
       @bet = Bet.new
       @bet.horse_id = @horse.id
       @bet.user_id = current_user.id
-      @bet.meet_id = @horse.race.card.meet.id
-      @bet.race_id = @horse.race.id
-      @bet.card_id = @horse.card_id  
-      @bet.track_id = @horse.track   
+      @bet.meet_id = @race.card.meet.id
+      @bet.race_id = @race.id
+      @bet.card_id = @card.id  
+      @bet.track_id = @track.id   
       @bet.gate_id = @gate.id 
       respond_to do |format|
         format.html # new.html.erb
@@ -131,12 +135,16 @@ class BetsController < ApplicationController
   def create
     @bet = Bet.new(params[:bet])
     @meet = Meet.find(params[:bet][:meet_id])
-    @track = @meet.track
+    @race = Race.find(params[:bet][:race_id])
+    @gate = Gate.find(params[:bet][:gate_id])
+    @gate = Card.find(params[:bet][:card_id])
+    @track = Track.find(params[:bet][:track_id])
     @horse = Horse.find(params[:bet][:horse_id])
-    @card = @horse.race.card
+
     @bet.status = 'Pending'
     @bet.card_id = @card.id
     @bet.site_id = @bet.site_id
+
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,
@@ -145,10 +153,11 @@ class BetsController < ApplicationController
                            :description => "Deduction for Bet",
                            :card_id => @card.id,
                            :credit_type => "Bet Deduction",
-                           :track_id => @track.id
+                           :track_id => @track.id,
+                           :site_id => @site.id
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
-        format.html { redirect_to race_path(:id => @horse.race), notice: 'Bet was successfully created.' }
+        format.html { redirect_to race_path(:id => @race.id), notice: 'Bet was successfully created.' }
         format.json { render json: @bet, status: :created, location: @bet }
       else
         format.html { render action: "new" }

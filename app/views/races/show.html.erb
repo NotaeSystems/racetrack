@@ -89,7 +89,7 @@
     <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
 
 <%if @race.betting_status == 'Open' %>
-  <%if gate.horse.status == 'Open'%>
+  <%if gate.status == 'Open'%>
     <% if user_signed_in? %>
 
       <%unless current_user.credits_balance < 1%>
@@ -104,14 +104,14 @@
       <td> <%= link_to 'Login', login_path , :class => 'btn btn-mini btn-info' %></td>
     <%end%>
 
-  <%elsif horse.status == 'Scratched' %>
+  <%elsif gate.status == 'Scratched' %>
        <td>Scratched</td>
   <%else%>
      <td><%= gate.horse.status %></td>   
 
    <%end%>
 <%else%>
-    <td><%=@betting_status%></td>
+    <td><%=gate.status%></td>
 <%end%>
 <%if user_is_track_manager?(@track) %>
     <td><%= link_to "Edit Gate", edit_gate_path(gate, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete Gate", gate, method: :delete, data: { confirm: 'Are you sure? This will delete this Gate' }, :class => 'btn btn-mini btn-danger' %></td>

@@ -4,7 +4,7 @@
 <%if @card || @meet %>
 <h1><%= link_to @track.name, track_path(@track.id)%></h1>
 
-  <h2>Listing rankings for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
+  <h2>Leaderboard for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
 <% if user_signed_in? %>
 Your Rank: <%=@rank%>
 <%end%>
@@ -28,7 +28,7 @@ Your Rank: <%=@rank%>
     <small><%= ranking.user.name %></small></td>
 
     <td><%= ranking.amount %></td>
-   <td><%= rank %>xxx</td>
+   <td><%= rank %></td>
      <% if current_user.has_role? :admin %>
 
        <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>

@@ -17,7 +17,7 @@ class User < ActiveRecord::Base
   has_many :leagueusers, :dependent => :delete_all
   has_many :achievementusers, :dependent => :delete_all
   has_many :rankings, :dependent => :delete_all
-
+  has_many :leagues, :through => :leagueusers
   belongs_to :site
 
   #devise :database_authenticatable, :registerable, 
@@ -235,7 +235,7 @@ class User < ActiveRecord::Base
   def update_card_ranking(card, amount)
    ranking = Ranking.where("user_id = ? and meet_id = ? and card_id = ?",self.id, card.meet_id, card.id).first
    if ranking
-     ranking.amount += amount
+     ranking.amount += amount.to_i
      ranking.save
    else
      ranking = Ranking.new
@@ -245,5 +245,25 @@ class User < ActiveRecord::Base
      ranking.amount =  amount
      ranking.save
    end
+    ## update user amount #############################
+    self.amount = 0 if self.amount.nil?
+    self.amount += amount.to_i
+    self.save
+    ###################################################
+
+    ### update leagueusers ############################
+    ## find all the leagues user is member of
+    myleagues_ids = self.leagues.pluck('leagues.id')
+    ##find all the league meets
+    meetleagues = Meetleague.where(:meet_id => card.meet.id, :league_id => myleagues_ids)
+    ### update the leagueuser credits field
+    meetleagues.each do |meet|
+      leagueuser = Leagueuser.where(:league_id => meet.league_id, :user_id => self.id).first
+      leagueuser.amount = 0 if leagueuser.amount.nil?
+      leagueuser.amount += amount
+      leagueuser.save
+    end
+    ####################################################
+
   end
 end

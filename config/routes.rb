@@ -2,7 +2,16 @@ Myapp::Application.routes.draw do
   
   match '/home/' => 'home#index', as: :home
 
-  resources :gates
+  resources :gates do
+      collection do
+        #get ''
+      end
+      member do
+        get 'scratch'
+        #get 'credits'
+      end 
+
+  end
 
   resources :pages , except: :show
   
@@ -111,6 +120,8 @@ get 'signup', to: 'users#new', as: 'signup'
 get 'borrow', to: 'users#borrow_credits', as: 'borrow'
 get 'login', to: 'sessions#new', as: 'login'
 get 'logout', to: 'sessions#destroy', as: 'logout'
+get 'leaderboard', to: 'sites#leaderboard', as: 'leaderboard'
+
 
 
  ### Pusher ###############
@@ -121,11 +132,12 @@ get 'logout', to: 'sessions#destroy', as: 'logout'
 
   resources :leagues  do
       collection do
-        #get ''
+      #  get ''
       end
       member do
         get 'join'
         get 'quit'
+        get 'leaderboard'
         #get 'credits'
       end 
 

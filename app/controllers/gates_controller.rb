@@ -1,6 +1,14 @@
 class GatesController < ApplicationController
   # GET /gates
   # GET /gates.json
+
+  def scratch
+    @gate = Gate.find(params[:id])
+    @gate.scratch
+    
+    redirect_to race_path(@gate.race), notice: 'Gate was successfully scratched.'
+  end
+
   def index
     @gates = Gate.all
 

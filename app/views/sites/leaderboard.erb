@@ -1,0 +1,32 @@
+
+<h3><%=@count%> Leaderboard for <%= @site.name %></h3>
+
+
+<div class="span8">
+
+<p>My Rank: <%= @myrank %>
+
+<%= will_paginate @users %>
+<table class='table table-striped table-bordered table-condensed'>
+	  <thead>
+      <tr>
+          <th>Member</th>
+          <th>Credits</th>
+          <th>Rank</th>
+          <th></th>
+          <th></th>                                      
+      </tr>
+  </thead>   
+  <tbody>
+  <% @users.each_with_index do |user, index| %>
+    <tr>
+        <td><%=  "#{user.name}" %></td>
+        <td><%=  "#{user.amount}" %></td>
+        <td><%=  "#{index + 1}" %></td>
+                                      
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate @users %>
+</div>

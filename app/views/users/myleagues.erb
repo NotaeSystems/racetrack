@@ -12,6 +12,7 @@
   <tr>
     <%unless leagueuser.league.blank? %>
     <td><%= link_to leagueuser.league.name, league_path(:id => leagueuser.league_id), :class => 'btn btn-block' %></td>
+    <td> <%= link_to 'Leaderboard', leaderboard_league_path(leagueuser.league), :class => 'btn' %></td>
     <%else%>
     <td><%= link_to 'No league', leagueuser_path(:id => leagueuser.id), :class => 'btn' %></td>
     <%end%>

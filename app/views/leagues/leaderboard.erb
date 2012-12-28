@@ -1,0 +1,32 @@
+<h1> <%= link_to @league.name, @league %></h1>
+<h3><%=@count%> Leaderboard</h3>
+
+
+<div class="span8">
+
+<p>My League Rank: <%= @myrank %>
+
+<%= will_paginate @leagueusers %>
+<table class='table table-striped table-bordered table-condensed'>
+	  <thead>
+      <tr>
+          <th>Member</th>
+          <th>Credits</th>
+          <th>Rank</th>
+          <th></th>
+          <th></th>                                      
+      </tr>
+  </thead>   
+  <tbody>
+  <% @leagueusers.each_with_index do |leagueuser, index| %>
+    <tr>
+        <td><%=  "#{leagueuser.user.name}" %></td>
+        <td><%=  "#{leagueuser.user.amount}" %></td>
+        <td><%=  "#{index + 1}" %></td>
+                                      
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<%= will_paginate @leagueusers %>
+</div>
