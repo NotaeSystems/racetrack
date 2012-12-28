@@ -5,6 +5,7 @@
     <%= f.input :nickname %>
     <% if is_league_manager?(@league)%>
     <%= f.select :status, ['Member', 'Manager', 'Pending', 'Banned'] %>
+    <%= f.input :amount %>
     <%= f.input :active %>
     <%end%>
 
