@@ -14,6 +14,8 @@ class LeagueusersController < ApplicationController
     elsif params[:q][:league_id_eql]
       @league = League.find(params[:q][:league_id_eql])
      @search = Leagueuser.where(:league_id => @league.id).page(params[:page]).includes(:league, :user).per_page(30).order('nickname').search(params[:q])
+    else
+      @search = Leagueuser.all.search(params[:q])
     end
     @leagueusers = @search.result
 
