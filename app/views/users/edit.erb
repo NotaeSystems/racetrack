@@ -1,8 +1,8 @@
 <% if @user.encrypted_password.blank?  && params[:register].blank? %>
-<%= link_to 'Register as Registered User', edit_user_path(@user, :register => true) %>
-<h2>Register <%= @user.name %></h2>
+  <%= link_to 'Register as Registered User', edit_user_path(@user, :register => true) %>
+  <h2>Edit <%= @user.name %></h2>
 <%else%>
-<h2>Edit <%= @user.name %></h2>
+  <h2>Register <%= @user.name %></h2>
 <%end%>
 
 <%= simple_form_for(@user, :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
