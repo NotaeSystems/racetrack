@@ -180,6 +180,10 @@ class UsersController < ApplicationController
         @user.password = params[:user][:password]
         @user.password_confirmation = params[:user][:password_confirmation]
       end
+    if user_is_admin?
+        @user.amount = params[:user][:amount]
+        @user.status = params[:user][:status]
+    end
       @user.time_zone = params[:user][:time_zone]
       @user.encrypt_password
       # if @user.update_attributes(params[:user], :as => :admin)
