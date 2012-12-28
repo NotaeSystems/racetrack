@@ -6,7 +6,7 @@ class SitesController < ApplicationController
   def leaderboard
     @users = @site.users.page(params[:page]).per_page(30).order('amount DESC')
     if current_user
-      @myrank = @site.users.order('amount DESC').index(current_user)
+      @myrank = @site.users.order('amount DESC').index(current_user) + 1
     else
       @myrank = 'Not Ranked'
     end
