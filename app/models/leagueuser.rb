@@ -1,7 +1,7 @@
 class Leagueuser < ActiveRecord::Base
   belongs_to :league
   belongs_to :user
-  attr_accessible :active, :league_id, :nickname, :status, :user_id
+  attr_accessible :active, :league_id, :nickname, :status, :user_id, :amount
 
   def quit
     ##TODO clean up records as necessary
