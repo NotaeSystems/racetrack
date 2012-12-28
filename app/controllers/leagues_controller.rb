@@ -24,7 +24,8 @@ class LeaguesController < ApplicationController
        @status = 'Pending'
        messsage = 'Your membership is pending. Please check back later.'
      end
-     leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => @status, :amount => 100)
+     user_amount = current_user.amount
+     leagueuser = Leagueuser.find_or_create_by_user_id_and_league_id(:user_id =>current_user.id, :league_id =>@league.id, :nickname => current_user.name, :active => true, :status => @status, :amount => user_amount)
       logger.info "session provider is #{session[:provider]}\n"
        if session[:provider].to_s == 'facebook'
        #     current_user.facebook.put_wall_post("I joined the league #{@league.name} on  Fantasy Odds Maker. Come compete with me.", :description => @league.description, :link => "http://www.fantasyoddsmaker.com/leagues/#{@league.id}")
