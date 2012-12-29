@@ -1,5 +1,9 @@
 Myapp::Application.routes.draw do
   
+  resources :plans
+
+  resources :subscriptions
+
   match '/home/' => 'home#index', as: :home
 
   resources :gates do

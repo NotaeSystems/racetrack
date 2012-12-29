@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121228103127) do
+ActiveRecord::Schema.define(:version => 20121229183821) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -201,6 +201,16 @@ ActiveRecord::Schema.define(:version => 20121228103127) do
 
   add_index "pages", ["permalink"], :name => "index_pages_on_permalink"
 
+  create_table "plans", :force => true do |t|
+    t.string   "name"
+    t.integer  "site_id"
+    t.text     "description"
+    t.integer  "amount"
+    t.string   "period"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "pusher_channels", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
@@ -270,6 +280,23 @@ ActiveRecord::Schema.define(:version => 20121228103127) do
     t.datetime "updated_at",      :null => false
     t.string   "permalink"
     t.integer  "max_tracks"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.string   "name"
+    t.string   "email"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.string   "status"
+    t.integer  "plan_id"
+    t.text     "description"
+    t.string   "stripe_customer_token"
+    t.datetime "begin_date"
+    t.datetime "expires"
+    t.integer  "amount"
+    t.string   "period"
+    t.datetime "created_at",            :null => false
+    t.datetime "updated_at",            :null => false
   end
 
   create_table "taggings", :force => true do |t|

@@ -17,6 +17,11 @@ gem 'gravatar-ultimate'
 gem 'will_paginate'
 gem 'acts-as-taggable-on'
 
+#### stripe
+gem 'stripe'
+gem 'omniauth-stripe-connect'
+####
+
 #### facebook #########
 gem 'omniauth'
 gem 'omniauth-facebook'

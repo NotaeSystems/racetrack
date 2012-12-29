@@ -27,7 +27,7 @@ class TracksController < ApplicationController
         
 
   if params[:tag]
-    @search = Track.active.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
+    @search = @site.tracks.active.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])
     @tracks = @search.result
   elsif params[:owned]
     @search = @site.tracks.where(:owner_id => current_user.id).page(params[:page]).per_page(30).order('name').search(params[:q])

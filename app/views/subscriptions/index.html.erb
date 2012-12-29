@@ -1,0 +1,43 @@
+<h1>Listing subscriptions</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>User</th>
+    <th>Site</th>
+    <th>Status</th>
+    <th>Plan</th>
+    <th>Description</th>
+    <th>Stripe customer token</th>
+    <th>Begin</th>
+    <th>Expires</th>
+    <th>Amount</th>
+    <th>Period</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @subscriptions.each do |subscription| %>
+  <tr>
+    <td><%= subscription.name %></td>
+    <td><%= subscription.user_id %></td>
+    <td><%= subscription.site_id %></td>
+    <td><%= subscription.status %></td>
+    <td><%= subscription.plan_id %></td>
+    <td><%= subscription.description %></td>
+    <td><%= subscription.stripe_customer_token %></td>
+    <td><%= subscription.begin_date %></td>
+    <td><%= subscription.expires %></td>
+    <td><%= subscription.amount %></td>
+    <td><%= subscription.period %></td>
+    <td><%= link_to 'Show', subscription %></td>
+    <td><%= link_to 'Edit', edit_subscription_path(subscription) %></td>
+    <td><%= link_to 'Destroy', subscription, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Subscription', new_subscription_path %>
