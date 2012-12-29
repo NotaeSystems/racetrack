@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
    redirect_to root_path, :alert => "Not Authorized! "
   end
 
+  def user_is_site_manager_filter?
+    if current_user
+      return true if user_is_site_manager?
+    end
+   redirect_to root_path, :alert => "Not Authorized! "
+  end
+
   def user_is_track_manager?(track)
    return false if track.nil?
    return false if current_user.nil?
@@ -62,6 +69,7 @@ class ApplicationController < ActionController::Base
   def user_is_site_manager?
    return false if current_user.nil?
    return true if current_user.id == @site.owner_id
+   return true if current_user.has_role?('admin')
    false
   end
 

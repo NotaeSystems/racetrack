@@ -144,6 +144,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     @user.site_id = @site.id
+    @user.status = 'Member'
     if @user.save
 
       session[:user_id] = @user.id

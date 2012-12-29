@@ -17,9 +17,13 @@
       <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en"  data-count="none" data-text="Come test your handicapping skills with me."	data-url="<%= home_url %>"  >Tweet</a>
     <% if current_user.has_role? :admin %></strong>
   
-     <strong>  <%= link_to 'Admin', dashboard_admin_path, :class => 'btn btn-mini btn-warning' %>  </strong>       
-
+     <strong>  <%= link_to 'Admin', dashboard_admin_path, :class => 'btn btn-mini btn-warning' %>  </strong> 
     <%end%>
+
+    <%if user_is_site_manager? %>      
+     <strong>  <%= link_to 'Manage Site', dashboard_manage_path, :class => 'btn btn-mini btn-warning' %>  </strong>  
+    <%end%>
+
      <%unless session[:return_as].blank? %>
        <strong>  <%= link_to 'Return to Admin', return_as_admin_path(:user_id => session[:return_as]), :class => 'btn btn-mini btn-warning' %>  </strong>
      <%end%>  
