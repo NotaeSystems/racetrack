@@ -12,7 +12,7 @@
     <%= f.input :twitter_secret %>
     <%= f.input :domain %>
     <%= f.input :slug %>
-    <%if user_is_site_manager?
+    <%if user_is_site_manager? %>
       <%= f.input :status %>
       <%= f.input :sanctioned %>
       <%= f.input :max_sites %> 

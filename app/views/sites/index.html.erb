@@ -1,41 +1,27 @@
 <h1>Listing sites</h1>
 
-<table>
+<table class='table table-striped table-bordered table-condensed'>
   <tr>
     <th>Name</th>
     <th>Description</th>
     <th>Owner</th>
-    <th>Initial credits</th>
-    <th>Facebook key</th>
-    <th>Facebook secret</th>
-    <th>Twitter key</th>
-    <th>Twitter secret</th>
     <th>Domain</th>
     <th>Slug</th>
     <th>Status</th>
     <th>Sanctioned</th>
-    <th></th>
-    <th></th>
-    <th></th>
+
   </tr>
 
 <% @sites.each do |site| %>
   <tr>
-    <td><%= site.name %></td>
+    <td><%= link_to site.name, edit_site_path(site) %></td>
     <td><%= site.description %></td>
-    <td><%= site.owner_id %></td>
-    <td><%= site.initial_credits %></td>
-    <td><%= site.facebook_key %></td>
-    <td><%= site.facebook_secret %></td>
-    <td><%= site.twitter_key %></td>
-    <td><%= site.twitter_secret %></td>
+    <td><%= site.owner.name %></td>
     <td><%= site.domain %></td>
     <td><%= site.slug %></td>
     <td><%= site.status %></td>
     <td><%= site.sanctioned %></td>
-    <td><%= link_to 'Show', site %></td>
-    <td><%= link_to 'Edit', edit_site_path(site) %></td>
-    <td><%= link_to 'Destroy', site, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
   </tr>
 <% end %>
 </table>

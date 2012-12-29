@@ -5,7 +5,7 @@
   <%#if current_user.credits_balance(@card) == 0 %>
     <%#= link_to "Refresh Credits", refresh_credits_card_path(:id => @card.id) %>
   <%#end%>
-<%= link_to "#{@card.meet.track.card_alias} Rankings", rankings_path(:card_id => @card.id), :class => 'btn btn-mini'%>
+<%= link_to "#{@card.meet.track.card_alias} Leaderboard", rankings_path(:card_id => @card.id), :class => 'btn btn-mini'%>
 <%= link_to "All #{@card.meet.track.card_alias} Bets", bets_path(:card => @card.id), :class => 'btn btn-mini'%>
 <%= link_to "My #{@card.meet.track.card_alias}  Bets", mybets_path(:meet => @meet.id), :class => 'btn btn-mini'%>
 <%= link_to "My #{@card.meet.track.card_alias} Credits", mycredits_path(:card => @card.id), :class => 'btn btn-mini'%>

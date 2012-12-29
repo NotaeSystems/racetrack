@@ -148,6 +148,7 @@ class UsersController < ApplicationController
 
       session[:user_id] = @user.id
       current_user.award_initial_credits(@site.initial_credits)
+      current_user.add_achievement('Neophyte', nil)
       redirect_to myaccount_path(@user), notice: "Thank you for registering. You have been awarded #{@site.initial_credits} Free Credits. You are now ready to start handicapping."
     else
       render "new"
@@ -172,7 +173,7 @@ class UsersController < ApplicationController
   def update
    # authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
-    if current_user == @user.id || user_is_admin?
+    if current_user.id == @user.id || user_is_admin?
       @user.name = params[:user][:name]
       @user.email = params[:user][:email]
       @user.site_id = params[:user][:site_id]
@@ -193,7 +194,7 @@ class UsersController < ApplicationController
         redirect_to myaccount_path, :alert => "Unable to update user."
       end
     else
-        redirect_to message_path, :error => "Unable to update user."
+        redirect_to message_path, :alert => "Unable to update user. Permissions Error."
     end
   end
     

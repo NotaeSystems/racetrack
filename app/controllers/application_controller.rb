@@ -8,7 +8,12 @@ class ApplicationController < ActionController::Base
     redirect_to root_path, :alert => exception.message
   end
   
-
+  def user_is_admin_filter?
+    if current_user
+      return true if current_user.has_role? :admin
+    end
+   redirect_to root_path, :alert => "Not Authorized! "
+  end
 
   def user_is_track_manager?(track)
    return false if track.nil?
@@ -121,11 +126,7 @@ private
     redirect_to root_path, :alert => "Must be logged in "
   end
 
-  def user_is_admin_filter?
-   return false if current_user.nil?
-   return true if current_user.has_role?('admin')
-   redirect_to root_path, :alert => "Not Authorized! "
-  end
+
 
   def user_time_zone(&block)
     Time.use_zone(current_user.time_zone, &block)
