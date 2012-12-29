@@ -12,10 +12,10 @@
     <%= f.input :twitter_secret %>
     <%= f.input :domain %>
     <%= f.input :slug %>
-    <%if user_is_site_manager? %>
-      <%= f.input :status %>
+    <%if user_is_admin? %>
+      <%= f.select :status, ['Pending', 'Open', 'Trash'] %>
       <%= f.input :sanctioned %>
-      <%= f.input :max_sites %> 
+      <%= f.input :max_tracks %> 
     <%end%>
   </div>
 

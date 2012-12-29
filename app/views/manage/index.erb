@@ -26,8 +26,8 @@
           <th>Login As</th>
           <th>Email</th>
           <th>Registered</th>
-          <th>Role</th>
           <th>Site</th>
+          <th>Role</th>
           <th></th>
           <th></th>                                      
       </tr>
@@ -38,10 +38,11 @@
         <td><%= link_to "Login as #{user.name}", login_as_path(:user_id => user.id), :class => 'btn btn-mini btn-warning' %>
 </td>
         <td><%= link_to user.email,edit_user_path(:id => user.id), :class => 'btn' %></td>
-        <% if user.encrypted_password.blank? %>
-          <td> Not Registered</td>
+        <td><%= user.created_at.to_date %></td>
+        <%if user.site %>
+          <td><%= user.site.name %>
         <%else%>
-          <td><%= user.created_at.to_date %></td>
+          <td> No Site </td>
         <%end%>
         <%if user.has_role? :admin %>      <%#= user.roles.last.name.titleize unless user.roles.first.nil? %>
          <td>Admin</td>
@@ -49,7 +50,7 @@
          <td></td>
         <%end%>
 
-        <td><%= user.site.name unless user.site.blank? %></td>
+
         <%if user.has_role? :admin %> 
           <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
          <%else%>

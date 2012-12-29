@@ -1,6 +1,7 @@
-<%=link_to 'Sites', sites_path, :class => 'btn btn-mini btn-warning'  %>
-<%=link_to 'Pages', pages_path, :class => 'btn btn-mini btn-warning'  %>
-<%=link_to 'Tracks', tracks_admin_path, :class => 'btn btn-mini btn-warning'  %>
+<h1>Manage <%=@site.name %></h1>
+<%=link_to 'Edit Site', edit_site_path(@site), :class => 'btn btn-mini btn-warning'  %>
+<%#=link_to 'Pages', pages_path, :class => 'btn btn-mini btn-warning'  %>
+<%=link_to 'Tracks', tracks_manage_path, :class => 'btn btn-mini btn-warning'  %>
 <h3><%=@count%> Users</h3>
 
 
@@ -25,10 +26,8 @@
       <tr>
           <th>Login As</th>
           <th>Email</th>
+          <th>Status</th>
           <th>Registered</th>
-          <th>Role</th>
-          <th>Site</th>
-          <th></th>
           <th></th>                                      
       </tr>
   </thead>   
@@ -37,24 +36,15 @@
     <tr>
         <td><%= link_to "Login as #{user.name}", login_as_path(:user_id => user.id), :class => 'btn btn-mini btn-warning' %>
 </td>
+       
         <td><%= link_to user.email,edit_user_path(:id => user.id), :class => 'btn' %></td>
+          <td><%= user.status %></td>
         <% if user.encrypted_password.blank? %>
           <td> Not Registered</td>
         <%else%>
           <td><%= user.created_at.to_date %></td>
         <%end%>
-        <%if user.has_role? :admin %>      <%#= user.roles.last.name.titleize unless user.roles.first.nil? %>
-         <td>Admin</td>
-         <%else%>
-         <td></td>
-        <%end%>
 
-        <td><%= user.site.name unless user.site.blank? %></td>
-        <%if user.has_role? :admin %> 
-          <td><%= link_to("Remove Admin role", remove_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
-         <%else%>
-          <td><%= link_to("Add Admin role", add_role_path(:user_id => user.id, :role => 'admin'), :data => { :confirm => "Are you sure?" }, :class => 'btn btn-mini btn-warning') %></td>  
-         <%end%>
         <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini btn-warning') unless user == current_user %></td>                                       
     </tr>
   <% end %>

@@ -1,5 +1,8 @@
 class SitesController < ApplicationController
- before_filter :user_is_admin_filter?, :except => [:leaderboard]
+  before_filter :login_required_filter
+ before_filter :user_is_admin_filter?, :except => [:leaderboard, :edit, :update]
+ before_filter :user_has_site_manage_rights, :only => [:edit, :update]
+
   # GET /sites
   # GET /sites.json
 
@@ -71,7 +74,7 @@ class SitesController < ApplicationController
 
     respond_to do |format|
       if @selected_site.update_attributes(params[:site])
-        format.html { redirect_to @selected_site, notice: 'Site was successfully updated.' }
+        format.html { redirect_to dashboard_manage_path, notice: 'Site was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -90,5 +93,15 @@ class SitesController < ApplicationController
       format.html { redirect_to sites_url }
       format.json { head :no_content }
     end
+  end
+  private
+
+  def user_has_site_manage_rights
+    @selected_site = Site.find(params[:id])
+   return true if current_user.id == @site.owner_id &&  @selected_site.id == @site.id
+   return true if current_user.has_role?('admin')
+
+   redirect_to root_path, :alert => "Not Authorized! "
+
   end
 end

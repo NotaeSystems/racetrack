@@ -151,8 +151,9 @@ class TracksController < ApplicationController
   private
 
   def is_track_manager_filter
+   return true if current_user.has_role? :admin
    @track = Track.find(params[:id])
-   return true if user_is_track_manager?(@track)
+   return true if user_is_track_manager?(@track) && @track.site_id == current_user.site_id
    flash[:error] = "Not Authorized as Track Manager"
    redirect_to(message_path)
   end
