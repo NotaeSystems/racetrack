@@ -1,5 +1,5 @@
 class SitesController < ApplicationController
-  before_filter :login_required_filter
+  before_filter :login_required_filter, :except => [:leaderboard]
  before_filter :user_is_admin_filter?, :except => [:leaderboard, :edit, :update]
  before_filter :user_has_site_manage_rights, :only => [:edit, :update]
 
