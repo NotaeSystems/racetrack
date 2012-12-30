@@ -11,7 +11,7 @@
     <%= f.input :twitter_key %>
     <%= f.input :twitter_secret %>
     <%= f.input :domain %>
-    <%= f.input :slug %>
+    <%= f.input :permalink, :label => 'Subdomain' %>
     <%= f.input :rebuy_credits %>
     <%= f.input :rebuy_charge, :label => 'Rebuy Charge In Cents' %>
     <%if user_is_admin? %>
