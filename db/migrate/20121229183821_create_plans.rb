@@ -6,7 +6,10 @@ class CreatePlans < ActiveRecord::Migration
       t.text :description
       t.integer :amount
       t.string :period
-
+      t.string :title
+      t.string :plan_type
+      t.integer :max_tracks
+      t.integer :max_members
       t.timestamps
     end
   end

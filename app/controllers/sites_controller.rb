@@ -57,7 +57,7 @@ class SitesController < ApplicationController
     @selected_site = Site.new(params[:site])
 
     respond_to do |format|
-      if @site.save
+      if @selected_site.save
         format.html { redirect_to @selected_site, notice: 'Site was successfully created.' }
         format.json { render json: @selected_site, status: :created, location: @site }
       else

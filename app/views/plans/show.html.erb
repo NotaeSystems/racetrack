@@ -4,7 +4,10 @@
   <b>Name:</b>
   <%= @plan.name %>
 </p>
-
+<p>
+  <b>Title:</b>
+  <%= @plan.name %>
+</p>
 <p>
   <b>Site:</b>
   <%= @plan.site_id %>
@@ -24,7 +27,14 @@
   <b>Period:</b>
   <%= @plan.period %>
 </p>
-
+<p>
+  <b>Maximum Member:</b>
+  <%= @plan.max_members %>
+</p>
+<p>
+  <b>Maximum Tracks:</b>
+  <%= @plan.max_tracks %>
+</p>
 
 <%= link_to 'Edit', edit_plan_path(@plan) %> |
 <%= link_to 'Back', plans_path %>

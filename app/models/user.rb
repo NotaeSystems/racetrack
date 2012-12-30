@@ -11,7 +11,8 @@ class User < ActiveRecord::Base
   has_many :credits, :dependent => :delete_all
   has_many :bets, :dependent => :delete_all
   has_many :authentications, :dependent => :delete_all
-
+  has_many :transactions
+  has_many :subscriptions
   has_many :comments, :dependent => :delete_all
   has_many :trackusers, :dependent => :delete_all
   has_many :leagueusers, :dependent => :delete_all
@@ -59,6 +60,31 @@ class User < ActiveRecord::Base
     return "You have borrowed #{amount} credits."
   end
 
+  def rebuy_credits(number, charge)
+    ## see if bettor is member of this track
+       
+       ## see if bettor has been given initial card credits or borrowed in last last 24 hours
+   #    initial_credits = Credit.where("user_id = ? and credit_type IN ('Initial', 'Borrowed') and created_at > ?",self.id, Time.now - 24.hours)
+  
+   # return "Sorry, you have rebought credits within past 24 hours" unless initial_credits.blank?
+    #logger.info "initial or borrowed credits ion last 24 hours are nil now creating borrowed credits"
+    ## TODO check for source of credits later may be from meet
+    logger.info "Refreshing credits- #{amount} credits\n"
+    Credit.create( :user_id => self.id,
+                   :amount => number,
+                   :description => 'Rebuy credits',
+                   :credit_type => 'Rebuy', 
+                   :site_id => self.site_id
+                 )
+    Transaction.create( :user_id => self.id,
+                   :amount => charge,
+                   :description => "Rebuy #{number} credits",
+                   :transaction_type => 'Rebuy', 
+                   :site_id => self.site_id
+                 )
+
+    return "You have bought #{number} credits for $#{charge/100}."
+  end
 
   def encrypt_password
     if password.present?
@@ -87,6 +113,14 @@ class User < ActiveRecord::Base
    # logger.info = "Role = #{role.inspect}"
  #   return true if role
  # end
+
+  def charge_stripe(amount)
+    Stripe::Charge.create(
+      :amount => amount, 
+      :currency => "usd",
+      :customer => self.stripe_customer_id
+    )
+  end
 
   def add_achievement(achievement_name, provider = nil)
    achievement = Achievement.where(:name => achievement_name, :status => 'Site').first

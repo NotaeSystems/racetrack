@@ -12,7 +12,10 @@
     <%= f.input :twitter_secret %>
     <%= f.input :domain %>
     <%= f.input :slug %>
+    <%= f.input :rebuy_credits %>
+    <%= f.input :rebuy_charge, :label => 'Rebuy Charge In Cents' %>
     <%if user_is_admin? %>
+      <%= f.input :allow_rebuys, :label => 'Allow Rebuys' %> 
       <%= f.select :status, ['Pending', 'Open', 'Trash'] %>
       <%= f.input :sanctioned %>
       <%= f.input :max_tracks %> 
