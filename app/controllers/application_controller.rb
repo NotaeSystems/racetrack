@@ -112,7 +112,7 @@ private
       if @site
          session[:site_id] = @site.id
         if request.host == @site.domain
-          set_cookie_domain(@site.domain)
+        #  set_cookie_domain(@site.domain)
         end
       else
         @site = Site.where("id = 1").first
