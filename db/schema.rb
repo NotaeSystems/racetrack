@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121229183821) do
+ActiveRecord::Schema.define(:version => 20121230133053) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -207,6 +207,10 @@ ActiveRecord::Schema.define(:version => 20121229183821) do
     t.text     "description"
     t.integer  "amount"
     t.string   "period"
+    t.string   "title"
+    t.string   "plan_type"
+    t.integer  "max_tracks"
+    t.integer  "max_members"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
@@ -280,6 +284,9 @@ ActiveRecord::Schema.define(:version => 20121229183821) do
     t.datetime "updated_at",      :null => false
     t.string   "permalink"
     t.integer  "max_tracks"
+    t.integer  "rebuy_credits"
+    t.integer  "rebuy_charge"
+    t.boolean  "allow_rebuys"
   end
 
   create_table "subscriptions", :force => true do |t|
@@ -354,6 +361,18 @@ ActiveRecord::Schema.define(:version => 20121229183821) do
     t.string   "status"
   end
 
+  create_table "transactions", :force => true do |t|
+    t.string   "name"
+    t.integer  "amount"
+    t.text     "description"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.string   "transaction_type"
+    t.integer  "track_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -375,6 +394,7 @@ ActiveRecord::Schema.define(:version => 20121229183821) do
     t.string   "password_salt"
     t.integer  "site_id"
     t.integer  "amount"
+    t.string   "stripe_customer_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

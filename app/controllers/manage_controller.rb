@@ -2,6 +2,11 @@ class ManageController < ApplicationController
   before_filter :login_required_filter
   before_filter :user_is_site_manager_filter?
 
+  def subscriptions
+    @search = @site.subscriptions.page(params[:page]).per_page(30).order('email').search(params[:q])
+    @subscriptions = @search.result
+  end
+
   def tracks
     if params[:tag]
       @search = @site.tracks.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])

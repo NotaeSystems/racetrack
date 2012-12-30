@@ -1,6 +1,9 @@
 class SubscriptionsController < ApplicationController
   # GET /subscriptions
   # GET /subscriptions.json
+  before_filter :user_is_admin_filter?, :except => [:new, :create, :show]
+  before_filter :plan_id_present?, :only => [:new, :create]
+
   def index
     @subscriptions = Subscription.all
 
@@ -26,8 +29,12 @@ class SubscriptionsController < ApplicationController
   def new 
 
     @subscription = Subscription.new
-    @plan = Plan.find(params[:plan_id])
-    @subscription.plan_id = @plan.id
+    @plan = Plan.where(:name => params[:name]).first
+    if @plan
+      @subscription.plan_id = @plan.id
+    else
+      @subscription.plan_id = Plan.first.id
+    end
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @subscription }
@@ -43,6 +50,9 @@ class SubscriptionsController < ApplicationController
   # POST /subscriptions.json
   def create
     @subscription = Subscription.new(params[:subscription])
+    @subscription.user_id = current_user.id
+    @subscription.site_id = @site.id
+    @subscription.status = 'Active'
     if @subscription.save_with_payment
       redirect_to @subscription, :notice => "Thank you for subscribing!"
     else
@@ -76,5 +86,12 @@ class SubscriptionsController < ApplicationController
       format.html { redirect_to subscriptions_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def plan_id_present?
+    return true if Plan.where(:name => params[:name]).present?
+     redirect_to message_path, notice: 'Invalid plan name. Cannot create subscription'
   end
 end

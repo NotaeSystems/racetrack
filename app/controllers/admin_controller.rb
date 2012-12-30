@@ -20,6 +20,7 @@ class AdminController < ApplicationController
     end
   end
 
+
  def dashboard
     @search = User.page(params[:page]).per_page(30).order('email').search(params[:q])
     @users = @search.result

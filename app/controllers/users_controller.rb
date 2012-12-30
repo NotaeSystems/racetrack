@@ -20,6 +20,24 @@ class UsersController < ApplicationController
     end
   end
 
+  def rebuy_credits
+    if current_user.credits_balance > 100
+      redirect_to myaccount_path, :alert => "You can rebuy additional credits only if you have less than 100 credits"
+    else
+      number =  @site.rebuy_credits
+      charge = @site.rebuy_charge
+      message = current_user.rebuy_credits(number, charge)
+      source = params[:race_id]
+    
+      if params[:race_id]
+        race = Race.find(params[:race_id])
+        redirect_to race_path(race), :alert => message
+      else
+        redirect_to myaccount_path, :alert => message
+      end
+    end
+  end
+
   def add_role
    user_id = params[:user_id]
    role = params[:role_id]

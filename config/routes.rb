@@ -1,5 +1,7 @@
 Myapp::Application.routes.draw do
   
+  resources :transactions
+
   resources :plans
 
   resources :subscriptions
@@ -23,7 +25,16 @@ Myapp::Application.routes.draw do
   resources :sites
 
   #get "sessions/new"
-  resources :users
+  resources :users do
+      collection do
+        get 'rebuy_credits'
+      end
+      member do
+       
+        #get 'credits'
+      end 
+
+  end
   resources :sessions
   resources :achievementusers
   resources :authentications
@@ -94,15 +105,17 @@ Myapp::Application.routes.draw do
 
   end
   
-  ### root administration
+### root administration #####################
   match "admin/dashboard" => "admin#dashboard", :as => :dashboard_admin
   match "admin/tracks" => "admin#tracks", :as => :tracks_admin
 
-#### site management
+##############################################
+
+#### site management ##########################
   match "manage/dashboard" => "manage#dashboard", :as => :dashboard_manage
   match "manage/tracks" => "manage#tracks", :as => :tracks_manage
-
-
+  match "manage/subscriptions" => "manage#subscriptions", :as => :subscriptions_manage
+##############################################
 
   match "message" => "home#message", :as => :message
   match "privacy1" => "home#privacy", :as => :privacy

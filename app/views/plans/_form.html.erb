@@ -2,11 +2,14 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :name %>
+    <%= f.input :title %>
+    <%= f.input :name, :label => 'Stripe Plan Name' %>
     <%= f.input :site_id %>
     <%= f.input :description %>
-    <%= f.input :amount %>
+    <%= f.input :amount, :label => 'Amount in Cents' %>
     <%= f.input :period %>
+    <%= f.input :max_members %>
+    <%= f.input :max_tracks %>
   </div>
 
   <div class="form-actions">
