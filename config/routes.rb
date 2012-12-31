@@ -19,6 +19,7 @@ Myapp::Application.routes.draw do
 
   end
 
+
   resources :pages , except: :show
   
 
@@ -115,6 +116,10 @@ Myapp::Application.routes.draw do
   match "manage/dashboard" => "manage#dashboard", :as => :dashboard_manage
   match "manage/tracks" => "manage#tracks", :as => :tracks_manage
   match "manage/subscriptions" => "manage#subscriptions", :as => :subscriptions_manage
+##############################################
+
+#### stripe #################################
+  match "stripeconnect" => "stripe#stripeconnect", :as => :stripeconnect
 ##############################################
 
   match "message" => "home#message", :as => :message

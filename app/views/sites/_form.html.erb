@@ -6,6 +6,7 @@
     <%= f.input :description %>
     <%= f.input :owner_id %>
     <%= f.input :initial_credits %>
+      <%= f.input :daily_login_bonus %> 
     <%= f.input :facebook_key %>
     <%= f.input :facebook_secret %>
     <%= f.input :twitter_key %>
@@ -19,6 +20,10 @@
       <%= f.select :status, ['Pending', 'Open', 'Trash'] %>
       <%= f.input :sanctioned %>
       <%= f.input :max_tracks %> 
+      <%= f.input :stripeconnect %> 
+      <%= f.input :allow_bank %> 
+      <%= f.input :initial_bank %> 
+      <%= f.input :allow_stripe %> 
     <%end%>
   </div>
 

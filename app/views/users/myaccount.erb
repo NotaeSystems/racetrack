@@ -5,9 +5,12 @@
      
 
     <p>My Credits Balance: <%=current_user.credits_balance.round %></p>
+    <% if @site.allow_bank? %>
+    <p>My Bank Balance: <%=number_to_currency(current_user.transactions_balance.round/100) %></p>
      <%if current_user.credits_balance.round.to_i < 100 && @site.allow_rebuys? %>
        <%=link_to "Rebuy #{@site.rebuy_credits} credits", rebuy_credits_users_path, :class => 'btn btn-mini' %>
      <%end%>
+    <%end%>
      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />    
      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />
     <strong><%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %></strong><br /><br />

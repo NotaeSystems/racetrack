@@ -2,7 +2,7 @@ class TransactionsController < ApplicationController
   before_filter :user_is_admin_filter?
 
   def index
-    @transactions = Transaction.all
+    @transactions = Transaction.order('created_at DESC').page(params[:page]).per_page(30)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
   # GET /transactions/new.json
   def new
     @transaction = Transaction.new
-
+    @transaction.amount = 500
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @transaction }
@@ -41,9 +41,10 @@ class TransactionsController < ApplicationController
   # POST /transactions.json
   def create
     @transaction = Transaction.new(params[:transaction])
-
+    @transaction.user_id = current_user.id
+    @transaction.site_id = @site.id
     respond_to do |format|
-      if @transaction.save
+    if @transaction.save_with_payment
         format.html { redirect_to @transaction, notice: 'Transaction was successfully created.' }
         format.json { render json: @transaction, status: :created, location: @transaction }
       else

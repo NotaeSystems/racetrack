@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121230133053) do
+ActiveRecord::Schema.define(:version => 20121231134547) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -280,13 +280,18 @@ ActiveRecord::Schema.define(:version => 20121230133053) do
     t.string   "slug"
     t.string   "status"
     t.string   "sanctioned"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "permalink"
     t.integer  "max_tracks"
     t.integer  "rebuy_credits"
     t.integer  "rebuy_charge"
     t.boolean  "allow_rebuys"
+    t.string   "stripeconnect"
+    t.boolean  "allow_stripe"
+    t.boolean  "allow_bank"
+    t.integer  "initial_bank"
+    t.integer  "daily_login_bonus"
   end
 
   create_table "subscriptions", :force => true do |t|
@@ -371,6 +376,8 @@ ActiveRecord::Schema.define(:version => 20121230133053) do
     t.integer  "track_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "payment_servicer"
+    t.string   "transaction_code"
   end
 
   create_table "users", :force => true do |t|

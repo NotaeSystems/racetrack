@@ -31,6 +31,12 @@ class User < ActiveRecord::Base
   attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :time_zone, :status, :site_id
   validates_presence_of     :name   
 
+
+  def transactions_balance
+    Transaction.where(:user_id => self.id).sum(:amount)
+
+  end
+
   def award_initial_credits(amount)
     Credit.create( :user_id => self.id,
                    :amount => amount,
@@ -60,6 +66,11 @@ class User < ActiveRecord::Base
     return "You have borrowed #{amount} credits."
   end
 
+  def recharge_account
+    
+
+  end
+
   def rebuy_credits(number, charge)
     ## see if bettor is member of this track
        
@@ -77,7 +88,7 @@ class User < ActiveRecord::Base
                    :site_id => self.site_id
                  )
     Transaction.create( :user_id => self.id,
-                   :amount => charge,
+                   :amount => -charge,
                    :description => "Rebuy #{number} credits",
                    :transaction_type => 'Rebuy', 
                    :site_id => self.site_id
