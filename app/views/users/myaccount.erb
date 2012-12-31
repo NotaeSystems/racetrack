@@ -35,7 +35,7 @@
 
  $('#app_request').click(function () {
     FB.ui({
-     appId: '<%=FACEBOOK_APP_ID%>',
+     appId: '<%=@site.facebook_key%>',
      method: 'apprequests',
       message: 'Hi, Test your Handicapping skills. Come compete with me.',
       data: 'Handicapping Game.'
