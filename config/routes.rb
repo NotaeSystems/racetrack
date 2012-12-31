@@ -109,7 +109,7 @@ Myapp::Application.routes.draw do
 ### root administration #####################
   match "admin/dashboard" => "admin#dashboard", :as => :dashboard_admin
   match "admin/tracks" => "admin#tracks", :as => :tracks_admin
-
+  match "admin/transactions" => "admin#transactions", :as => :transactions_admin
 ##############################################
 
 #### site management ##########################
