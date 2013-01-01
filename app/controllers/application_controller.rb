@@ -23,11 +23,12 @@ class ApplicationController < ActionController::Base
   end
 
   def user_is_track_manager?(track)
+
    return false if track.nil?
    return false if current_user.nil?
    return true if track.owner_id == current_user.id
    return true if user_is_site_manager?
-   return true if current_user.has_role? :admin
+   return true if current_user.has_role?('admin')
    trackuser = Trackuser.where(:user_id => current_user.id, :track_id => track.id, :status => 'Manager').first
    return true unless trackuser.blank?
    false
