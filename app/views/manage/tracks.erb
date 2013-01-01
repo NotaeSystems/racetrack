@@ -5,7 +5,8 @@
 <%end%>
   <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %>
        <%= link_to 'Track Tags', tracks_tag_cloud_path, :class => 'btn btn-mini ' %>
-
+  <%= link_to "Create New #{@site.track_alias}" , new_track_path, :class => 'btn btn-mini'  %>
+       <%= link_to 'Track Tags', tracks_tag_cloud_path, :class => 'btn btn-mini ' %>
 <h3>Search</h3>
 
 <%= search_form_for @search do |f| %>

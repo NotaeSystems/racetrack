@@ -14,9 +14,13 @@
 
 
     <% if user_is_admin?%>
+      <div class='admin_box'>
+      <legend>Root Admin</legend>
       <%= f.input :owner_id %>
       <%= f.input :site_id %>
+      </div>
     <%else%>  
+      <%= f.hidden :site_id %>
       <%= f.hidden_field :owner_id %>
     <%end%>
     <%= f.input  :track_alias %>

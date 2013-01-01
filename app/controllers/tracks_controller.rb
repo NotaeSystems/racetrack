@@ -2,6 +2,7 @@ class TracksController < ApplicationController
   # GET /tracks
   # GET /tracks.json
   before_filter :login_required_filter, :except => [:join, :index, :show, :tag_cloud]
+  before_filter :user_is_site_manager_filter?, :only => [:new]
   before_filter :check_for_number_tracks, :only => [:new]
   before_filter :is_track_manager_filter, :only => [:edit, :update]
 
@@ -80,14 +81,15 @@ class TracksController < ApplicationController
     end
     @track.name = "#{@owner.name}'s Track"
     @track.owner_id = @owner.id
-    @track.track_alias = 'Track'
+    @track.site_id = @site.id
+    @track.track_alias = @site.track_alias
     @track.meet_alias = 'Meet'
-    @track.card_alias = 'Card'
+    @track.card_alias = 'Race Card'
     @track.race_alias = 'Race'
     @track.horse_alias = 'Outcome'
-    @track.member_alias = 'Member'
-    @track.bet_alias = 'Wager'
-    @track.credit_alias = 'Points'
+    @track.member_alias = @site.member_alias
+    @track.bet_alias = @site.bet_alias
+    @track.credit_alias = @site.credit_alias
     @track.public = true
     @user = current_user
     if current_user.encrypted_password.blank?
