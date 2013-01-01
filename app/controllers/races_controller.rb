@@ -75,7 +75,7 @@ class RacesController < ApplicationController
 
 
   def show
-    @race = @Race.find(params[:id])
+    @race = Race.find(params[:id])
     @betting_status = @race.betting_status
     @gates = @race.gates.order('number')
     @horses = @race.horses.order('position')
@@ -161,12 +161,12 @@ class RacesController < ApplicationController
 
   private
   def check_for_site
-   return if user_is_admin?
    @race = Race.where(:id => params[:id]).first
    if @race
+    return if user_is_admin?
     return if @race.site_id == @site.id
    end
-   flash[:notice] = "Not Found"
+   flash[:notice] = "Race Not Found"
    redirect_to(message_path)
 
   end
