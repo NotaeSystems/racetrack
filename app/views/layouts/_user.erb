@@ -23,7 +23,7 @@
 
     <% if current_user.has_role? :admin %></strong>
   
-     <strong>  <%= link_to 'Admin', dashboard_admin_path, :class => 'btn btn-mini btn-warning' %>  </strong> 
+     <strong>  <%= link_to 'Admin', dashboard_admin_path, :class => 'btn btn-mini btn-admin' %>  </strong> 
     <%end%>
 
     <%if user_is_site_manager? %>      
@@ -31,7 +31,7 @@
     <%end%>
 
      <%unless session[:return_as].blank? %>
-       <strong>  <%= link_to 'Return to Admin', return_as_admin_path(:user_id => session[:return_as]), :class => 'btn btn-mini btn-warning' %>  </strong>
+       <strong>  <%#= link_to 'Return to Admin', return_as_admin_path(:user_id => session[:return_as]), :class => 'btn btn-mini btn-warning' %>  </strong>
      <%end%>  
 
 <br />

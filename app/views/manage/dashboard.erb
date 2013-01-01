@@ -1,6 +1,6 @@
 <h1>Manage <%=@site.name %></h1>
           <%= render 'manage' %>
-<%if @site.allow_stripe %>
+<%if @site.allow_stripe && @site.stripeconnect.blank? %>
     <p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&scope=read_write&stripe_landing=login&client_id=ca_10ofXtafSCoOK4J0kIjfsElXxVqmDBNf&state=<%=@site.id%>"><%= image_tag "connect-button-blue.png" %></a></p>
 <%end%>
 <h3><%=@count%> Users</h3>
@@ -46,7 +46,7 @@
           <td><%= user.created_at.to_date %></td>
         <%end%>
 
-        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini btn-warning') unless user == current_user %></td>                                       
+        <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure you want to delete #{user.name}?" }, :method => :delete, :class => 'btn btn-mini btn-danger') unless user == current_user %></td>                                       
     </tr>
   <% end %>
   </tbody>

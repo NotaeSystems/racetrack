@@ -73,7 +73,7 @@ class SitesController < ApplicationController
     @selected_site = Site.find(params[:id])
 
     respond_to do |format|
-      if @selected_site.update_attributes(params[:site])
+      if @selected_site.update_attributes(sites_params)
         format.html { redirect_to dashboard_manage_path, notice: 'Site was successfully updated.' }
         format.json { head :no_content }
       else
@@ -94,7 +94,16 @@ class SitesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
   private
+  def sites_params
+    if user_is_admin?
+      params.require(:site).permit!
+    else
+      params.require(:site).permit(:description, :domain,  :daily_login_bonus, :stripeconnect, :initial_bank, :bank_alias, :credit_alias, :member_alias,  :track_alias, :bet_alias, :facebook_key, :rebuy_credits, :permalink, :rebuy_charge, :facebook_secret, :initial_credits, :name, :slug, :twitter_key, :twitter_secret
+)
+    end
+  end
 
   def user_has_site_manage_rights
     @selected_site = Site.find(params[:id])

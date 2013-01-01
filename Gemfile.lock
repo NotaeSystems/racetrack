@@ -226,6 +226,10 @@ GEM
     stripe (1.7.8)
       multi_json (>= 1.0.4, < 2)
       rest-client (~> 1.4)
+    strong_parameters (0.1.6)
+      actionpack (~> 3.0)
+      activemodel (~> 3.0)
+      railties (~> 3.0)
     therubyracer (0.10.2)
       libv8 (~> 3.3.10)
     thin (1.5.0)
@@ -289,6 +293,7 @@ DEPENDENCIES
   sass-rails (~> 3.2.3)
   simple_form (>= 2.0.4)
   stripe
+  strong_parameters
   therubyracer (>= 0.10.2)
   thin
   uglifier (>= 1.0.3)

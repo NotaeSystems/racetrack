@@ -16,12 +16,16 @@
   <%else%>
   <%= f.hidden_field :email %>
   <%end%>
+    <%= f.input :time_zone, :priority => /US/ %>
     <% if user_is_admin?%>
+      <div class='admin_box'>
+      <legend>Root Admin</legend>
       <%= f.input :site_id %>
       <%= f.input :status %>
       <%= f.input :amount %>
+    </div>
     <%end%>
-    <%= f.input :time_zone, :priority => /US/ %>
+
   <%= f.button :submit, 'Update', :class => 'btn-primary' %>
 <% end %>
 <h3>Cancel my account</h3>

@@ -1,4 +1,5 @@
 class Site < ActiveRecord::Base
+  ActiveModel::ForbiddenAttributesProtection
   has_many :tracks
   has_many :cards
   has_many :leagues
