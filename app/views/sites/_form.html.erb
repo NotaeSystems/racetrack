@@ -7,6 +7,11 @@
     <%= f.input :owner_id %>
     <%= f.input :initial_credits %>
       <%= f.input :daily_login_bonus %> 
+    <%= f.input :credit_alias %>
+    <%= f.input :bank_alias %>
+    <%= f.input :bet_alias %>
+    <%= f.input :track_alias %>
+    <%= f.input :member_alias %>
     <%= f.input :facebook_key %>
     <%= f.input :facebook_secret %>
     <%= f.input :twitter_key %>
@@ -26,6 +31,7 @@
       <%= f.input :stripeconnect %> 
       <%= f.input :allow_bank %> 
       <%= f.input :initial_bank %> 
+      <%= f.input :live_push %> 
       <%= f.input :allow_stripe %> 
     <%end%>
   </div>

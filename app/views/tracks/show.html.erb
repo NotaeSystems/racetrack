@@ -1,16 +1,16 @@
 <% content_for :head do %>
-    <meta property="og:title" content="<%="Fantasy Odds Maker #{@track.name}"%>"/>
+    <meta property="og:title" content="<%="#{@site.name} - #{@track.name}"%>"/>
     <meta property="og:type" content="game"/>
-    <meta property="og:url" content="<%="http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>"/>
+    <meta property="og:url" content="<%="http://#{@site.domain}/tracks/#{@track.id}/"%>"/>
     <meta property="og:image" content="http://ia.media-imdb.com/rock.jpg"/>
-    <meta property="og:site_name" content="Fantasy Odds Maker-<%=@track.name%>"/>
+    <meta property="og:site_name" content="#{@site.name} - <%=@track.name%>"/>
     <meta property="og:description"
           content="<%=@track.description%>"/>
 
 <%end%>
 <div class='track_box'>
  <h1> <%=  @track.name %>  <%="-#{@track.status}" unless @track.status ==  'Open'%> <%="-#{@track.membership}" unless @track.membership ==  'Public'%></h1>
-<div class="fb-like" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true">
+<div class="fb-like" data-href="<%= j "http://#{@site.domain}/tracks/#{@track.id}/"%>" data-send="true" data-width="450" data-show-faces="true">
 </div>
 
 
@@ -20,8 +20,8 @@
   
 <% if user_signed_in? %>
   <% if is_track_member?(@track) %>
-   <%= link_to "My #{@track.track_alias} #{@track.credit_alias}", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>
-   <%= link_to "My #{@track.track_alias} #{@track.bet_alias}'s ", mybets_path(:track => @track.id), :class => 'btn btn-mini'%>
+   <%= link_to "My #{@track.track_alias} #{@site.credit_alias.pluralize}", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>
+   <%= link_to "My #{@track.track_alias} #{@site.bet_alias.pluralize} ", mybets_path(:track => @track.id), :class => 'btn btn-mini'%>
        <%= link_to "Quit #{@track.name}", quit_track_path(:id => @track.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as #{@track.member_alias}  of the #{@track.track_alias}  #{@track.name}!" } %>
   <%elsif @track.membership == 'Public' %>
       <%= link_to "Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Member'), :class => 'btn btn-mini btn-success' %>
@@ -48,9 +48,9 @@
 
   <%if user_is_track_manager?(@track) %>
 
-    <%=link_to "#{@track.track_alias}  Members", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+    <%=link_to "#{@track.track_alias}  #{@site.member_alias}", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
 <%if @track.membership == 'Private' %>
-    <%= link_to "Pending #{@track.members_alias.pluralize} : #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
+    <%= link_to "Pending #{@site.member_alias.pluralize} : #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
 <%end%>
     <%= link_to "Edit #{@track.track_alias}", edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
   <%end%>
@@ -85,9 +85,9 @@
 <h5>Comments on <%=@track.name%></h5>
 
 </div>
-<fb:comments-count href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>"></fb:comments-count> comments 
+<fb:comments-count href="<%= j "http://#{@site.domain}/tracks/#{@track.id}/"%>"></fb:comments-count> comments 
 
-<div class="fb-comments" data-href="<%= j "http://www.fantasyoddsmaker.com/tracks/#{@track.id}/"%>" data-width="470" data-num-posts="10"></div>
+<div class="fb-comments" data-href="<%= j "http://#{@site.domain}/tracks/#{@track.id}/"%>" data-width="470" data-num-posts="10"></div>
 
 <%else%>
 

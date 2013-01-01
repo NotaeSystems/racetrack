@@ -93,6 +93,6 @@
 <h5>Comments on <%=@card.name%></h5>
 
 </div>
-<fb:comments-count href="<%= j "http://www.fantasyoddsmaker.com/cards/#{@card.id}/"%>"></fb:comments-count> comments 
+<fb:comments-count href="<%= j "http://#{@site.domain}/cards/#{@card.id}/"%>"></fb:comments-count> comments 
 
-<div class="fb-comments" data-href="<%= j "http://www.fantasyoddsmaker.com/cards/#{@card.id}/"%>" data-width="470" data-num-posts="10"></div>
+<div class="fb-comments" data-href="<%= j "http://#{@site.domain}/cards/#{@card.id}/"%>" data-width="470" data-num-posts="10"></div>
