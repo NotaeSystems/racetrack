@@ -1,3 +1,4 @@
+<%= render 'manage' %>
 <h1>Listing Tracks</h1>
 <%unless current_user.nil? %>
   <%= link_to 'My Owned Tracks', tracks_path(:owned => 'myownedtracks'), :class => 'btn btn-mini '  %>

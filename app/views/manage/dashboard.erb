@@ -1,8 +1,5 @@
 <h1>Manage <%=@site.name %></h1>
-<%=link_to 'Edit Site', edit_site_path(@site), :class => 'btn btn-mini btn-warning'  %>
-<%#=link_to 'Pages', pages_path, :class => 'btn btn-mini btn-warning'  %>
-<%=link_to 'Tracks', tracks_manage_path, :class => 'btn btn-mini btn-warning'  %>
-<%=link_to 'Subscriptions', subscriptions_manage_path, :class => 'btn btn-mini btn-warning'  %>
+          <%= render 'manage' %>
 <%if @site.allow_stripe %>
     <p><a href="https://connect.stripe.com/oauth/authorize?response_type=code&scope=read_write&stripe_landing=login&client_id=ca_10ofXtafSCoOK4J0kIjfsElXxVqmDBNf&state=<%=@site.id%>"><%= image_tag "connect-button-blue.png" %></a></p>
 <%end%>
