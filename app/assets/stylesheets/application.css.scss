@@ -12,6 +12,14 @@
  *= require_tree .
 */
 
+/* set defaults */
+$main_color: #555;
+$lighten : 60%;
+$link_color: green;
+a:visited{color: $link_color;};
+ a:link {color: $link_color;};
+
+
 .content {
   background-color: #eee;
   padding: 20px;
@@ -47,6 +55,11 @@
   border: 4px solid black;
   margin-top: 1em;
 }
+.admin_box{
+  border: 4px solid black;
+  margin-top: 1em;
+  background: yellow
+}
 
 .comment_box{
   border: 4px solid black;
@@ -68,5 +81,4 @@ clear:both;
 padding-top:20px;
 color:black;
 }
-
 

@@ -12,6 +12,7 @@ group :production do
   gem 'pg'
 end
 
+gem "default_value_for"
 gem 'pusher'
 gem 'gravatar-ultimate'
 gem 'will_paginate'
