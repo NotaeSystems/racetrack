@@ -3,7 +3,7 @@ gem 'rails', '3.2.8'
 group :development, :test do
  # gem 'sqlite3'
    gem 'pg'
-gem 'meta_request', '0.2.0'
+#gem 'meta_request', '0.2.0'
 
 end
 group :production do

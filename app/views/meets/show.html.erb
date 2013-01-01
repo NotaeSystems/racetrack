@@ -48,6 +48,6 @@
 <h5>Comments on <%=@meet.name%></h5>
 
 </div>
-<fb:comments-count href="<%= j "http://www.fantasyoddsmaker.com/meets/#{@meet.id}/"%>"></fb:comments-count> comments 
+<fb:comments-count href="<%= j meet_path(@meet.id)%>/"></fb:comments-count> comments 
 
-<div class="fb-comments" data-href="<%=j "http://www.fantasyoddsmaker.com/tracks/#{@meet.id}/"%>" data-width="470" data-num-posts="10"></div>
+<div class="fb-comments" data-href="<%=j meet_path(@meet)%>/" data-width="470" data-num-posts="10"></div>

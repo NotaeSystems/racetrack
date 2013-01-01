@@ -87,7 +87,11 @@ class UsersController < ApplicationController
   end
 
   def myaccount
-   @credits_balance = current_user.credits_balance
+    @only_track = nil
+    if @site.tracks.active.count == 1
+      @only_track = @site.tracks.active.first
+    end
+    @credits_balance = current_user.credits_balance
 
   end
 

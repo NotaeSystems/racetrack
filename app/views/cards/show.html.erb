@@ -36,9 +36,9 @@
 </p>
 <%if user_is_track_manager?(@track) %>
    <% if @card.status == 'Open'%>
-   <%= link_to "Close #{@track.card_alias}", close_card_path(@card),  :class => 'btn btn-mini btn-warning' , data: { confirm: 'Are you sure? This will close this card' }%>
+   <%= link_to "Close #{@track.card_alias}", close_card_path(@card),  :class => 'btn btn-mini btn-warning' , data: { confirm: "Are you sure? This will close this #{@track.card_alias}" }%>
    <%else%>
-   <%= link_to "Open #{@track.card_alias}", open_card_path(@card),  :class => 'btn btn-mini btn-warning' , data: { confirm: 'Are you sure? This will close this card' }%>
+   <%= link_to "Open #{@track.card_alias}", open_card_path(@card),  :class => 'btn btn-mini btn-warning' , data: { confirm: "Are you sure? This will open this #{@track.card_alias}" }%>
    <%end%>
    <%= link_to "Edit #{@track.card_alias}", edit_card_path(@card),  :class => 'btn btn-mini btn-warning' %>
 <%= link_to "Destroy-#{@track.card_alias}", @card, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-danger' %>

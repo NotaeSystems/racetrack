@@ -20,9 +20,9 @@
   
 <% if user_signed_in? %>
   <% if is_track_member?(@track) %>
-   <%= link_to "My #{@track.track_alias} Credits", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>
-   <%= link_to "My #{@track.track_alias} Bets", mybets_path(:track => @track.id), :class => 'btn btn-mini'%>
-       <%= link_to "Quit #{@track.name}", quit_track_path(:id => @track.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as a member of the Track #{@track.name}!" } %>
+   <%= link_to "My #{@track.track_alias} #{@track.credit_alias}", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>
+   <%= link_to "My #{@track.track_alias} #{@track.bet_alias}'s ", mybets_path(:track => @track.id), :class => 'btn btn-mini'%>
+       <%= link_to "Quit #{@track.name}", quit_track_path(:id => @track.id), :class => 'btn btn-danger btn-mini', :data => { :confirm => "Are you sure? This will remove you as #{@track.member_alias}  of the #{@track.track_alias}  #{@track.name}!" } %>
   <%elsif @track.membership == 'Public' %>
       <%= link_to "Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Member'), :class => 'btn btn-mini btn-success' %>
   <% elsif is_pending_track_member?(@track) %>
@@ -31,13 +31,13 @@
   <%elsif @track.membership == 'Private' %>
       <%= link_to "Request Permission to Join #{@track.name}", join_track_path(:id => @track.id, :status => 'Pending' ), :class => 'btn btn-mini btn-success' %>
   <%elsif @track.status == 'Pending' %>
-      Not accepting Members at this time.
+      Not accepting <%="#{@track.member_alias.pluralize}" %> at this time.
   <%end%>
  
   
 <%else%>
 
-  <p>Login or Sign Up to Join the Track</p>
+  <p>Login or Sign Up to Join</p>
 <%end%>
 
 
@@ -48,9 +48,9 @@
 
   <%if user_is_track_manager?(@track) %>
 
-    <%=link_to "Track Members", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
+    <%=link_to "#{@track.track_alias}  Members", trackusers_path(:track_id => @track.id),  :class => 'btn btn-mini btn-warning' %> 
 <%if @track.membership == 'Private' %>
-    <%= link_to "Pending Members: #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
+    <%= link_to "Pending #{@track.members_alias.pluralize} : #{@pending_members_count}", trackusers_path(:track_id => @track.id, :status => 'Pending'),  :class => 'btn btn-mini btn-warning' %>
 <%end%>
     <%= link_to "Edit #{@track.track_alias}", edit_track_path(@track), :class => 'btn btn-mini btn-warning'%> |
   <%end%>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121231134547) do
+ActiveRecord::Schema.define(:version => 20130101094959) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -292,6 +292,9 @@ ActiveRecord::Schema.define(:version => 20121231134547) do
     t.boolean  "allow_bank"
     t.integer  "initial_bank"
     t.integer  "daily_login_bonus"
+    t.boolean  "allow_facebook"
+    t.boolean  "allow_twitter"
+    t.boolean  "allow_leagues"
   end
 
   create_table "subscriptions", :force => true do |t|

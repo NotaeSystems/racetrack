@@ -2,6 +2,11 @@ class CreditsController < ApplicationController
   # GET /credits
   # GET /credits.json
 
+  def recharge
+
+
+  end
+
   def index
     if params[:user]
       @credits = Credit.where(:user_id => params[:user] ).order('created_at DESC').page(params[:page]).per_page(30)

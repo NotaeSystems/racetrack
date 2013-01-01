@@ -11,9 +11,15 @@
        <%=link_to "Rebuy #{@site.rebuy_credits} credits", rebuy_credits_users_path, :class => 'btn btn-mini' %>
      <%end%>
     <%end%>
-     <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />    
-     <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />
-    <strong><%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %></strong><br /><br />
+    <% if @site.allow_leagues? %>
+      <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />  
+    <%end%>  
+    <% if @only_track %>
+       <strong> <%=link_to @only_track.name, track_path(@only_track), :class => 'btn btn-mini ' %>   </strong> <br /><br />
+    <%else%>
+      <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />
+      <strong><%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %></strong><br /><br />
+    <%end%>
 
 
      <strong><%= link_to 'All My Credits', mycredits_path, :class => 'btn btn-mini ' %> </strong> <br /><br />
@@ -29,8 +35,13 @@
     <%end%>
 </div>
 <br />
-      <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini ' %></strong>
+      <%if @site.allow_facebook %>
+        <strong>    <%= link_to 'Associate My Facebook Account', '/auth/facebook/', :class => 'btn btn-mini ' %></strong>
+      <%end%>
+        <%if @site.allow_twitter %>
       <strong>    <%= link_to 'Associate My Twitter Account', '/auth/twitter/', :class => 'btn btn-mini ' %></strong><br /><br />
+      <%end%>
+
 <script language="javascript" type="text/javascript">
 
  $('#app_request').click(function () {
