@@ -173,7 +173,7 @@ class RacesController < ApplicationController
 
   def is_track_manager_filter
    @race = Race.find(params[:id])
-   @track = @race.track
+   @track = @race.card.meet.track
    return true if user_is_track_manager?(@track)
    flash[:notice] = "Not Authorized as Track Manager"
    redirect_to(message_path)
