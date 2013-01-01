@@ -61,23 +61,26 @@
 <td><%= link_to "Edit #{@track.race_alias}", edit_race_path(@race), :class => 'btn btn-mini btn-warning' %> 
 <%end%>
 <br /><br />
-      <%unless current_user.credits_balance < 1%>
-<%if @race.status == 'Open' %>
-  <%if @race.exacta?%>
-    <%= link_to 'Exacta', exacta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+<% if current_user %>
+  <%unless current_user.credits_balance < 1%>
+    <%if @race.status == 'Open' %>
+      <%if @race.exacta?%>
+        <%= link_to 'Exacta', exacta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+      <%end%>
+      <%if @race.trifecta?%>
+        <%= link_to 'Trifecta', trifecta_path(:race_id => @race.id), :class => 'btn btn-success' %>
+     <%end%>
+   <%end%>
+  <%else%>
+    <%= link_to "Borrow #{@site.initial_credits} Credits", borrow_path(:race_id => @race.id), :class => 'btn btn-success' %>
   <%end%>
-  <%if @race.trifecta?%>
-    <%= link_to 'Trifecta', trifecta_path(:race_id => @race.id), :class => 'btn btn-success' %>
- <%end%>
 <%end%>
-<%else%>
-<%= link_to "Borrow #{@site.initial_credits} Credits", borrow_path(:race_id => @race.id), :class => 'btn btn-success' %>
-<%end%>
+
     <%if @race.status == 'Open' || @race.status == 'Pending Payout' %>
 <table id='horses' class='table table-striped table-bordered table-condensed'>
 
   <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
-<% @gates.each do |gate| %>
+  <% @gates.each do |gate| %>
 
   <tr id="gate_<%=gate.id%>">
 

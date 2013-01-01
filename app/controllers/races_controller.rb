@@ -6,7 +6,7 @@ class RacesController < ApplicationController
   before_filter :check_for_winners, :only => [:payout]
   before_filter :check_for_placers, :only => [:payout]
   before_filter :check_for_showers, :only => [:payout]
-
+  before_filter :check_for_site, :only => [:show, :edit]
 
   def sort
     @race = Race.find(params[:id])
@@ -75,7 +75,7 @@ class RacesController < ApplicationController
 
 
   def show
-    @race = Race.find(params[:id])
+    @race = @Race.find(params[:id])
     @betting_status = @race.betting_status
     @gates = @race.gates.order('number')
     @horses = @race.horses.order('position')
@@ -160,6 +160,16 @@ class RacesController < ApplicationController
   end
 
   private
+  def check_for_site
+   return if user_is_admin?
+   @race = Race.where(:id => params[:id]).first
+   if @race
+    return if @race.site_id == @site.id
+   end
+   flash[:notice] = "Not Found"
+   redirect_to(message_path)
+
+  end
 
   def is_track_manager_filter
    @race = Race.find(params[:id])
