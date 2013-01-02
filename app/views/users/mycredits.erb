@@ -7,6 +7,7 @@
     <th>Meet</th>
     <th>Card</th>
     <th>Amount</th>
+    <th>Amount</th>
     <th>Description</th>
     <th>Credit type</th>
     <th>Date</th>
@@ -20,6 +21,7 @@
     <td><%= credit.meet.name unless credit.meet.blank? %></td>
     <td><%= credit.card.name  unless credit.card.blank? %></td>
     <td><%= credit.amount %></td>
+    <td><%= credit.level %></td>
     <td><%= credit.description %></td>
     <td><%= credit.credit_type %></td>
     <td><%= credit.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
