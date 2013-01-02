@@ -147,17 +147,25 @@ class BetsController < ApplicationController
 
     respond_to do |format|
       if @bet.save
-         credit = Credit.create(:user_id => current_user.id,
+       daily_bonus = current_user.daily_login_bonus(@site.daily_login_bonus)
+       if daily_bonus > 0
+         daily_bonus_message = "You have been awarded #{daily_bonus} Daily Bonus"
+       else
+         daily_bonus_message = ''
+       end
+        credit = Credit.create(:user_id => current_user.id,
                            :meet_id => @meet.id,
                            :amount => -@bet.amount,
                            :description => "Deduction for Bet",
                            :card_id => @card.id,
                            :credit_type => "Bet Deduction",
                            :track_id => @track.id,
-                           :site_id => @site.id
+                           :site_id => @site.id,
+                           :race_id = @race.id,
+                           :level => @bet.level
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
-        format.html { redirect_to race_path(:id => @race.id), notice: 'Bet was successfully created.' }
+        format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created. #{daily_bonus_message}" }
         format.json { render json: @bet, status: :created, location: @bet }
       else
         format.html { render action: "new" }
@@ -183,7 +191,9 @@ class BetsController < ApplicationController
                            :description => "Deduction for Bet",
                            :card_id => @card.id,
                            :credit_type => "Bet Deduction",
-                           :track_id => @track.id
+                           :track_id => @track.id,
+                           :race_id => @race.id,
+                           :level => @bet.level
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
         format.html { redirect_to race_path(:id => @race), notice: 'Bet was successfully created.' }
@@ -271,9 +281,25 @@ class BetsController < ApplicationController
       @amount = params[:bet][:amount].to_i
      @race = Race.find(params[:bet][:race_id])
       @card = @race.card
-      balance = current_user.credits_balance
-      return if balance >= @amount 
-      flash[:warning] = "Sorry, you do not have enough card credits for this bet."
+      white_balance = current_user.white_credits_balance
+      if white_balance >= 1 && @amount < white_balance
+       @bet.level = 'White'
+       return
+      end
+     
+      green_balance = current_user.green_credits_balance
+      if green_balance >= 1 && @amount < green_balance
+        @bet.level = 'Green'
+        return
+      end
+
+      red_balance = current_user.red_credits_balance
+      if red_balance >= 1 && @amount < red_balance
+        @bet.level = 'Red'
+        return
+      end
+
+      flash[:warning] = "Sorry, you do not have enough #{@site.credits_alias} for this #{@site.bet_alias}. You must use all your White first, then Green, and then Red #{@site.bet_alias}"
       redirect_to race_path(:id => @race.id)
   end
 

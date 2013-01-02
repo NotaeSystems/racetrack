@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130101115137) do
+ActiveRecord::Schema.define(:version => 20130102095152) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.integer  "fourth_id"
     t.integer  "site_id"
     t.integer  "gate_id"
+    t.string   "level"
   end
 
   create_table "cards", :force => true do |t|
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.integer  "initial_credits"
     t.integer  "track_id"
     t.integer  "site_id"
+    t.string   "level"
   end
 
   create_table "comments", :force => true do |t|
@@ -104,6 +106,8 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.integer  "card_id"
     t.integer  "track_id"
     t.integer  "site_id"
+    t.string   "level"
+    t.integer  "race_id"
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -188,6 +192,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.string   "status"
     t.integer  "initial_credits"
     t.integer  "site_id"
+    t.string   "level"
   end
 
   create_table "pages", :force => true do |t|
@@ -242,6 +247,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.text     "morning_line"
     t.text     "results"
     t.integer  "site_id"
+    t.string   "level"
   end
 
   create_table "rankings", :force => true do |t|
@@ -301,6 +307,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.string   "credit_alias"
     t.string   "bank_alias"
     t.boolean  "live_push"
+    t.string   "level"
   end
 
   create_table "subscriptions", :force => true do |t|
@@ -362,6 +369,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.string   "bet_alias"
     t.string   "membership"
     t.integer  "site_id"
+    t.string   "level"
   end
 
   create_table "trackusers", :force => true do |t|
@@ -387,6 +395,7 @@ ActiveRecord::Schema.define(:version => 20130101115137) do
     t.datetime "updated_at",       :null => false
     t.string   "payment_servicer"
     t.string   "transaction_code"
+    t.string   "level"
   end
 
   create_table "users", :force => true do |t|

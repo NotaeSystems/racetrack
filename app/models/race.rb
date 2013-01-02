@@ -129,6 +129,13 @@ class Race < ActiveRecord::Base
     end
 
     ##################
+    ## find all other red bets and reduce user standing
+    losers = self.bets.where(:status => 'Pending', :level => 'Red')
+    losers.each do |loser|
+      user = loser.user
+      user.amount = user.amount - loser.amount
+      user.save
+    end
 
     ## find all other bets and mark as Losing Bet
     losers = self.bets.where(:status => 'Pending')
@@ -153,16 +160,30 @@ class Race < ActiveRecord::Base
         bet_amount = bet.amount
         logger.debug "Exacta bet amount: #{bet_amount}\n"
         bet_payoff = bet_amount.to_f * exacta_odds
+        won_bet_amount = bet_payoff - bet_amount
         logger.debug "Exacta bet payoff: #{bet_payoff}\n"
-        # create credit for horse_payoff
+        # create Red credit for winnings horse_payoff
         Credit.create( :user_id => bet.user_id,
                    :meet_id => bet.meet_id,
-                   :amount => bet_payoff,
+                   :amount => won_bet_amount.round,
                    :credit_type => bet_type,
                    :card_id => card_id,
                    :description => "Winnings: #{self.name} on #{bet_type}",
                    :track_id => self.track_id,
-                   :site_id => self.site_id
+                   :site_id => self.site_id, 
+                   :level => 'Red'
+                 
+                 )
+        ## return winning bet
+        Credit.create( :user_id => bet.user_id,
+                   :meet_id => bet.meet_id,
+                   :amount => bet_amount,
+                   :credit_type => bet_type,
+                   :card_id => card_id,
+                   :description => "Returned Winning Bet: #{self.name} on #{bet_type}",
+                   :track_id => self.track_id,
+                   :site_id => self.site_id, 
+                   :level => self.level
                  
                  )
         bet.status = 'Paid Out'
@@ -198,17 +219,34 @@ class Race < ActiveRecord::Base
         logger.debug "gate bet amount: #{bet_amount}\n"
         #horse = bet.horse
         bet_payoff = bet_amount.to_f * gate_odds
+        won_bet_amount = bet_payoff - bet_amount
         logger.debug "#{bet_type} bet payoff: #{bet_payoff}\n"
-        # create credit for horse_payoff
+        # create Red credit for winnings horse_payoff
         Credit.create( :user_id => bet.user_id,
                    :meet_id => bet.meet_id,
-                   :amount => bet_payoff,
+                   :amount => won_bet_amount,
                    :credit_type => bet_type,
                    :card_id => card_id,
                    :description => "Winnings: #{self.name} on #{bet_type} on #{gate.horse.name}",
                    :track_id => self.track_id,
-                   :site_id => self.site_id
-                 
+                   :site_id => self.site_id,
+                   :level => 'Red',
+                   :race_id => self.id
+                 )
+        ## update winnings for site leaderboard
+        bettor.amount = bettor.amount + won_bet_amount
+        bettor.save
+        ## return winning bet
+        Credit.create( :user_id => bet.user_id,
+                   :meet_id => bet.meet_id,
+                   :amount => bet_amount,
+                   :credit_type => bet_type,
+                   :card_id => card_id,
+                   :description => "Winnings: #{self.name} on #{bet_type} on #{gate.horse.name}",
+                   :track_id => self.track_id,
+                   :site_id => self.site_id,
+                   :level => bet.level,
+                   :race_id => self.id
                  )
         bet.status = 'Paid Out'
         bet.save

@@ -41,10 +41,26 @@ class User < ActiveRecord::Base
     Credit.create( :user_id => self.id,
                    :amount => amount,
                    :description => 'Initial Credits',
-                   :site_id => self.site_id
+                   :site_id => self.site_id, 
+                   :level => 'White'
                  )
-    self.amount = amount
-    self.save
+  end
+
+  def daily_login_bonus(amount)
+    if self.created_at > 24.hours.ago
+       bonus_credits = Credit.where("user_id = ? and credit_type IN ('Daily Bonus') and created_at > ?",self.id, Time.now - 24.hours)
+      if bonus_credits.blank?
+         Credit.create( :user_id => self.id,
+                   :amount => amount,
+                   :credit_type = 'Daily Bonus'
+                   :description => 'Initial Credits',
+                   :site_id => self.site_id, 
+                   :level => 'White'
+                 )
+        return amount
+      end 
+    end
+   return 0
   end
 
   def borrow_credits(amount)
@@ -61,7 +77,8 @@ class User < ActiveRecord::Base
                    :amount => amount,
                    :description => 'Borrowed credits',
                    :credit_type => 'Borrowed', 
-                   :site_id => self.site_id
+                   :site_id => self.site_id,
+                   :level => 'White'
                  )
     return "You have borrowed #{amount} credits."
   end
@@ -85,8 +102,10 @@ class User < ActiveRecord::Base
                    :amount => number,
                    :description => 'Rebuy credits',
                    :credit_type => 'Rebuy', 
-                   :site_id => self.site_id
+                   :site_id => self.site_id,
+                   :level => 'Green'
                  )
+    ### Put money in bank
     Transaction.create( :user_id => self.id,
                    :amount => -charge,
                    :description => "Rebuy #{number} credits",
@@ -256,6 +275,22 @@ class User < ActiveRecord::Base
 
     borrowed =  self.credits.where("credit_type IN ('Borrowed', 'Rebuy')").sum(:amount)
   end
+
+  def white_credits_balance
+
+    borrowed =  self.credits.where("level = 'White'").sum(:amount)
+  end
+
+  def red_credits_balance
+
+    borrowed =  self.credits.where("level = 'Red'").sum(:amount)
+  end
+
+  def green_credits_balance
+
+    borrowed =  self.credits.where("level = 'Green'").sum(:amount)
+  end
+
 
   def credits_balance
     winnings =  self.credits.sum(:amount)

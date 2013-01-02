@@ -26,6 +26,7 @@ class Authentication < ActiveRecord::Base
      new_user.name = auth["info"]["name"]
      new_user.avatar = auth["info"]["image"]
      new_user.status = 'Member'
+     new_user.amount = 0
      new_user.time_zone = 'Central Time (US & Canada)'
      new_user.site_id = site_id
      if new_user.save(:validate => false)
