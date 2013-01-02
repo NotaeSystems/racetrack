@@ -29,7 +29,7 @@ Your Rank: <%=@rank%>
 
     <td><%= ranking.amount %></td>
    <td><%= rank %></td>
-     <% if current_user.has_role? :admin %>
+     <% if user_is_site_manager? %>
 
        <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>
      <%end%>
