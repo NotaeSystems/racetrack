@@ -161,7 +161,7 @@ class BetsController < ApplicationController
                            :credit_type => "Bet Deduction",
                            :track_id => @track.id,
                            :site_id => @site.id,
-                           :race_id = @race.id,
+                           :race_id => @race.id,
                            :level => @bet.level
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
