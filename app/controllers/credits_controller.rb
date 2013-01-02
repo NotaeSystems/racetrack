@@ -1,6 +1,8 @@
 class CreditsController < ApplicationController
   # GET /credits
   # GET /credits.json
+  before_filter :login_required_filter, :except => [:leaderboard]
+  before_filter :user_is_admin_filter?, :except => [:leaderboard, :edit, :update]
 
   def recharge
 
