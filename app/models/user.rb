@@ -52,7 +52,7 @@ class User < ActiveRecord::Base
       if bonus_credits.blank?
          Credit.create( :user_id => self.id,
                    :amount => amount,
-                   :credit_type = 'Daily Bonus'
+                   :credit_type => 'Daily Bonus',
                    :description => 'Initial Credits',
                    :site_id => self.site_id, 
                    :level => 'White'
