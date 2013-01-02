@@ -120,6 +120,7 @@ Myapp::Application.routes.draw do
 
 #### stripe #################################
   match "stripeconnect" => "stripe#stripeconnect", :as => :stripeconnect
+  match "stripehook" => "stripe#striphook", :as => :stripehook
 ##############################################
 
   match "message" => "home#message", :as => :message

@@ -27,7 +27,7 @@ class Site < ActiveRecord::Base
   default_value_for :status, 'Open'
   default_value_for :max_tracks, 1
 
- attr_accessible :description, :domain,  :daily_login_bonus, :stripeconnect, :allow_bank, :initial_bank, :allow_stripe, :allow_twitter, :bank_alias, :credit_alias, :member_alias, :live_push, :allow_facebook, :allow_leagues, :track_alias, :bet_alias, :facebook_key, :rebuy_credits, :permalink, :rebuy_charge, :allow_rebuys, :facebook_secret, :initial_credits, :name, :max_tracks, :owner_id, :sanctioned, :slug, :status, :twitter_key, :twitter_secret
+ attr_accessible :description, :domain,  :daily_login_bonus, :stripeconnect, :allow_bank, :level,:initial_bank, :allow_stripe, :allow_twitter, :bank_alias, :credit_alias, :member_alias, :live_push, :allow_facebook, :allow_leagues, :track_alias, :bet_alias, :facebook_key, :rebuy_credits, :permalink, :rebuy_charge, :allow_rebuys, :facebook_secret, :initial_credits, :name, :max_tracks, :owner_id, :sanctioned, :slug, :status, :twitter_key, :twitter_secret
 
   def stripe_publishable_key
    return self.stripeconnect unless stripeconnect.blank?

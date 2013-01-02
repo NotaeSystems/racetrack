@@ -8,7 +8,7 @@ class Meet < ActiveRecord::Base
 
   scope :active, where(:open => true)
 
-  attr_accessible :completed, :completed_date, :description, :name, :open, :track_id, :status, :initial_credits
+  attr_accessible :completed, :completed_date, :description, :name, :open, :track_id, :status, :initial_credits, :level
 
   def refresh_credits(user)
 

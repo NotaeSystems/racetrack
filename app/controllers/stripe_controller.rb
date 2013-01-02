@@ -23,4 +23,7 @@ class StripeController < ApplicationController
    end
   end
 
+  def stripehook
+    render :nothing => true
+  end
 end

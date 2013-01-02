@@ -14,7 +14,12 @@
     <%= f.hidden_field :gate_id %>
     <%= f.input :amount, :required => true %>
     <%= f.select :bet_type ,allowed_bets %>
-
+        <%if user_is_admin? %>
+      <div class='admin_box'>
+      <legend> Root Admin </legend>
+         <%= f.select :level, ['White', 'Red', 'Green' %>
+      </div>
+     <%end%>
   </div>
 
   <div class="form-actions">

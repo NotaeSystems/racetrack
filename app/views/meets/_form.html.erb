@@ -7,7 +7,7 @@
     <%= f.hidden_field :track_id, :value => @track.id %>
     <%= f.input :description %>
     <%= f.input :initial_credits %>
-
+      <%= f.select :level, ['White', 'Red', 'Green' %>
   </div>
 
   <div class="form-actions">

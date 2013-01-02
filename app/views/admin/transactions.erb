@@ -7,6 +7,7 @@
     <th>Date</th>
     <th>Amount</th>
     <th>Description</th>
+    <th>Level</th>
     <th>User</th>
     <th>Site</th>
     <th>Transcription type</th>
@@ -22,6 +23,7 @@
     <td><%= transaction.created_at %></td>
     <td><%= transaction.amount %></td>
     <td><%= transaction.description %></td>
+    <td><%= transaction.level %></td>
     <td><%= transaction.user.name unless transaction.user.blank? %></td>
     <td><%= transaction.site.name unless transaction.site.blank?%></td>
     <td><%= transaction.transaction_type %></td>

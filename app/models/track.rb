@@ -19,7 +19,7 @@ class Track < ActiveRecord::Base
   belongs_to :owner, :class_name => "User"
   attr_accessible :description, :name, :open, :owner_id, :public, :status, :track_alias,
                    :meet_alias, :card_alias, :race_alias, :horse_alias, :credit_alias, :member_alias, 
-                   :bet_alias, :tag_list, :membership, :site_id
+                   :bet_alias, :tag_list, :membership, :site_id, :level
   
   def to_param
     "#{id}-#{name}".parameterize

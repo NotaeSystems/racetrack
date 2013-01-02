@@ -1,6 +1,33 @@
 <h1>Editing bet</h1>
 
-<%= render 'form' %>
+<%= render :partial => 'cards/credits' %>
+
+<%= simple_form_for(@bet) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+
+    <%= f.hidden_field :user_id %>
+    <%= f.hidden_field :track_id %>
+    <%= f.hidden_field :meet_id %>
+    <%= f.hidden_field :card_id%>
+    <%= f.hidden_field :race_id%>
+    <%= f.hidden_field :horse_id %>
+    <%= f.hidden_field :gate_id %>
+    <%= f.input :amount, :required => true %>
+    <%= f.select :bet_type ,allowed_bets %>
+        <%if user_is_admin? %>
+      <div class='admin_box'>
+      <legend> Root Admin </legend>
+         <%= f.select :level, ['White', 'Red', 'Green' %>
+      </div>
+     <%end%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, @track.bet_alias %>
+  </div>
+<% end %>
 
 <%= link_to 'Show', @bet %> |
 <%= link_to 'Back', bets_path %>

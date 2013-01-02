@@ -7,7 +7,7 @@ class Race < ActiveRecord::Base
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
-                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, :morning_line, :results 
+                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, :level, :morning_line, :results 
 
   def cancel
       self.bets.where(:status => 'Pending').each do |bet|
