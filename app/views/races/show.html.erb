@@ -33,7 +33,7 @@
 <div class='box2'>
 
 <h1><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h1>
-<%= render :partial => 'cards/credits' %>
+<%= render :partial => 'races/credits' %>
 <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
  <p> <%= @race.description %></p>
 <% if user_signed_in? %>
