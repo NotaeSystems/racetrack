@@ -34,17 +34,17 @@ class Race < ActiveRecord::Base
     return 'Finished' if self.status == 'Finished'
 
     ## check card status
-    return 'Closed' if self.card.status == 'Closed'
-    return 'Pending' if self.card.status == 'Pending'
+    return 'Closed Card' if self.card.status == 'Closed'
+    return 'Pending Card' if self.card.status == 'Pending'
 
     ## if race is open then check for other conditions 
-    return 'Pending' if self.status == 'Pending'
+    return 'Pending Race' if self.status == 'Pending'
     return 'Pending Payout' if self.status == 'Pending Payout'
 
-    return 'Finished' if self.post_time.to_datetime < Time.now.to_datetime
+    return 'Past Post Time' if self.post_time.to_datetime < Time.now.to_datetime
 
 
-    return 'Pending' if self.start_betting_time.to_datetime > Time.now.to_datetime
+    return 'Pending Start Time' if self.start_betting_time.to_datetime > Time.now.to_datetime
 
 
     return 'Open'
