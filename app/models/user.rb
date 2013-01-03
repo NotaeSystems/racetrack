@@ -52,7 +52,8 @@ class User < ActiveRecord::Base
        logger.info 'user created more than 24 hours ago'
        bonus_credits = Credit.where("user_id = ? and credit_type IN ('Daily Bonus') and created_at > ?",self.id, Time.now - 24.hours)
       if bonus_credits.blank?
-         Credit.create( :user_id => self.id,
+        logger.info 'No daily bonus in last 24 hours'
+        Credit.create( :user_id => self.id,
                    :amount => amount,
                    :credit_type => 'Daily Bonus',
                    :description => 'Daily Bonus',

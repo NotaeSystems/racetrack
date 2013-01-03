@@ -144,7 +144,7 @@ class BetsController < ApplicationController
     @bet.status = 'Pending'
     @bet.card_id = @card.id
     @bet.site_id = @bet.site_id
-
+    @bet.level = @level
     respond_to do |format|
       if @bet.save
 
@@ -178,6 +178,7 @@ class BetsController < ApplicationController
     @card = @race.card
     @bet.status = 'Pending'
     @bet.card_id = @card.id
+    @bet.level = @level
     respond_to do |format|
       if @bet.save
          credit = Credit.create(:user_id => current_user.id,
@@ -273,24 +274,25 @@ class BetsController < ApplicationController
 
 
   def check_credits_for_sufficient_balance
+
       @amount = params[:bet][:amount].to_i
      @race = Race.find(params[:bet][:race_id])
       @card = @race.card
       white_balance = current_user.white_credits_balance
       if white_balance >= 1 && @amount < white_balance
-       @bet.level = 'White'
-       return
+        @level = 'White'
+        return
       end
      
       green_balance = current_user.green_credits_balance
       if green_balance >= 1 && @amount < green_balance
-        @bet.level = 'Green'
+        @level = 'Green'
         return
       end
 
       red_balance = current_user.red_credits_balance
       if red_balance >= 1 && @amount < red_balance
-        @bet.level = 'Red'
+        @level = 'Red'
         return
       end
 
