@@ -2,8 +2,9 @@
 
 
 <h1>  <%= @horse.name %></h1>
-<%= link_to "Edit #{@horse.name}", edit_horse_path(@horse), :class => 'btn' %>
-
+<% if user_is_site_manager? %>
+  <%= link_to "Edit #{@horse.name}", edit_horse_path(@horse), :class => 'btn btn-warning' %>
+<%end%>
 <p>
 
   <%= @horse.description %>

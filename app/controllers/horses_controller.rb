@@ -65,7 +65,8 @@ class HorsesController < ApplicationController
       if @horse.save
         Gate.create(:race_id => @horse.race_id,
                     :number => @race.gates.count + 1,
-                    :horse_id => @horse.id
+                    :horse_id => @horse.id, 
+                    :status => @horse.status
                     )
                     
         format.html { redirect_to race_path(:id => @horse.race.id), notice: 'Horse was successfully created.' }
