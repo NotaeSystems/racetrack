@@ -2,6 +2,14 @@ class AdminController < ApplicationController
   before_filter :login_required_filter
   before_filter :user_is_admin_filter?
 
+  def destroy_tracks
+    tracks = Track.where(:status => 'Trash')
+      tracks.each do |track|
+        track.destroy
+      end
+    redirect_to tracks_admin_path
+  end
+
   def tracks
     if params[:tag]
       @search = Track.page(params[:page]).per_page(30).tagged_with(params[:tag]).order('name').search(params[:q])

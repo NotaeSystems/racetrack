@@ -54,7 +54,7 @@ class CardsController < ApplicationController
 
   def index
     
-    @cards = Card.all
+    @cards = @site.cards
 
     respond_to do |format|
       format.html # index.html.erb

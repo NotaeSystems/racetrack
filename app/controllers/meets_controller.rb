@@ -15,8 +15,12 @@ class MeetsController < ApplicationController
 
   def index
     track_id = params[:track_id]
-    @track = Track.where("id = ?",track_id).first
-    @meets = @track.meets.open
+    if track_id
+      @track = Track.where("id = ?",track_id).first
+      @meets = @track.meets.open
+    else
+      @meets = @site.meets
+    end 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @meets }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130102095152) do
+ActiveRecord::Schema.define(:version => 20130103102353) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -308,6 +308,10 @@ ActiveRecord::Schema.define(:version => 20130102095152) do
     t.string   "bank_alias"
     t.boolean  "live_push"
     t.string   "level"
+    t.string   "meet_alias"
+    t.string   "card_alias"
+    t.string   "race_alias"
+    t.string   "horse_alias"
   end
 
   create_table "subscriptions", :force => true do |t|

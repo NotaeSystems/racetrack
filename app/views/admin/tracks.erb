@@ -5,7 +5,7 @@
 <%end%>
   <%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %>
        <%= link_to 'Track Tags', tracks_tag_cloud_path, :class => 'btn btn-mini ' %>
-
+<%=link_to 'Destroy Trash Tracks', destroy_tracks_admin_path, :class => 'btn btn-mini btn-admin', data: { confirm: 'Are you sure? This will destroy all tracks marked as trash and all associated records!' }  %>
 <h3>Search</h3>
 
 <%= search_form_for @search do |f| %>

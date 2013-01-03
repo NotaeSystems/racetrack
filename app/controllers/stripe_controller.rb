@@ -23,6 +23,7 @@ class StripeController < ApplicationController
    end
   end
 
+  ### handles callbacks from stripe
   def stripehook
     render :nothing => true
   end

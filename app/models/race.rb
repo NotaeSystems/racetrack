@@ -188,7 +188,7 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-        bettor.update_card_ranking(self.card, bet_payoff)
+        bettor.update_card_ranking(self.card, won_bet_amount.round)
 
     end
 

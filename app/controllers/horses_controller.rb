@@ -14,7 +14,7 @@ class HorsesController < ApplicationController
   end
 
   def index
-    @horses = Horse.all
+    @horses = @site.horses.page(params[:page]).per_page(30) 
 
     respond_to do |format|
       format.html # index.html.erb

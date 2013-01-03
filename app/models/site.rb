@@ -1,7 +1,10 @@
 class Site < ActiveRecord::Base
   ActiveModel::ForbiddenAttributesProtection
+  has_many :meets
   has_many :tracks
   has_many :cards
+  has_many :races
+  has_many :horses
   has_many :leagues
   has_many :users
   has_many :subscriptions
@@ -9,6 +12,10 @@ class Site < ActiveRecord::Base
   belongs_to :owner, :class_name => "User"
 
   default_value_for :track_alias, 'Track' 
+  default_value_for :meet_alias, 'Meet' 
+  default_value_for :card_alias, 'Racing Card' 
+  default_value_for :race_alias, 'Race' 
+  default_value_for :horse_alias, 'Outcome' 
   default_value_for :credit_alias, 'Point' 
   default_value_for :member_alias, 'Player' 
   default_value_for :bet_alias, 'Wager' 
@@ -27,7 +34,12 @@ class Site < ActiveRecord::Base
   default_value_for :status, 'Open'
   default_value_for :max_tracks, 1
 
- attr_accessible :description, :domain,  :daily_login_bonus, :stripeconnect, :allow_bank, :level,:initial_bank, :allow_stripe, :allow_twitter, :bank_alias, :credit_alias, :member_alias, :live_push, :allow_facebook, :allow_leagues, :track_alias, :bet_alias, :facebook_key, :rebuy_credits, :permalink, :rebuy_charge, :allow_rebuys, :facebook_secret, :initial_credits, :name, :max_tracks, :owner_id, :sanctioned, :slug, :status, :twitter_key, :twitter_secret
+ attr_accessible :description, :domain,  :daily_login_bonus, :stripeconnect, :allow_bank, :level,:initial_bank, 
+                 :allow_stripe, :allow_twitter, :bank_alias, :credit_alias, :member_alias, :live_push, :allow_facebook,
+                 :allow_leagues, :track_alias, :meet_alias, :card_alias, :race_alias, :horse_alias, :bet_alias, 
+                 :facebook_key, :rebuy_credits, :permalink, :rebuy_charge,:allow_rebuys, :facebook_secret, 
+                 :initial_credits, :name, :max_tracks, :owner_id, :sanctioned, :slug,:status, :twitter_key, 
+                 :twitter_secret
 
   def stripe_publishable_key
    return self.stripeconnect unless stripeconnect.blank?

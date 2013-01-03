@@ -83,10 +83,10 @@ class TracksController < ApplicationController
     @track.owner_id = @owner.id
     @track.site_id = @site.id
     @track.track_alias = @site.track_alias
-    @track.meet_alias = 'Meet'
-    @track.card_alias = 'Race Card'
-    @track.race_alias = 'Race'
-    @track.horse_alias = 'Outcome'
+    @track.meet_alias = @site.meet_alias
+    @track.card_alias = @site.card_alias
+    @track.race_alias = @site.race_alias
+    @track.horse_alias =  @site.horse_alias
     @track.member_alias = @site.member_alias
     @track.bet_alias = @site.bet_alias
     @track.credit_alias = @site.credit_alias

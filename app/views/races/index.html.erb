@@ -4,7 +4,7 @@
   <tr>
     <th>Name</th>
     <th>Card</th>
-    <th>Open</th>
+    <th>Status</th>
     <th>Start betting time</th>
     <th>Post time</th>
     <th>Description</th>
@@ -18,16 +18,18 @@
 <% @races.each do |race| %>
   <tr>
     <td><%= race.name %></td>
-    <td><%= race.card_id %></td>
-    <td><%= race.open %></td>
+    <td><%= race.card.name %></td>
+    <td><%= race.status %></td>
     <td><%= race.start_betting_time %></td>
     <td><%= race.post_time %></td>
     <td><%= race.description %></td>
     <td><%= race.completed %></td>
     <td><%= race.completed_date %></td>
-    <td><%= link_to 'Show', race %></td>
-    <td><%= link_to 'Edit', edit_race_path(race) %></td>
-    <td><%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if user_is_admin? %>
+      <td><%= link_to 'Show', race %></td>
+      <td><%= link_to 'Edit', edit_race_path(race) %></td>
+      <td><%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
   </tr>
 <% end %>
 </table>

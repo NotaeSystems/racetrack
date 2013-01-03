@@ -10,16 +10,18 @@
     <th></th>
     <th></th>
   </tr>
-
+<%= will_paginate @horses %>
 <% @horses.each do |horse| %>
   <tr>
     <td><%= horse.name %></td>
-    <td><%= horse.race_id %></td>
+    <td><%= link_to horse.race.name, race_path(horse.race), :class => 'btn btn-mini'  %></td>
     <td><%= horse.description %></td>
     <td><%= horse.finish %></td>
+   <%if user_is_track_manager?(horse.track) %>
     <td><%= link_to 'Show', horse %></td>
     <td><%= link_to 'Edit', edit_horse_path(horse), :class => 'btn btn-mini btn-warning' %></td>
     <td><%= link_to 'Destroy', horse, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'btn btn-mini btn-warning' %></td>
+   <%end%>
   </tr>
 <% end %>
 </table>

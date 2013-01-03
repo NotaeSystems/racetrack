@@ -61,7 +61,7 @@ class RacesController < ApplicationController
   end
 
   def index
-    @races = Race.all
+    @races = @site.races
 
     respond_to do |format|
       format.html # index.html.erb

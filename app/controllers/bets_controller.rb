@@ -147,12 +147,7 @@ class BetsController < ApplicationController
 
     respond_to do |format|
       if @bet.save
-       daily_bonus = current_user.daily_login_bonus(@site.daily_login_bonus)
-       if daily_bonus > 0
-         daily_bonus_message = "You have been awarded #{daily_bonus} Daily Bonus"
-       else
-         daily_bonus_message = ''
-       end
+
         credit = Credit.create(:user_id => current_user.id,
                            :meet_id => @meet.id,
                            :amount => -@bet.amount,

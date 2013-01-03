@@ -79,7 +79,13 @@ def create
       # The identity we found had a user associated with it so let's 
       # just log them in here
       self.current_user = @authentication.user
-      redirect_to myaccount_url, notice: "Signed in!"
+       daily_bonus = current_user.daily_login_bonus(@site.daily_login_bonus)
+       if daily_bonus > 0
+         daily_bonus_message = "You have been awarded #{daily_bonus} Daily Bonus"
+       else
+         daily_bonus_message = ''
+       end
+      redirect_to myaccount_url, notice: "Signed in! #{daily_bonus_message}"
     else
       # No user associated with the identity so we need to create a new one
       logger.info "Creating New user"

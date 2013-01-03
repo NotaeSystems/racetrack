@@ -110,6 +110,7 @@ Myapp::Application.routes.draw do
   match "admin/dashboard" => "admin#dashboard", :as => :dashboard_admin
   match "admin/tracks" => "admin#tracks", :as => :tracks_admin
   match "admin/transactions" => "admin#transactions", :as => :transactions_admin
+  match "admin/destroy_tracks" => "admin#destroy_tracks", :as => :destroy_tracks_admin
 ##############################################
 
 #### site management ##########################
@@ -120,7 +121,7 @@ Myapp::Application.routes.draw do
 
 #### stripe #################################
   match "stripeconnect" => "stripe#stripeconnect", :as => :stripeconnect
-  match "stripehook" => "stripe#striphook", :as => :stripehook
+  match "stripehook" => "stripe#stripehook", :as => :stripehook
 ##############################################
 
   match "message" => "home#message", :as => :message
