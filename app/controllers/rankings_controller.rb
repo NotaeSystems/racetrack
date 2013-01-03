@@ -25,8 +25,7 @@ class RankingsController < ApplicationController
 
 
     @rankings = @site.rankings.order("amount desc")
-    @track = @meet.track
-    @myrank = Ranking.where("user_id = ? and site_id = ?", current_user.id, @site.id).first
+     @myrank = Ranking.where("user_id = ? and site_id = ?", current_user.id, @site.id).first
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
