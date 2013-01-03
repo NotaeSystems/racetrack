@@ -160,7 +160,7 @@ class BetsController < ApplicationController
                            :level => @bet.level
                              ) 
      current_user.update_ranking(@meet.id, -@bet.amount)
-        format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created. #{daily_bonus_message}" }
+        format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created." }
         format.json { render json: @bet, status: :created, location: @bet }
       else
         format.html { render action: "new" }
