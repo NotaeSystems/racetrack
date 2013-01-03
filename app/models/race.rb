@@ -132,6 +132,8 @@ class Race < ActiveRecord::Base
     ## find all other red bets and reduce user standing
     losers = self.bets.where(:status => 'Pending', :level => 'Red')
     losers.each do |loser|
+      bettor.update_card_ranking(gate.race.card, -won_bet_amount)
+
       user = loser.user
       user.amount = user.amount - loser.amount
       user.save
@@ -188,7 +190,9 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-        bettor.update_card_ranking(self.card, won_bet_amount.round)
+        if bet.level == 'Red'
+          bettor.update_card_ranking(gate.race.card, won_bet_amount)
+        end
 
     end
 
@@ -242,7 +246,7 @@ class Race < ActiveRecord::Base
                    :amount => bet_amount,
                    :credit_type => bet_type,
                    :card_id => card_id,
-                   :description => "Winnings: #{self.name} on #{bet_type} on #{gate.horse.name}",
+                   :description => "Returned Winning Bet: #{self.name} on #{bet_type} on #{gate.horse.name}",
                    :track_id => self.track_id,
                    :site_id => self.site_id,
                    :level => bet.level,
@@ -250,7 +254,9 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-        bettor.update_card_ranking(gate.race.card, bet_payoff)
+        if bet.level == 'Red'
+          bettor.update_card_ranking(gate.race.card, won_bet_amount)
+        end
       end
     end
 

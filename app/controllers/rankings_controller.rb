@@ -9,7 +9,7 @@ class RankingsController < ApplicationController
     elsif params[:card_id]
       card_ranking
     else
-      @rankings = Ranking.all
+     site_ranking
     end
    
     #@rank = Ranking.where("amount > ?", @myrank.amount).index(@myrank)
@@ -21,6 +21,21 @@ class RankingsController < ApplicationController
     end
   end
 
+  def site_ranking
+
+
+    @rankings = @site.rankings.order("amount desc")
+    @track = @meet.track
+    @myrank = Ranking.where("user_id = ? and site_id = ?", current_user.id, @site.id).first
+   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+    ## this counts the records where amount is greater thant the user
+    unless @myrank.blank?
+      @rank = Ranking.where("amount > ? and user_id =? and site_id = ?", @myrank.amount, current_user.id, @site.id).order("amount desc").count
+    else
+      @rank = Ranking.where("site_id = ?",  @site.id).count
+    end
+
+  end
 
   def league_meets_ranking
     @league = League.find(params[:league_id])
