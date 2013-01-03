@@ -4,9 +4,6 @@
   <%if current_user.meet_balance(@meet) == 0 %>
     <%#= link_to "#{@track.meet_alias.pluralize}", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>
-<%= link_to "#{@meet.track.meet_alias} Leaderboard", rankings_path(:meet_id => @meet.id), :class => 'btn btn-mini'%>
-<%= link_to "My #{@meet.track.meet_alias} #{@track.meet_alias.pluralize} ", mycredits_path(:meet => @meet.id), :class => 'btn btn-mini'%>
-<%= link_to "My #{@meet.track.meet_alias} #{@track.bet_alias.pluralize}" , mybets_path(:meet => @meet.id), :class => 'btn btn-mini'%>
 <%else%>
 <h3>Signup for Free <%=@track.credit_alias.pluralize%></h3>
 <%end%>
