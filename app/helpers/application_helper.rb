@@ -26,9 +26,9 @@ module ApplicationHelper
     return horse_array
   end
 
-  def tracks_list
+  def stable_tracks_list
     track_array = Array.new
-    tracks = Track.all
+    tracks = @site.tracks
     tracks.each do |track|
      track_array << [track.name, track.id]
     end

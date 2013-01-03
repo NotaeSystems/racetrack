@@ -9,7 +9,7 @@
        <%=  f.hidden_field :race_id , :value => @race.id %>
        <%end%>
     <%=f.label 'Stable'%>
-    <%= f.select :stable_id, tracks_list, :include_blank => true%>
+    <%= f.select :stable_id, stable_tracks_list, :include_blank => true%>
     <%= f.input :description %>
 
     <%= f.input :finish %>
