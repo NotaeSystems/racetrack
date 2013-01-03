@@ -114,8 +114,10 @@
 
    <%end%>
 <%else%>
-    <td><%=gate.status%></td>
+    <td><%=race.status%></td>
 <%end%>
+
+
 <%if user_is_track_manager?(@track) %>
     <td><%= link_to "Edit Gate", edit_gate_path(gate, :race_id => @race.id), :class => 'btn btn-mini btn-warning' %> <%= link_to "Delete Gate", gate, method: :delete, data: { confirm: 'Are you sure? This will delete this Gate' }, :class => 'btn btn-mini btn-danger' %></td>
    
