@@ -9,6 +9,7 @@ class Site < ActiveRecord::Base
   has_many :users
   has_many :subscriptions
   has_many :transactions
+  has_many :rankings
   belongs_to :owner, :class_name => "User"
 
   default_value_for :track_alias, 'Track' 
