@@ -47,18 +47,22 @@ class User < ActiveRecord::Base
   end
 
   def daily_login_bonus(amount)
-    if self.created_at > 24.hours.ago
+    logger.info 'inside of daily_login_bonus'
+    if self.created_at < 24.hours.ago
+       logger.info 'user created more than 24 hours ago'
        bonus_credits = Credit.where("user_id = ? and credit_type IN ('Daily Bonus') and created_at > ?",self.id, Time.now - 24.hours)
       if bonus_credits.blank?
          Credit.create( :user_id => self.id,
                    :amount => amount,
                    :credit_type => 'Daily Bonus',
-                   :description => 'Initial Credits',
+                   :description => 'Daily Bonus',
                    :site_id => self.site_id, 
                    :level => 'White'
                  )
         return amount
       end 
+    else
+      logger.info 'user created less than 24 hours ago'
     end
    return 0
   end
