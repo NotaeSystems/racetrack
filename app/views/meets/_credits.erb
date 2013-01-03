@@ -1,5 +1,6 @@
 <% if user_signed_in? %>
-  <h4> <%="#{@track.meet_alias.pluralize}" %> Balance : <%=current_user.credits_balance.round %></h4>
+  <h4> White <%=@site.credit_alias %>s Balance : <%=current_user.white_credits_balance.round %> </h4>
+  <h4> Red <%=@site.credit_alias %>s Balance : <%=current_user.red_credits_balance.round %> </h4>
   <%if current_user.meet_balance(@meet) == 0 %>
     <%#= link_to "#{@track.meet_alias.pluralize}", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>

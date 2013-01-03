@@ -294,7 +294,7 @@ class BetsController < ApplicationController
         return
       end
 
-      flash[:warning] = "Sorry, you do not have enough #{@site.credit_alias} for this #{@site.bet_alias}. You must use all your White first, then Green, and then Red #{@site.bet_alias}"
+      flash[:warning] = "Sorry, you do not have enough #{@site.credit_alias}s for this #{@site.bet_alias}. You must use all your White first, then Green, and then Red #{@site.credit_alias}s"
       redirect_to race_path(:id => @race.id)
   end
 
