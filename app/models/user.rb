@@ -352,4 +352,71 @@ class User < ActiveRecord::Base
     ####################################################
 
   end
+
+
+  def update_race_ranking(race, amount, level)
+   logger.debug "inside update_race_rankings race :#{race.name} amount = #{amount} level: #{level}"
+   card = race.card
+   meet = race.meet
+   track = race.track
+   logger.debug "card = #{card.name},  meet = #{meet.name}, track = #{track.name}"
+   ranking = Ranking.where("user_id = ? and race_id = ?",self.id, race.id).first
+   if ranking
+     ranking.amount += amount.to_i
+     ranking.save
+   else
+     ranking = Ranking.new
+     ranking.user_id = self.id
+     ranking.site_id = self.site_id
+     ranking.race_id = race.id
+     ranking.meet_id = meet.id
+     ranking.card_id = card.id
+     ranking.track_id = track.id
+     ranking.amount =  amount
+     ranking.level =  level
+     ranking.save
+   end
+    ## update user amount #############################
+    self.amount = 0 if self.amount.nil?
+    self.amount += amount.to_i
+    self.save
+    ###################################################
+
+    ### update leagueusers ############################
+    ## find all the leagues user is member of
+    myleagues_ids = self.leagues.pluck('leagues.id')
+    ##find all the league meets
+    meetleagues = Meetleague.where(:meet_id => meet.id, :league_id => myleagues_ids)
+    ### update the leagueuser credits field
+    meetleagues.each do |meet_league|
+      leagueuser = Leagueuser.where(:league_id => meet_league.league_id, :user_id => self.id).first
+      leagueuser.amount = 0 if leagueuser.amount.nil?
+      leagueuser.amount += amount
+      leagueuser.save
+    end
+
+    ### update the league rankings
+    meetleagues.each do |meet_league|
+      ranking = Ranking.where("user_id = ? and meet_id = ? and league_id = ?",self.id, race.meet.id, race.meet_id).first
+      if ranking
+       ranking.amount += amount.to_i
+       ranking.save
+     else
+       ranking = Ranking.new
+       ranking.user_id = self.id
+       ranking.site_id = self.site_id
+       ranking.race_id = race.id
+       ranking.meet_id = meet.id
+       ranking.card_id = card.id
+       ranking.league_id = meet_league.league_id
+       ranking.amount =  amount
+       ranking.level =  level
+       ranking.save
+   end
+
+
+    end
+    ####################################################
+
+  end
 end

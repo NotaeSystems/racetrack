@@ -10,6 +10,7 @@ class Track < ActiveRecord::Base
   has_many :trackleagues, :dependent => :destroy
   has_many :leagues, :through => :trackleagues
   has_many :transactions
+  has_many :rankings
 
   belongs_to :site
   #scope :active, where(:open => true)

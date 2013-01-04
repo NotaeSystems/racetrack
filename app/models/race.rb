@@ -1,13 +1,17 @@
 class Race < ActiveRecord::Base
   has_many :horses, :dependent => :destroy
   belongs_to :card
+  belongs_to :meet
   belongs_to :track
   has_many :bets
   has_many :gates
   has_many :winning_bets, :class_name => 'Bet'
-  has_many :comments   
+  has_many :comments 
+  has_many :rankings
+  
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
-                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, :level, :morning_line, :results 
+                  :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
+                  :level, :morning_line, :results, :meet_id 
 
   def cancel
       self.bets.where(:status => 'Pending').each do |bet|
@@ -173,8 +177,8 @@ class Race < ActiveRecord::Base
                    :description => "Winnings: #{self.name} on #{bet_type}",
                    :track_id => self.track_id,
                    :site_id => self.site_id, 
-                   :level => 'Red'
-                 
+                   :level => 'Red',
+                   :race_id => self.id                
                  )
         ## return winning bet
         Credit.create( :user_id => bet.user_id,
@@ -185,14 +189,15 @@ class Race < ActiveRecord::Base
                    :description => "Returned Winning Bet: #{self.name} on #{bet_type}",
                    :track_id => self.track_id,
                    :site_id => self.site_id, 
-                   :level => self.level
+                   :level => self.level,
+                   :race_id => self.id
                  
                  )
         bet.status = 'Paid Out'
         bet.save
-        if bet.level == 'Red'
-          bettor.update_card_ranking(gate.race.card, won_bet_amount)
-        end
+
+          bettor.update_race_ranking(gate.race, won_bet_amount)
+
 
     end
 
@@ -210,9 +215,13 @@ class Race < ActiveRecord::Base
       next if pot == 0
       #horse_odds = total_pot / winner_total_bets
       gates_total_bets = gate.total_bets(bet_type).to_f
-      next if  gate_total_bets == 0
+      logger.debug "#{gates_total_bets} gates total bets \n"
+      if  gates_total_bets < 1  ## 
+      logger.debug "there are no bets on this gate \n"
+        next
+      end
       floated_odds = pot.to_f / gate.total_bets(bet_type).to_f
-      gate_odds = (floated_odds * 20).round.to_f/20
+      gate_odds = (floated_odds * 100).round.to_f/100
       logger.debug "odds = #{gate_odds}\n"
       next if gate_odds == 0
       #payoff_odds = winner_odds / winners_size
@@ -238,8 +247,9 @@ class Race < ActiveRecord::Base
                    :race_id => self.id
                  )
         ## update winnings for site leaderboard
-        bettor.amount = bettor.amount + won_bet_amount
-        bettor.save
+        ## not needed?
+        #bettor.amount = bettor.amount + won_bet_amount
+        #bettor.save
         ## return winning bet
         Credit.create( :user_id => bet.user_id,
                    :meet_id => bet.meet_id,
@@ -254,9 +264,11 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-        if bet.level == 'Red'
-          bettor.update_card_ranking(gate.race.card, won_bet_amount)
-        end
+       # if bet.level == 'Red'
+         # bettor.update_card_ranking(gate.race, won_bet_amount)
+          logger.debug 'Getting ready to update race rankings'
+          bettor.update_race_ranking(gate.race, won_bet_amount, 'Red')
+       # end
       end
     end
 

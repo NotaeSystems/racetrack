@@ -8,8 +8,12 @@ class RankingsController < ApplicationController
       meet_ranking
     elsif params[:card_id]
       card_ranking
+    elsif params[:race_id]
+      race_ranking
+    elsif params[:track_id]
+      track_ranking
     else
-     site_ranking
+     @rankings = @site.rankings
     end
    
     #@rank = Ranking.where("amount > ?", @myrank.amount).index(@myrank)
@@ -21,6 +25,38 @@ class RankingsController < ApplicationController
     end
   end
 
+
+  def track_ranking
+
+    @track = @site.tracks.find(params[:track_id])
+    @rankings = @track.rankings.order("amount desc")
+    @myrank = Ranking.where("user_id = ? and track_id = ?", current_user.id, @track.id).first
+   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+    ## this counts the records where amount is greater thant the user
+    unless @myrank.blank?
+      @rank = Ranking.where("amount > ? and user_id =? and track_id = ?", @myrank.amount, current_user.id, @track.id).order("amount desc").count
+    else
+      @rank = Ranking.where("track_id = ?",  @track.id).count
+    end
+
+  end
+
+  def race_ranking
+
+    @race = Race.find(params[:race_id])
+    @rankings = @race.rankings.order("amount desc")
+    @track = @race.track
+    @myrank = Ranking.where("user_id = ? and race_id = ?", current_user.id, @race.id).first
+   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+    ## this counts the records where amount is greater thant the user
+    unless @myrank.blank?
+      @rank = Ranking.where("amount > ? and user_id =? and race_id = ?", @myrank.amount, current_user.id, @race.id).order("amount desc").count
+    else
+      @rank = Ranking.where("race_id = ?",  @race.id).count
+    end
+
+  end
+
   def site_ranking
 
 
@@ -29,7 +65,7 @@ class RankingsController < ApplicationController
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
-      @rank = Ranking.where("amount > ? and user_id =? and site_id = ?", @myrank.amount, current_user.id, @site.id).order("amount desc").count
+      @rank = Ranking.where("amount > ? and user_id =? and site_id = ?", @myrank.amount, current_user.id, @site.id).order("amount desc").index(current_user) + 1
     else
       @rank = Ranking.where("site_id = ?",  @site.id).count
     end

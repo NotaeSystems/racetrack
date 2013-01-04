@@ -5,6 +5,7 @@
     <%= f.input :name %>
     <%= f.input :status, :collection => ['Pending', 'Open','Pending Payout','Canceled','Closed','Trash'],  :selected => @race.status %>
     <%= f.hidden_field :card_id, :value => @card.id %>
+    <%= f.hidden_field :meet_id, :value => @meet.id %>
     <%= f.hidden_field :track_id, :value => @track.id %>
     <%= f.input :start_betting_time %>
     <%= f.input :post_time %>

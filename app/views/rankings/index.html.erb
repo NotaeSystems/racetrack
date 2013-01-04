@@ -1,15 +1,26 @@
 
-
-
-<%if @card || @meet %>
-  <h1><%= link_to @track.name, track_path(@track.id)%></h1>
-
-  <h2>Leaderboard for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
-
-
-  <%if @league %>
+  <%if params[:league_id] %>
     <h3> <%= link_to @league.name, @league %></h3>
-  <%end%>
+
+  <%elsif params[:meet_id]  %>
+    <h1><%= link_to @track.name, track_path(@track.id)%></h1>
+
+    <h2>Leaderboard for <%= link_to @meet.name, meet_path(:id => @meet.id) %></h2>
+
+  <%elsif params[:track_id]  %>
+
+    <h1>Leaderboard for <%= link_to @track.name, track_path(:id => @track.id) %></h2>
+
+  <%elsif params[:card_id]  %>
+    <h1><%= link_to @track.name, track_path(@track.id)%></h1>
+
+    <h2>Leaderboard for <%= link_to "#{@meet.name}-#{@card.name}", card_path(:id => @card.id) %></h2>
+  <%elsif params[:race_id]  %>
+    <h1><%= link_to @track.name, track_path(@track.id)%></h1>
+
+    <h2>Leaderboard for <%= link_to @race.name, race_path(:id => @race.id) %></h2>
+
+
 <%else%>
   <h2>Leaderboard for <%=@site.name%></h2>
 <%end%>
@@ -26,15 +37,15 @@
     <th>Rank</th>
 
   </tr>
-<%rank = 0 %>
-<% @rankings.each do |ranking| %>
-<% rank = rank + 1 %>
+
+<% @rankings.each_with_index do |ranking, index| %>
+
   <tr>
        <td><%= image_tag avatar_url(ranking.user) %><br />
     <small><%= ranking.user.name %></small></td>
 
     <td><%= ranking.amount %></td>
-   <td><%= rank %></td>
+        <td><%=  "#{index + 1}" %></td>
      <% if user_is_site_manager? %>
 
        <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>

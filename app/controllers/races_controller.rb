@@ -99,6 +99,7 @@ class RacesController < ApplicationController
   def new
     card_id = params[:card_id]
     @card = Card.find(card_id)
+    @meet = @card.meet
     @race = Race.new
     @track = @card.meet.track
     @race.win = true

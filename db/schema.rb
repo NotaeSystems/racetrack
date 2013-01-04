@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130103102353) do
+ActiveRecord::Schema.define(:version => 20130104091854) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -248,6 +248,7 @@ ActiveRecord::Schema.define(:version => 20130103102353) do
     t.text     "results"
     t.integer  "site_id"
     t.string   "level"
+    t.integer  "meet_id"
   end
 
   create_table "rankings", :force => true do |t|
@@ -260,6 +261,9 @@ ActiveRecord::Schema.define(:version => 20130103102353) do
     t.integer  "card_id"
     t.integer  "track_id"
     t.integer  "site_id"
+    t.string   "level"
+    t.integer  "race_id"
+    t.integer  "league_id"
   end
 
   create_table "roles", :force => true do |t|
