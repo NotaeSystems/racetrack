@@ -11,7 +11,7 @@ class TracksController < ApplicationController
     @track = Track.find(params[:id])
      @status = params[:status]
     @track.join(current_user, @status)
-    if @status = 'Member'
+    if @status == 'Member'
       redirect_to @track, notice: "#{@track.name} was successfully joined!" 
     else
       redirect_to @track, notice: "Membership pending in #{@track.name}" 
