@@ -42,7 +42,7 @@ class UsersController < ApplicationController
     end
 
     authentications = @user.authentications
-    authentications.each do ||
+    authentications.each do |authentication|
       authentication.destroy
     end
 
