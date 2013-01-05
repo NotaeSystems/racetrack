@@ -360,6 +360,7 @@ class User < ActiveRecord::Base
    meet = race.meet
    track = race.track
    logger.debug "card = #{card.name},  meet = #{meet.name}, track = #{track.name}"
+   ## set ranking record for race
    ranking = Ranking.where("user_id = ? and race_id = ?",self.id, race.id).first
    if ranking
      ranking.amount += amount.to_i
@@ -367,15 +368,66 @@ class User < ActiveRecord::Base
    else
      ranking = Ranking.new
      ranking.user_id = self.id
-     ranking.site_id = self.site_id
      ranking.race_id = race.id
-     ranking.meet_id = meet.id
+     ranking.amount =  amount
+     ranking.level =  level
+     ranking.save
+   end
+   ## set ranking record for card
+   ranking = Ranking.where("user_id = ? and card_id = ?",self.id, card.id).first
+   if ranking
+     ranking.amount += amount.to_i
+     ranking.save
+   else
+     ranking = Ranking.new
+     ranking.user_id = self.id
      ranking.card_id = card.id
+     ranking.amount =  amount
+     ranking.level =  level
+     ranking.save
+   end
+   ## set ranking record for meet
+   ranking = Ranking.where("user_id = ? and meet_id = ?",self.id, meet.id).first
+   if ranking
+     ranking.amount += amount.to_i
+     ranking.save
+   else
+     ranking = Ranking.new
+     ranking.user_id = self.id
+     ranking.card_id = card.id
+     ranking.amount =  amount
+     ranking.level =  level
+     ranking.save
+   end
+
+   ## set ranking record for track
+   ranking = Ranking.where("user_id = ? and track_id = ?",self.id, track.id).first
+   if ranking
+     ranking.amount += amount.to_i
+     ranking.save
+   else
+     ranking = Ranking.new
+     ranking.user_id = self.id
      ranking.track_id = track.id
      ranking.amount =  amount
      ranking.level =  level
      ranking.save
    end
+
+   ## set ranking record for site
+   ranking = Ranking.where("user_id = ? and site_id = ?",self.id, site.id).first
+   if ranking
+     ranking.amount += amount.to_i
+     ranking.save
+   else
+     ranking = Ranking.new
+     ranking.user_id = self.id
+     ranking.site_id = site.id
+     ranking.amount =  amount
+     ranking.level =  level
+     ranking.save
+   end
+
     ## update user amount #############################
     self.amount = 0 if self.amount.nil?
     self.amount += amount.to_i
@@ -395,25 +447,37 @@ class User < ActiveRecord::Base
       leagueuser.save
     end
 
-    ### update the league rankings
+    ### update the league meet rankings
     meetleagues.each do |meet_league|
-      ranking = Ranking.where("user_id = ? and meet_id = ? and league_id = ?",self.id, race.meet.id, race.meet_id).first
+      ranking = Ranking.where("user_id = ? and meet_id = ?",self.id, race.meet.id).first
       if ranking
-       ranking.amount += amount.to_i
-       ranking.save
-     else
-       ranking = Ranking.new
-       ranking.user_id = self.id
-       ranking.site_id = self.site_id
-       ranking.race_id = race.id
-       ranking.meet_id = meet.id
-       ranking.card_id = card.id
-       ranking.league_id = meet_league.league_id
-       ranking.amount =  amount
-       ranking.level =  level
-       ranking.save
-   end
+        ranking.amount += amount.to_i
+        ranking.save
+      else
+        ranking = Ranking.new
+        ranking.user_id = self.id
+        ranking.meet_id = meet.id
+        ranking.league_id = meet_league.league_id
+        ranking.amount =  amount
+        ranking.level =  level
+        ranking.save
+     end
 
+   ### update the league rankings
+    meetleagues.each do |meet_league|
+      ranking = Ranking.where("user_id = ? and league_id = ?",self.id, race.meet.id, race.meet_id).first
+      if ranking
+        ranking.amount += amount.to_i
+        ranking.save
+      else
+        ranking = Ranking.new
+        ranking.user_id = self.id
+        ranking.meet_id = meet.id
+        ranking.league_id = meet_league.league_id
+        ranking.amount =  amount
+        ranking.level =  level
+        ranking.save
+     end
 
     end
     ####################################################

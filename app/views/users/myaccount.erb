@@ -4,8 +4,8 @@
 <div>
      
 
-    <p>My White <%= @site.credit_alias %> Balance: <%=current_user.white_credits_balance.round %></p>
-    <p>My Red <%= @site.credit_alias %> Balance: <%=current_user.red_credits_balance.round %></p>
+    <p><%= @site.credit_alias %> Balance: 
+White:  <%=current_user.white_credits_balance.round %> Red:  <%=current_user.red_credits_balance.round %></p>
     <% if @site.allow_bank? %>
     <p>My Bank Balance: <%=number_to_currency(current_user.transactions_balance.round/100) %></p>
      <%if current_user.credits_balance.round.to_i < 100 && @site.allow_rebuys? %>

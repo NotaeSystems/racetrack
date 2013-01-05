@@ -1,0 +1,40 @@
+
+<h2>Rankings for <%= link_to @user.name, edit_user_path(@user) %></h2>
+
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Amount</th>
+    <th>Track</th>
+    <th>Meet</th>
+    <th>Card</th>
+    <th>Race</th>
+    <th>Amount</th>
+
+
+  </tr>
+
+<% @rankings.each_with_index do |ranking, index| %>
+
+  <tr>
+    <td><%= ranking.amount %></td>
+    <td><%= ranking.track.name unless ranking.track.blank? %></td>
+    <td><%= ranking.meet.name  unless ranking.meet.blank? %></td>
+    <td><%= ranking.card.name unless ranking.card.blank? %></td>
+    <td><%= ranking.race.name unless ranking.race.blank? %></td>
+
+
+     <% if user_is_site_manager? %>
+
+       <td><%= link_to 'Edit', edit_ranking_path(ranking) , :class => 'btn btn-mini'%><td>
+     <%end%>
+  </tr>
+<% end %>
+</table>
+
+
+
+
+
+
+

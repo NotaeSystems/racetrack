@@ -1,3 +1,11 @@
+<%= link_to @site.credit_alias, credits_user_path(@user), :class => 'btn' %>
+<%= link_to @site.bet_alias, bets_user_path(@user), :class => 'btn' %>
+<%= link_to 'Rankings', rankings_user_path(@user), :class => 'btn' %>
+<%= link_to 'Transactions', transactions_user_path(@user), :class => 'btn' %>
+<%= link_to 'Leagues', leagues_user_path(@user), :class => 'btn' %>
+<%= link_to @site.track_alias, tracks_user_path(@user), :class => 'btn' %>
+
+
 <% if @user.encrypted_password.blank?  && params[:register].blank? %>
   <%= link_to 'Register as Registered User', edit_user_path(@user, :register => true) %>
   <h2>Edit <%= @user.name %></h2>

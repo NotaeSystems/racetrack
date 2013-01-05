@@ -1,15 +1,15 @@
-<h1>Listing credits</h1>
+<h1>Listing <%=@site.credit_alias %> for <%= link_to @user.name, edit_user_path(@user) %></h1>
 <%= will_paginate @credits %>
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
-    <th>User</th>
-    <th>Track</th>
-    <th>Meet</th>
-    <th>Card</th>
+    <th><%=@site.member_alias %></th>
+    <th><%=@site.track_alias %></th>
+    <th><%=@site.meet_alias %></th>
+    <th><%=@site.card_alias %></th>
     <th>Amount</th>
     <th>Level</th>
     <th>Description</th>
-    <th>Credit type</th>
+    <th>Type</th>
     <th>Date</th>
 
   </tr>
@@ -25,9 +25,9 @@
     <td><%= credit.description %></td>
     <td><%= credit.credit_type %></td>
     <td><%= credit.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
-     <% if current_user.has_role? :admin %>
+     <% if user_is_site_manager? %>
 
-       <td><%= link_to 'Edit', edit_credit_path(credit) %><td>
+       <td><%= link_to 'Edit', edit_credit_path(credit), :class => 'btn btn-warning' %><td>
      <%end%>
   </tr>
 <% end %>

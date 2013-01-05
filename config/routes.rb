@@ -31,8 +31,12 @@ Myapp::Application.routes.draw do
         get 'rebuy_credits'
       end
       member do
-       
-        #get 'credits'
+        get 'credits'
+        get 'bets'
+        get 'rankings'
+        get 'transactions'
+        get 'leagues'
+        get 'tracks'
       end 
 
   end

@@ -4,6 +4,41 @@ class UsersController < ApplicationController
   before_filter :return_as_admin_filter, :only => [:return_as_admin]
   before_filter :check_for_user, :only => [:edit, :update]
 
+
+  def credits
+    @user = User.find(params[:id])
+   @credits = @user.credits.page(params[:page]).per_page(30)
+   render 'mycredits'
+  end
+
+   def rankings
+    @user = User.find(params[:id])
+    @rankings = @user.rankings.page(params[:page]).per_page(30)
+  end
+
+  def transactions
+    @user = User.find(params[:id])
+    @credits = @user.credits.page(params[:page]).per_page(30)
+  end
+
+  def tracks
+    @user = User.find(params[:id])
+   @trackusers = Trackuser.member.where("user_id = ?", @user.id)
+   render 'mytracks'
+  end
+
+  def bets
+    @user = User.find(params[:id])
+    @bets = @user.bets.page(params[:page]).per_page(30)
+   render 'mybets'
+  end
+
+  def leagues
+    @user = User.find(params[:id])
+    @leagueusers = Leagueuser.where("user_id = ?", @user.id)
+   render 'myleagues'
+  end
+
   def borrow_credits
     if current_user.credits_balance > 0
       redirect_to myaccount_path, :alert => "You can borrow additional credits only if you have a zero balance"
@@ -72,18 +107,20 @@ class UsersController < ApplicationController
   end
 
   def myachievements
+    @user = current_user
        #   current_user.add_achievement('Neophyte')
-    @achievementusers = Achievementuser.where(:user_id => current_user.id)
+    @achievementusers = Achievementuser.where(:user_id => @user.id)
   end
 
   def myleagues
-    @leagueusers = Leagueuser.where("user_id = ?", current_user.id)
+    @user = current_user
+    @leagueusers = Leagueuser.where("user_id = ?", @user.id)
 
   end
 
   def mytracks
-   
-   @trackusers = Trackuser.member.where("user_id = ?", current_user.id)
+   @user = current_user
+   @trackusers = Trackuser.member.where("user_id = ?", @user.id)
   end
 
   def myaccount
@@ -97,8 +134,9 @@ class UsersController < ApplicationController
 
   def mybets
     if params[:user]
+      @user = current_user
       @title = 'All My Bets'
-      @bets = Bet.where(:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+      @bets = Bet.where(:user_id => @user.id ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:card]
        @card = Card.where(:id => params[:card]).first
        @track = @card.track
