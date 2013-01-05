@@ -53,5 +53,5 @@ Pusher.secret = '5b7c2c8b9b9b6256fdeb'
   config.assets.compress = false
 
   # Expands the lines which load the assets
-  config.assets.debug = true
+  config.assets.debug = false
 end

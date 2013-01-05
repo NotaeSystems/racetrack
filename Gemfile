@@ -47,7 +47,7 @@ group :assets do
   gem 'uglifier', '>= 1.0.3'
 end
 gem 'bcrypt-ruby', :require => 'bcrypt'
-gem 'jquery-rails'
+#gem 'jquery-rails'
 gem "unicorn", ">= 4.3.1", :group => :production
 gem "rspec-rails", ">= 2.11.0", :group => [:development, :test]
 gem "email_spec", ">= 1.2.1", :group => :test
