@@ -3,11 +3,11 @@ class Race < ActiveRecord::Base
   belongs_to :card
   belongs_to :meet
   belongs_to :track
-  has_many :bets
-  has_many :gates
+  has_many :bets,  :dependent => :destroy
+  has_many :gates,  :dependent => :destroy
   has_many :winning_bets, :class_name => 'Bet'
-  has_many :comments 
-  has_many :rankings
+  has_many :comments,  :dependent => :destroy 
+  has_many :rankings,  :dependent => :destroy
   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 

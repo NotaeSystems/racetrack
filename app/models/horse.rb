@@ -3,7 +3,7 @@ class Horse < ActiveRecord::Base
   belongs_to :track
   belongs_to :card
   has_many :bets, :dependent => :destroy
-  has_many :gates
+  has_many :gates,  :dependent => :destroy
 
   attr_accessible :description, :finish, :name, :race_id, :status, :track_id, :card_id, :stable_id
 

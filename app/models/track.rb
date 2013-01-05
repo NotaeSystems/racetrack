@@ -9,8 +9,8 @@ class Track < ActiveRecord::Base
   has_many :trackusers,  :dependent => :destroy
   has_many :trackleagues, :dependent => :destroy
   has_many :leagues, :through => :trackleagues
-  has_many :transactions
-  has_many :rankings
+  has_many :transactions,  :dependent => :destroy
+  has_many :rankings,  :dependent => :destroy
 
   belongs_to :site
   #scope :active, where(:open => true)
