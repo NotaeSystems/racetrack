@@ -77,7 +77,7 @@ class UsersController < ApplicationController
 
   def transactions
     @user = User.find(params[:id])
-    @credits = @user.credits.page(params[:page]).per_page(30)
+    @transactions = @user.transactions.page(params[:page]).per_page(30)
   end
 
   def tracks
