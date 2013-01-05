@@ -461,8 +461,8 @@ class User < ActiveRecord::Base
         ranking.amount =  amount
         ranking.level =  level
         ranking.save
-     end
-
+      end
+    end
    ### update the league rankings
     meetleagues.each do |meet_league|
       ranking = Ranking.where("user_id = ? and league_id = ?",self.id, race.meet.id, race.meet_id).first
@@ -477,7 +477,7 @@ class User < ActiveRecord::Base
         ranking.amount =  amount
         ranking.level =  level
         ranking.save
-     end
+      end
 
     end
     ####################################################

@@ -34,10 +34,6 @@
   <tr>
     <th>Member</th>
     <th>Amount</th>
-    <th>Track</th>
-    <th>Meet</th>
-    <th>Card</th>
-    <th>Race</th>
     <th>Rank</th>
 
   </tr>
@@ -47,10 +43,7 @@
   <tr>
        <td><%= image_tag avatar_url(ranking.user) %><br />
     <small><%= ranking.user.name %></small></td>
-    <td><%= ranking.track.name %></td>
-    <td><%= ranking.meet.name %></td>
-    <td><%= ranking.card.name %></td>
-    <td><%= ranking.race.name %></td>
+
     <td><%= ranking.amount %></td>
         <td><%=  "#{index + 1}" %></td>
      <% if user_is_site_manager? %>
