@@ -11,8 +11,8 @@ class User < ActiveRecord::Base
   has_many :credits, :dependent => :delete_all
   has_many :bets, :dependent => :delete_all
   has_many :authentications, :dependent => :delete_all
-  has_many :transactions
-  has_many :subscriptions
+  has_many :transactions, :dependent => :delete_all
+  has_many :subscriptions, :dependent => :delete_all
   has_many :comments, :dependent => :delete_all
   has_many :trackusers, :dependent => :delete_all
   has_many :leagueusers, :dependent => :delete_all

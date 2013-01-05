@@ -37,6 +37,7 @@ Myapp::Application.routes.draw do
         get 'transactions'
         get 'leagues'
         get 'tracks'
+        get 'clear_user'
       end 
 
   end

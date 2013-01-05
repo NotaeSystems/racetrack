@@ -1,9 +1,68 @@
 class UsersController < ApplicationController
   before_filter :login_required_filter, :except => [:new, :create]
-  before_filter :user_is_admin_filter?, :only => [ :add_role, :remove_role, :index, :destroy]
+  before_filter :user_is_admin_filter?, :only => [ :add_role, :remove_role, :index, :destroy, :clear_user]
   before_filter :return_as_admin_filter, :only => [:return_as_admin]
   before_filter :check_for_user, :only => [:edit, :update]
 
+
+  def clear_user
+    @user = User.find(params[:id])
+    bets = @user.bets
+    bets.each do  |bet|
+      bet.destroy
+    end
+    rankings = @user.rankings
+    rankings.each do |ranking|
+      ranking.destroy
+    end
+
+    leagueusers = @user.leagueusers
+    leagueusers.each do |leagueuser|
+      leagueuser.destroy
+    end
+
+    trackusers = @user.trackusers
+    trackusers.each do |trackuser|
+      trackuser.destroy
+    end
+
+    credits = @user.credits
+    credits.each do |credit|
+      credit.destroy
+    end
+
+    transactions = @user.transactions
+    transactions.each do |transaction|
+      transaction.destroy
+    end
+
+    achievementusers = @user.achievementusers
+    achievementusers.each do |achievementuser|
+      achievementuser.destroy
+    end
+
+    authentications = @user.authentications
+    authentications.each do ||
+      authentication.destroy
+    end
+
+    comments = @user.comments
+    comments.each do |comment|
+      comment.destroy
+    end
+
+    transactions = @user.transactions
+    transactions.each do |transaction|
+      transaction.destroy
+    end
+
+    subscriptions = @user.subscriptions
+    subscriptions.each do |subscriptions|
+      subscription.destroy
+    end
+    message = "Deleted all records related to #{@user.name}"
+    redirect_to dashboard_admin_path, :alert => message
+  end
 
   def credits
     @user = User.find(params[:id])
