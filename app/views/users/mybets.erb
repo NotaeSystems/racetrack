@@ -13,9 +13,9 @@
 
 <% @bets.each do |bet| %>
   <tr>
-    <%if bet.bet_type == 'Exacta' %>
+    <%if bet.bet_type == 'Exacta1' %>
     <td><%= link_to "#{bet.track.name unless bet.track.blank?} -> #{bet.race.card.meet.name unless bet.race.card.blank?} -> #{bet.race.card.name unless bet.race.card.blank?}-Winner: #{bet.win.name} Place: #{bet.place.name}", race_path(:id => bet.race.id), :class => 'btn btn-block' %></td>
-    <%elsif bet.bet_type == 'Trifecta' %>
+    <%elsif bet.bet_type == 'Trifecta1' %>
     <td><%= link_to "#{bet.track.name unless bet.track.blank?} -> #{bet.race.card.meet.name unless bet.race.card.blank?} -> #{bet.race.card.name unless bet.race.card.blank?}-#{bet.win.name} #{bet.place.name}", race_path(:id => bet.race.id), :class => 'btn btn-block' %></td>
     <%else%>
     <td><%= link_to "#{bet.track.name unless bet.track.blank?} -> #{bet.race.card.meet.name unless bet.race.card.blank?} -> #{bet.race.card.name unless bet.race.card.blank?}-#{bet.horse.name}", race_path(:id => bet.race.id), :class => 'btn btn-block' %></td>
