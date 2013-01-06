@@ -104,7 +104,7 @@ class RankingsController < ApplicationController
     #user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:user_id)
 
     #@rankings = Ranking.where(:user_id => user_ids, :meet_id => @meets_id, :league_id = @league.id).order("amount desc")
-    @rankings = Ranking.where(:league_id = @league.id).order("amount desc")
+    @rankings = Ranking.where(:league_id => @league.id).order("amount desc")
     logger.info "league user_ids = #{user_ids}"
     unless @myrank.blank?
       @rank = Ranking.where("amount > ? and user_id IN (?) and meet_id = ?", @myrank.amount, user_ids, @meet.id).order("amount desc").count
