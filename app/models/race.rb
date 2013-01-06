@@ -195,8 +195,8 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-
-          bettor.update_race_ranking(gate.race, won_bet_amount)
+          bettor.update_race_ranking(gate.race, won_bet_amount, 'Red')
+         
 
 
     end
