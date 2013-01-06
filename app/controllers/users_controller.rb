@@ -192,6 +192,7 @@ class UsersController < ApplicationController
   end
 
   def mybets
+    @user = current_user
     if params[:user]
       @user = current_user
       @title = 'All My Bets'
