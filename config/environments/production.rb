@@ -82,8 +82,9 @@ Myapp::Application.configure do
   }
 
 config.middleware.use ExceptionNotifier,
-  sender_address: 'support@fantasyoddsmaker.com',
-  exception_recipients: 'jimmy@fantasyoddsmaker.com'
+  :sender_address => 'support@fantasyoddsmaker.com',
+  :exception_recipients => 'jimmy@fantasyoddsmaker.com',
+  :ignore_exceptions => [] 
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
