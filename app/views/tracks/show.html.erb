@@ -17,7 +17,7 @@
 <br />
   <%= @track.description %> 
 
-  
+  <%=link_to "#{@site.track_alias} Leaderboard", rankings_path(:track_id => @track.id), :class => 'btn btn-mini'  %>
 <% if user_signed_in? %>
   <% if is_track_member?(@track) %>
    <%= link_to "My #{@track.track_alias} #{@site.credit_alias.pluralize}", mycredits_path(:track => @track.id), :class => 'btn btn-mini'%>

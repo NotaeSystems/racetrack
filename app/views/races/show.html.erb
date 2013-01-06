@@ -34,8 +34,10 @@
 
 <h1><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h1>
 <%= render :partial => 'races/credits' %>
+ <%=link_to "#{@track.race_alias} Leaderboard", rankings_path(:race_id => @race.id), :class => 'btn btn-mini'  %>
 <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
  <p> <%= @race.description %></p>
+
 <% if user_signed_in? %>
   <%= link_to "My #{@meet.track.race_alias} Bets", mybets_path(:race => @race.id), :class => 'btn btn-mini'%>
 <%end%>
