@@ -113,6 +113,7 @@ class RacesController < ApplicationController
   def edit
     @race = Race.find(params[:id])
     @card = @race.card
+    @meet = @race.meet
     @track = @card.meet.track
   end
 
