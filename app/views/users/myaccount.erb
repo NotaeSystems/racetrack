@@ -16,7 +16,7 @@ White:  <%=current_user.white_credits_balance.round %> Red:  <%=current_user.red
       <strong><%= link_to 'My Leagues', myleagues_path, :class => 'btn btn-mini ' %> </strong> <br />   <br />  
     <%end%>  
     <% if @only_track %>
-       <strong> <%=link_to @only_track.name, track_path(@only_track), :class => 'btn btn-mini ' %>   </strong> <br /><br />
+       <strong> <%=link_to @only_track.name, track_path(@only_track), :class => 'btn btn-mini btn-success' %>   </strong> <br /><br />
     <%else%>
       <strong><%= link_to 'My Tracks', mytracks_path, :class => 'btn btn-mini' %> </strong>  <br /><br />
       <strong><%= link_to 'Browse Tracks', tracks_path(:search_type => 'open'), :class => 'btn btn-mini'  %></strong><br /><br />

@@ -477,7 +477,6 @@ class User < ActiveRecord::Base
       else
         ranking = Ranking.new
         ranking.user_id = self.id
-        ranking.meet_id = meet.id
         ranking.league_id = meet_league.league_id
         ranking.amount =  amount
         ranking.level =  level
