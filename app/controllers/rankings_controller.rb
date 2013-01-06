@@ -34,11 +34,11 @@ class RankingsController < ApplicationController
 
     @league = @site.leagues.find(params[:league_id])
     @rankings = @league.rankings.order("amount desc")
-    @myrank = Ranking.where("user_id = ? and league_id = ?", current_user.id, @track.id).first
+    @myrank = Ranking.where("user_id = ? and league_id = ?", current_user.id, @league.id).first
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
-      @rank = Ranking.where("amount > ? and user_id =? and league_id = ?", @myrank.amount, current_user.id, @track.id).order("amount desc").count
+      @rank = Ranking.where("amount > ? and user_id =? and league_id = ?", @myrank.amount, current_user.id, @league.id).order("amount desc").count
     else
       @rank = Ranking.where("track_id = ?",  @track.id).count
     end
