@@ -3,7 +3,11 @@ class RankingsController < ApplicationController
   # GET /rankings.json
   def index
     if params[:league_id]
-      league_meet_ranking
+      if params[:meet_id]
+        league_meet_ranking
+      else
+        league_ranking
+      end
     elsif params[:meet_id]
       meet_ranking
     elsif params[:card_id]
@@ -25,6 +29,21 @@ class RankingsController < ApplicationController
     end
   end
 
+
+  def league_ranking
+
+    @league = @site.leagues.find(params[:league_id])
+    @rankings = @league.rankings.order("amount desc")
+    @myrank = Ranking.where("user_id = ? and league_id = ?", current_user.id, @track.id).first
+   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+    ## this counts the records where amount is greater thant the user
+    unless @myrank.blank?
+      @rank = Ranking.where("amount > ? and user_id =? and league_id = ?", @myrank.amount, current_user.id, @track.id).order("amount desc").count
+    else
+      @rank = Ranking.where("track_id = ?",  @track.id).count
+    end
+
+  end
 
   def track_ranking
 
@@ -82,9 +101,10 @@ class RankingsController < ApplicationController
     end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
-    user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:user_id)
+    #user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:user_id)
 
-    @rankings = Ranking.where(:user_id => user_ids, :meet_id => @meets_id).order("amount desc")
+    #@rankings = Ranking.where(:user_id => user_ids, :meet_id => @meets_id, :league_id = @league.id).order("amount desc")
+    @rankings = Ranking.where(:league_id = @league.id).order("amount desc")
     logger.info "league user_ids = #{user_ids}"
     unless @myrank.blank?
       @rank = Ranking.where("amount > ? and user_id IN (?) and meet_id = ?", @myrank.amount, user_ids, @meet.id).order("amount desc").count
@@ -107,7 +127,8 @@ class RankingsController < ApplicationController
     ## this counts the records where amount is greater thant the user
     user_ids = Leagueuser.where("league_id = ?", @league.id).pluck(:user_id)
     
-    @rankings = @meet.rankings.where(:user_id => user_ids).order("amount desc")
+    #@rankings = @meet.rankings.where(:user_id => user_ids).order("amount desc")
+    @rankings = Ranking.where(:league_id = @league.id, :meet_id => ).order("amount desc")
     logger.info "league user_ids = #{user_ids}"
     unless @myrank.blank?
       @rank = Ranking.where("amount > ? and user_id IN (?) and meet_id = ?", @myrank.amount, user_ids, @meet.id).order("amount desc").count
