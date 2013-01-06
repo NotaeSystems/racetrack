@@ -39,7 +39,8 @@ gem 'delayed_job_active_record'
 gem 'rest-client'
 gem 'ransack'
 gem 'acts_as_list'
-gem 'exception_notification'
+#http://stackoverflow.com/questions/13042201/exception-notification-gem-raises-actionviewtemplateerror-code-converter-no
+gem 'exception_notification', git: 'git://github.com/alanjds/exception_notification.git'
 
 
 gem 'httparty'
