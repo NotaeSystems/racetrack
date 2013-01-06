@@ -281,19 +281,19 @@ class BetsController < ApplicationController
      @race = Race.find(params[:bet][:race_id])
       @card = @race.card
       white_balance = current_user.white_credits_balance
-      if white_balance >= 1 && @amount < white_balance
+      if white_balance >= 1 && @amount <= white_balance
         @level = 'White'
         return
       end
      
       green_balance = current_user.green_credits_balance
-      if green_balance >= 1 && @amount < green_balance
+      if green_balance >= 1 && @amount <= green_balance
         @level = 'Green'
         return
       end
 
       red_balance = current_user.red_credits_balance
-      if red_balance >= 1 && @amount < red_balance
+      if red_balance >= 1 && @amount <= red_balance
         @level = 'Red'
         return
       end
