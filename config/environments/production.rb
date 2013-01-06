@@ -81,7 +81,9 @@ Myapp::Application.configure do
       :enable_starttls_auto => true
   }
 
-
+config.middleware.use ExceptionNotifier,
+  sender_address: 'support@fantasyoddsmaker.com',
+  exception_recipients: 'jimmy@fantasyoddsmaker.com'
 
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)

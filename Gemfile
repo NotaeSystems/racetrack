@@ -39,6 +39,8 @@ gem 'delayed_job_active_record'
 gem 'rest-client'
 gem 'ransack'
 gem 'acts_as_list'
+gem 'exception_notification'
+
 
 gem 'httparty'
 group :assets do
