@@ -437,11 +437,13 @@ class User < ActiveRecord::Base
     ### update leagueusers ############################
     ## find all the leagues user is member of
     myleagues_ids = self.leagues.pluck('leagues.id')
+    logger.info "myleagues_id = #{myleagues_ids}"
     ##find all the league meets
     meetleagues = Meetleague.where(:meet_id => meet.id, :league_id => myleagues_ids)
     ### update the leagueuser credits field
     meetleagues.each do |meet_league|
       leagueuser = Leagueuser.where(:league_id => meet_league.league_id, :user_id => self.id).first
+      logger.info "league_user = #{leagueuser.user.name}"
       leagueuser.amount = 0 if leagueuser.amount.nil?
       leagueuser.amount += amount
       leagueuser.save
@@ -449,12 +451,15 @@ class User < ActiveRecord::Base
 
     ### update the league meet rankings
     meetleagues.each do |meet_league|
+    logger.info "myleagues_id = #{myleagues_ids}"
       ranking = Ranking.where("user_id = ? and meet_id = ?",self.id, race.meet.id).first
       if ranking
+        logger.info "existing ranking = #{ranking.id}"
         ranking.amount += amount.to_i
         ranking.save
       else
         ranking = Ranking.new
+        logger.info "creating new meet league ranking"
         ranking.user_id = self.id
         ranking.meet_id = meet.id
         ranking.league_id = meet_league.league_id
