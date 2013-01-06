@@ -223,8 +223,10 @@ class UsersController < ApplicationController
   end
 
   def mycredits
+    @user = current_user
     if params[:user]
       @credits = Credit.where(:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
+      @user = @site.users.where(:id => params[:id]).first
     elsif params[:card]
        @credits = Credit.where(:card_id =>params[:card],:user_id => current_user.id ).order('created_at DESC').page(params[:page]).per_page(30)
     elsif params[:track]
