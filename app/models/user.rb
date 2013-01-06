@@ -470,7 +470,7 @@ class User < ActiveRecord::Base
     end
    ### update the league rankings
     meetleagues.each do |meet_league|
-      ranking = Ranking.where("user_id = ? and league_id = ?",self.id, meetleague.league_id).first
+      ranking = Ranking.where("user_id = ? and league_id = ?",self.id, meet_league.league_id).first
       if ranking
         ranking.amount += amount.to_i
         ranking.save
