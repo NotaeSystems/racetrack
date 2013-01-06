@@ -40,7 +40,7 @@ class RankingsController < ApplicationController
     unless @myrank.blank?
       @rank = Ranking.where("amount > ? and user_id =? and league_id = ?", @myrank.amount, current_user.id, @league.id).order("amount desc").count
     else
-      @rank = Ranking.where("track_id = ?",  @track.id).count
+      @rank = Ranking.where("league_id = ?",  @league.id).count
     end
 
   end
