@@ -5,5 +5,7 @@ belongs_to :card
 belongs_to :track
 belongs_to :race
 belongs_to :site
+belongs_to :league
+
   attr_accessible :amount, :meet_id, :rank, :user_id, :card_id, :level, :race_id, :league_id
 end
