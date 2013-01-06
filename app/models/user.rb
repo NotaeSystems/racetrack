@@ -394,7 +394,7 @@ class User < ActiveRecord::Base
    else
      ranking = Ranking.new
      ranking.user_id = self.id
-     ranking.card_id = card.id
+     ranking.meet_id = meet.id
      ranking.amount =  amount
      ranking.level =  level
      ranking.save
