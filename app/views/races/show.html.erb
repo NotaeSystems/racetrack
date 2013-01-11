@@ -109,11 +109,8 @@
 
           <td><%= link_to 'Bet', new_bet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
         <%end%>
-        <%if false #@race.back? %>
 
-          <td><%= link_to 'Back', backbet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
-        <%end%>
-        <%if @race.back? %>
+        <%if @race.exchange? %>
 
           <td><%= link_to 'Offers', offers_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
         <%end%>
