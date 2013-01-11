@@ -5,6 +5,28 @@ class UsersController < ApplicationController
   before_filter :check_for_user, :only => [:edit, :update]
 
 
+  def offers
+        @buy_offers = current_user.offers.where("offer_type = 'Buy' and status = 'Pending' ", Time.now).order('price desc')
+      @sell_offers = current_user.offers.where("offer_type = 'Sell' and status = 'Pending'" ).order('price')
+
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @offers }
+    end
+  end
+
+  def contracts
+        @contracts= current_user.contracts.where("status = 'Open' ", Time.now)
+        
+
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @offers }
+    end
+  end
+
   def clear_user
     @user = User.find(params[:id])
     bets = @user.bets

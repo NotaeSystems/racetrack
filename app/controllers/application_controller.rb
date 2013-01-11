@@ -74,7 +74,14 @@ class ApplicationController < ActionController::Base
    false
   end
 
- helper_method  :current_user,:signed_in?, :user_signed_in?, :user_is_admin?, :user_is_site_manager?
+  def user_is_market_maker?
+   return false if current_user.nil?
+   return true if current_user.id == @site.owner_id
+   return true if current_user.has_role?('admin')
+   false
+  end
+
+ helper_method  :current_user,:signed_in?, :user_signed_in?, :user_is_admin?, :user_is_site_manager?, :user_is_market_maker?
 
  def current_user=(user)
    @current_user = user

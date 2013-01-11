@@ -1,0 +1,55 @@
+<strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->
+<strong>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet,  :class => 'btn btn-mini btn-success' %>
+</strong>->
+<strong><%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id),:class => 'btn btn-mini btn-success' %></strong>
+<h2>Back Wager for <%=@gate.horse.name%></h2>
+<h3><%=@race.name %><h3>
+<%= render :partial => 'cards/credits' %>
+<h3><%="Present Odds: #{@gate.back_odds} Available: #{@gate.back_available}"%>
+
+<ul>
+<% @lay_offers.each do |offer| %>
+<li>Odds: <%=offer.odds %> - Amount: <%=offer.amount%>
+<%end%>
+</ul>
+
+<%= simple_form_for(@bet, :url => create_backbet_path) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+
+    <%= f.hidden_field :user_id %>
+    <%= f.hidden_field :track_id %>
+    <%= f.hidden_field :meet_id %>
+    <%= f.hidden_field :card_id%>
+    <%= f.hidden_field :race_id%>
+    <%= f.hidden_field :horse_id %>
+    <%= f.hidden_field :gate_id %>
+    <%= f.input :amount, :required => true %>
+
+    <% if user_is_market_maker? %>
+    <%= f.label 'Back Odds' %>
+      <%= f.text_field :odds%>
+    <%= f.label 'Bet Type' %>
+    <%= f.select :bet_type, ['Back','Lay'] %>
+    <%= f.label 'Expires' %>
+    <%= f.datetime_select :expires %>
+   <%else%>
+    <%= f.label 'Back Odds' %>
+      <%= f.select :odds, ['Market'] %>
+    <%= f.label 'Bet Type' %>
+    <%= f.select :bet_type, ['Back'] %>
+    <%end%>
+
+        <%if user_is_admin? %>
+      <div class='admin_box'>
+      <legend> Root Admin </legend>
+         <%= f.select :level, ['White', 'Red', 'Green'] %>
+      </div>
+     <%end%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, @track.bet_alias %>
+  </div>
+<% end %>

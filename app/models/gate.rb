@@ -1,8 +1,43 @@
 class Gate < ActiveRecord::Base
   belongs_to :race
   belongs_to :horse
+  has_many :offers
   has_many :bets
   attr_accessible :finish, :horse_id, :number, :race_id, :status
+
+
+  def settle_contracts(user)
+   ## see if there are any open buy and sell contracts for this gate and user
+   open_buy_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Buy' and status = 'Open'", self.id, user.id).first
+   if open_buy_contract
+     open_sell_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Sell' and status = 'Open'", self.id, user.id).first
+     if open_sell_contract
+       open_buy_contract.status = 'Canceled'
+       open_buy_contract.save
+       open_sell_contract.status = 'Canceled'
+       open_sell_contract.save
+       settle_contracts(user)
+     end
+   else
+     return
+   end
+  end
+
+  def back_odds
+   odds = 2.1
+  end
+
+  def lay_odds
+   odds = 2.3
+  end
+
+  def back_available
+   available = 1000
+  end
+
+  def lay_available
+   available = 1000
+  end
 
   def scratch
 

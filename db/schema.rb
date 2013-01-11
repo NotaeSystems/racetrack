@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130104091854) do
+ActiveRecord::Schema.define(:version => 20130109121632) do
 
   create_table "achievements", :force => true do |t|
     t.string   "name"
@@ -66,6 +66,8 @@ ActiveRecord::Schema.define(:version => 20130104091854) do
     t.integer  "site_id"
     t.integer  "gate_id"
     t.string   "level"
+    t.decimal  "odds"
+    t.datetime "expires"
   end
 
   create_table "cards", :force => true do |t|
@@ -92,6 +94,19 @@ ActiveRecord::Schema.define(:version => 20130104091854) do
     t.text     "body"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "contracts", :force => true do |t|
+    t.string   "contract_type"
+    t.integer  "user_id"
+    t.integer  "site_id"
+    t.integer  "gate_id"
+    t.integer  "race_id"
+    t.integer  "number"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "status"
+    t.integer  "price"
   end
 
   create_table "credits", :force => true do |t|
@@ -195,6 +210,19 @@ ActiveRecord::Schema.define(:version => 20130104091854) do
     t.string   "level"
   end
 
+  create_table "offers", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "market"
+    t.integer  "price"
+    t.integer  "gate_id"
+    t.datetime "expires"
+    t.string   "offer_type"
+    t.integer  "number"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "pages", :force => true do |t|
     t.string   "name"
     t.text     "body"
@@ -249,6 +277,8 @@ ActiveRecord::Schema.define(:version => 20130104091854) do
     t.integer  "site_id"
     t.string   "level"
     t.integer  "meet_id"
+    t.boolean  "lay"
+    t.boolean  "back"
   end
 
   create_table "rankings", :force => true do |t|

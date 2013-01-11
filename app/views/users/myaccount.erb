@@ -25,6 +25,8 @@ White:  <%=current_user.white_credits_balance.round %> Red:  <%=current_user.red
 
      <strong><%= link_to "All My #{@site.credit_alias.pluralize}" , mycredits_path, :class => 'btn btn-mini ' %> </strong> <br /><br />
      <strong><%= link_to "All My #{@site.bet_alias.pluralize}" , mybets_path, :class => 'btn btn-mini' %> </strong> <br /><br />
+     <strong><%= link_to "All My Pending Offers" , offers_user_path(:id => current_user.id), :class => 'btn btn-mini' %> </strong> <br /><br />
+     <strong><%= link_to "All My Open Contracts" , contracts_user_path(:id => current_user.id), :class => 'btn btn-mini' %> </strong> <br /><br />
 
 
      <strong><%= link_to 'My Achievements', myachievements_path, :class => 'btn btn-mini ' %> </strong> <br /><br /> <p>Your Name: <%=current_user.name%> <br />Time Zone: <%=current_user.time_zone %>  <br /> <strong><%= link_to 'Edit account', edit_user_path(:id => current_user.id), :class => 'btn btn-mini btn-info ' %></strong></p>

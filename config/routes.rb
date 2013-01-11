@@ -1,5 +1,17 @@
 Myapp::Application.routes.draw do
   
+  resources :contracts do
+      collection do
+        get 'buy'
+      end
+      member do
+        get 'scratch'
+        #get 'credits'
+      end 
+  end
+
+  resources :offers
+
   resources :transactions
 
   resources :plans
@@ -31,6 +43,8 @@ Myapp::Application.routes.draw do
         get 'rebuy_credits'
       end
       member do
+        get 'offers'
+        get 'contracts'
         get 'credits'
         get 'bets'
         get 'rankings'
@@ -146,7 +160,9 @@ Myapp::Application.routes.draw do
   match "backdoor" => "authentications#backdoor", :as => :backdoor
   match "exacta" => "bets#exacta", :as => :exacta
   match "trifecta" => "bets#trifecta", :as => :trifecta
+  match "back" => "bets#backbet", :as => :backbet
   post "create_exacta" => "bets#create_exacta", :as => :create_exacta
+  post "create_backbet" => "bets#create_backbet", :as => :create_backbet
 
 get 'add_role', to: 'users#add_role', as: 'add_role'
 get 'remove_role', to: 'users#remove_role', as: 'remove_role'

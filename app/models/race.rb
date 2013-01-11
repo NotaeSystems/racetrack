@@ -11,7 +11,7 @@ class Race < ActiveRecord::Base
   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
-                  :level, :morning_line, :results, :meet_id 
+                  :level, :morning_line, :results, :meet_id, :back, :lay, :odds 
 
   def cancel
       self.bets.where(:status => 'Pending').each do |bet|
@@ -63,8 +63,56 @@ class Race < ActiveRecord::Base
    end
   end
 
-  
+  def settle_contracts
+    card = self.card
+    meet =self.meet
+    track = self.track
+    
+    winner = self.gates.where("finish = 1").first
+    ### find all buy contracts and create bets  credit 100 points
+    contracts = Contract.where("gate_id = ? and contract_type = 'Buy' and status = 'Open'", winner.id)
+    contracts.each do |contract|
+        credit = Credit.create(:user_id => contract.user_id,
+                           :meet_id => meet.id,
+                           :amount => 100,
+                           :description => "Winnings on Contract",
+                           :card_id => card.id,
+                           :credit_type => "Contract Winnings",
+                           :track_id => track.id,
+                           :site_id => track.site.id,
+                           :race_id => self.id,
+                           :level => 'Red'
+                             ) 
+      contract.status = 'Settled'
+      contract.save
+      contract.user.update_race_ranking(self, 100, 'Red')
+           
+    end
+    ### find all sellers contracts on the winners and deduct the contract amount
+    contracts = Contract.where("gate_id = ? and contract_type = 'Sell' and status = 'Open'", winner.id)
+    contracts.each do |contract|
+        credit = Credit.create(:user_id => contract.user_id,
+                           :meet_id => meet.id,
+                           :amount => -100,
+                           :description => "Loss on Contract Sell",
+                           :card_id => card.id,
+                           :credit_type => "Contract Sell Losses",
+                           :track_id => track.id,
+                           :site_id => track.site.id,
+                           :race_id => self.id,
+                           :level => 'White'
+                             )
+      contract.status = 'Settled'
+      contract.save
+      contract.user.update_race_ranking(self, -100, 'White')        
+    end
+    #### all other contracts are settled
+    contracts = Contract.where("race_id = ? and status = 'Pending'", self.id)
+    contracts.update_all(:status => 'Closed')
+  end
+
   def payout
+
     # find winners
     winners = self.gates.where("finish = 1")
     win_pot = self.bets.where("bet_type = 'Win' and status = 'Pending'").sum(:amount)
@@ -80,7 +128,6 @@ class Race < ActiveRecord::Base
     show_pot = self.bets.where("bet_type = 'Show' and status = 'Pending'").sum(:amount)
     showers_size = showers.size
     #################
-
 
 
     total_pot = self.bets.where("status = 'Pending'").sum(:amount)
@@ -146,6 +193,7 @@ class Race < ActiveRecord::Base
     ## find all other bets and mark as Losing Bet
     losers = self.bets.where(:status => 'Pending')
     losers.update_all(:status => 'Losing Bet')
+    
     self.status = 'Finished'
     self.save
   end

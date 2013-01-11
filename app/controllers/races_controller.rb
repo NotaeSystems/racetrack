@@ -55,7 +55,10 @@ class RacesController < ApplicationController
   def payout
     status = params[:status]
     @race = Race.find(params[:id])
+    ## payout parimutual
     @race.payout
+    ## payout futures
+    @race.settle_contracts
     flash[:notice] = 'Race was successfully Paid Out.'
     redirect_to @race
   end

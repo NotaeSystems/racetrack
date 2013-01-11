@@ -39,6 +39,66 @@ class BetsController < ApplicationController
     end
   end
 
+  def lay
+
+      @race = Race.find(params[:race_id])
+      @meet = @race.card.meet
+      @card = @race.card
+      @track = @race.track
+    if current_user
+      @bet = Bet.new
+      @bet.user_id = current_user.id
+      @bet.meet_id = @race.card.meet.id
+      @bet.race_id = @race.id
+      @bet.bet_type = 'Lay'
+      
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @bet }
+      end
+   else
+
+      respond_to do |format|
+        format.html{ redirect_to race_path(:id => @horse.race.id), notice: "You must be logged in to bet" }
+        format.json { render json: @bet }
+     end
+    end
+
+  end
+
+  def backbet
+      @horse = Horse.find(params[:horse_id])
+      @gate = Gate.find(params[:gate_id])
+     @race = Race.find(params[:race_id])
+ 
+     @card = @race.card
+     @meet = @card.meet
+     @track = @meet.track
+    if current_user
+
+      @bet = Bet.new
+      @bet.horse_id = @horse.id
+      @bet.user_id = current_user.id
+      @bet.meet_id = @race.card.meet.id
+      @bet.race_id = @race.id
+      @bet.card_id = @card.id  
+      @bet.track_id = @track.id   
+      @bet.gate_id = @gate.id 
+      @lay_offers = Bet.where("gate_id = ? and status = 'Offer' and bet_type = 'Lay' and expires > ? ", @bet.gate_id,Time.now)
+      respond_to do |format|
+        format.html # new.html.erb
+        format.json { render json: @bet }
+      end
+   else
+
+      respond_to do |format|
+        format.html{ redirect_to race_path(:id => @horse.race.id), notice: "You must be logged in to bet" }
+        format.json { render json: @bet }
+     end
+    end
+
+  end
+
   def exacta
 
       @race = Race.find(params[:race_id])
@@ -148,6 +208,52 @@ class BetsController < ApplicationController
     respond_to do |format|
       if @bet.save
 
+        credit = Credit.create(:user_id => current_user.id,
+                           :meet_id => @meet.id,
+                           :amount => -@bet.amount,
+                           :description => "Deduction for Bet",
+                           :card_id => @card.id,
+                           :credit_type => "Bet Deduction",
+                           :track_id => @track.id,
+                           :site_id => @site.id,
+                           :race_id => @race.id,
+                           :level => @bet.level
+                             ) 
+       if @level == 'Red'
+         current_user.update_ranking(@meet.id, -@bet.amount)
+       end
+        format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created." }
+        format.json { render json: @bet, status: :created, location: @bet }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @bet.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create_backbet
+    @bet = Bet.new(params[:bet])
+    @meet = Meet.find(params[:bet][:meet_id])
+    @race = Race.find(params[:bet][:race_id])
+    @gate = Gate.find(params[:bet][:gate_id])
+    @card = Card.find(params[:bet][:card_id])
+    @track = Track.find(params[:bet][:track_id])
+    @horse = Horse.find(params[:bet][:horse_id])
+    if params[:bet][:odds] == 'Market'
+      @bet.odds = @gate.back_odds
+      @bet.status = 'Pending'
+
+    else
+      @bet.odds = params[:bet][:odds]
+      @bet.status = 'Offer'
+    end
+
+    @bet.card_id = @card.id
+    @bet.site_id = @bet.site_id
+    @bet.level = @level
+    respond_to do |format|
+      if @bet.save
+      #@gate.create_laybet(@bet.id)
         credit = Credit.create(:user_id => current_user.id,
                            :meet_id => @meet.id,
                            :amount => -@bet.amount,

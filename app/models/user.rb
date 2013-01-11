@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
   has_many :achievementusers, :dependent => :delete_all
   has_many :rankings, :dependent => :delete_all
   has_many :leagues, :through => :leagueusers
+  has_many :offers, :dependent => :delete_all
+  has_many :contracts, :dependent => :delete_all
   belongs_to :site
 
   #devise :database_authenticatable, :registerable, 
@@ -363,7 +365,9 @@ class User < ActiveRecord::Base
    ## set ranking record for race
    ranking = Ranking.where("user_id = ? and race_id = ?",self.id, race.id).first
    if ranking
-     ranking.amount += amount.to_i
+     logger.debug "Found Race Ranking and amount is #{ranking.amount}"
+     #ranking.amount = 0 if ranking.amount.nil?
+     ranking.amount = ranking.amount + amount
      ranking.save
    else
      ranking = Ranking.new
@@ -376,7 +380,8 @@ class User < ActiveRecord::Base
    ## set ranking record for card
    ranking = Ranking.where("user_id = ? and card_id = ?",self.id, card.id).first
    if ranking
-     ranking.amount += amount.to_i
+     #ranking.amount = 0 if ranking.amount.nil?
+     ranking.amount =  ranking.amount + amount
      ranking.save
    else
      ranking = Ranking.new
@@ -389,12 +394,14 @@ class User < ActiveRecord::Base
    ## set ranking record for meet
    ranking = Ranking.where("user_id = ? and meet_id = ?",self.id, meet.id).first
    if ranking
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount += amount.to_i
      ranking.save
    else
      ranking = Ranking.new
      ranking.user_id = self.id
      ranking.meet_id = meet.id
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount =  amount
      ranking.level =  level
      ranking.save
@@ -403,12 +410,14 @@ class User < ActiveRecord::Base
    ## set ranking record for track
    ranking = Ranking.where("user_id = ? and track_id = ?",self.id, track.id).first
    if ranking
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount += amount.to_i
      ranking.save
    else
      ranking = Ranking.new
      ranking.user_id = self.id
      ranking.track_id = track.id
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount =  amount
      ranking.level =  level
      ranking.save
@@ -417,12 +426,14 @@ class User < ActiveRecord::Base
    ## set ranking record for site
    ranking = Ranking.where("user_id = ? and site_id = ?",self.id, site.id).first
    if ranking
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount += amount.to_i
      ranking.save
    else
      ranking = Ranking.new
      ranking.user_id = self.id
      ranking.site_id = site.id
+     ranking.amount = 0 if ranking.amount.nil?
      ranking.amount =  amount
      ranking.level =  level
      ranking.save
@@ -455,6 +466,7 @@ class User < ActiveRecord::Base
       ranking = Ranking.where("user_id = ? and meet_id = ? and league_id = ?",self.id, race.meet.id, meet_league.league_id).first
       if ranking
         logger.info "existing ranking = #{ranking.id}"
+        ranking.amount = 0 if ranking.amount.nil?
         ranking.amount += amount.to_i
         ranking.save
       else
@@ -478,6 +490,7 @@ class User < ActiveRecord::Base
         ranking = Ranking.new
         ranking.user_id = self.id
         ranking.league_id = meet_league.league_id
+        ranking.amount = 0 if ranking.amount.nil?
         ranking.amount =  amount
         ranking.level =  level
         ranking.save

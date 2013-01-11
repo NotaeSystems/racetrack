@@ -1,0 +1,18 @@
+<%= simple_form_for(@offer) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.hidden_field :offer_type %>
+    <%= f.hidden_field :user_id %>
+    <%= f.input :price %>
+    <%= f.hidden_field :gate_id %>
+    <%#= f.input :from_now, :label => 'Expires from now ie in 10 minutes, in 1 day, in 1 hour, Leave blank for post time. etc.' %>
+
+    <%#=f.label 'Number Contracts, each contract is 100 units'%>
+    <%= f.hidden_field :number %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

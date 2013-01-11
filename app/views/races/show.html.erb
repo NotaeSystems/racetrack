@@ -91,15 +91,32 @@
     <td><strong><%= link_to gate.horse.name, horse_path(gate.horse), :class => 'btn btn-block' %></strong></td>
     <td><%= gate.horse.description %></td>
     <td><%= gate.horse.finish %></td>
-    <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+
+    <%if @race.win? %>
+      <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+    <%end%>
+
+    <% if @race.back? %>
+      <td>Buy: 30 Sell: 33 </td>
+    <%end%>
 
 <%if @race.betting_status == 'Open' %>
   <%if gate.status == 'Open'%>
     <% if user_signed_in? %>
 
       <%unless current_user.credits_balance < 1%>
-        <td><%= link_to 'Bet', new_bet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
-       
+        <%if @race.win? %>
+
+          <td><%= link_to 'Bet', new_bet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+        <%end%>
+        <%if false #@race.back? %>
+
+          <td><%= link_to 'Back', backbet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+        <%end%>
+        <%if @race.back? %>
+
+          <td><%= link_to 'Offers', offers_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+        <%end%>
       <%else%>
         <td>
         Sorry, Out of Credits
