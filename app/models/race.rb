@@ -11,7 +11,7 @@ class Race < ActiveRecord::Base
   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
-                  :level, :morning_line, :results, :meet_id, :back, :lay, :odds 
+                  :level, :morning_line, :results, :meet_id, :back, :lay, :odds , :exchange
 
   def cancel
       self.bets.where(:status => 'Pending').each do |bet|
