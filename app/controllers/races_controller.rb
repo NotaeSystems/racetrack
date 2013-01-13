@@ -105,6 +105,9 @@ class RacesController < ApplicationController
     @meet = @card.meet
     @race = Race.new
     @track = @card.meet.track
+    @race.status = 'Pending'
+    @race.post_time = Time.now + 2.hours
+    @race.level = 'White'
     @race.win = true
     respond_to do |format|
       format.html # new.html.erb

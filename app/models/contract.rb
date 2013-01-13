@@ -12,10 +12,15 @@ class Contract < ActiveRecord::Base
     card = race.card
     track = race.track
     if offer_type == 'Buy' 
-      if market == 'Market'
+
         ### find best sell offer
-            logger.debug 'inside buy offer'
-        offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' ", gate.id, Time.now).order('price').first 
+        logger.debug 'inside buy offer'
+        if price
+          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' and price < ? ", gate.id, Time.now, price + 1).order('price').first
+        else
+          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' ", gate.id, Time.now).order('price').first 
+        end
+
        logger.debug 'cannot find offer' if offer.nil?
         if offer 
        logger.debug 'found offer' 
@@ -44,7 +49,7 @@ class Contract < ActiveRecord::Base
                            :number => number,
                            :contract_type => 'Buy',
                            :site_id => race.site_id,
-                           :price => offer.price
+                           :price => -offer.price
                          )
         credit = Credit.create(:user_id =>user.id,
                            :meet_id => meet.id,
@@ -92,7 +97,7 @@ class Contract < ActiveRecord::Base
           logger.debug 'Cannot find offer that matches'
           return
         end
-      end
+     
   
     
 
@@ -100,9 +105,13 @@ class Contract < ActiveRecord::Base
 
     ## find best sell offer 
     if offer_type == 'Sell' 
-      if market == 'Market'
+
         ### find best buy offer
-        offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending'", gate.id, Time.now).order('price').first 
+        if price
+          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending' and price > ?", gate.id, Time.now, price).order('price').first 
+        else
+          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending'", gate.id, Time.now).order('price').first 
+        end
         if offer 
           if offer.user_id == user.id
             return
@@ -168,7 +177,7 @@ class Contract < ActiveRecord::Base
         else
           return
         end
-      end
+      
     end
   end
 

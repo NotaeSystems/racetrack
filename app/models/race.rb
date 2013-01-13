@@ -13,6 +13,10 @@ class Race < ActiveRecord::Base
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
                   :level, :morning_line, :results, :meet_id, :back, :lay, :odds , :exchange
 
+  def open?
+   betting_status == 'Open'
+  end
+
   def cancel
       self.bets.where(:status => 'Pending').each do |bet|
         Credit.create(:user_id => bet.user_id,

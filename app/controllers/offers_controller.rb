@@ -1,6 +1,10 @@
 class OffersController < ApplicationController
   # GET /offers
   # GET /offers.json
+
+  before_filter :check_for_open_race, :only => [:new]
+  before_filter :check_for_matching_offer, :only => [:create, :update]
+
   def index
     if params[:gate_id]
       @gate = Gate.find(params[:gate_id])
@@ -18,6 +22,7 @@ class OffersController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
+      format.js # index.html.erb
       format.json { render json: @offers }
     end
   end
@@ -118,6 +123,39 @@ class OffersController < ApplicationController
 
   private
 
+    def check_for_open_race
+      gate_id = params[:gate_id] 
+      gate = Gate.where(:id => gate_id).first
+      race = gate.race
+      if race.status == 'Open'
+        return
+      else
+        flash[:error] = "The race is not open for betting."
+        redirect_to offers_path(:gate_id => gate_id)
+      end
+    end
+
+    def check_for_matching_offer
+     # @offer = Offer.find(params[:offer][:id])
+      gate_id = params[:offer][:gate_id] 
+      gate = Gate.where(:id => gate_id).first
+      number = params[:offer][:number].to_i
+      price = params[:offer][:price].to_i   
+      offer_type = params[:offer][:offer_type] 
+      offer_id = nil           
+      ## if offer is buy offer and there is an equal or lower priced sell offer then match
+      if offer_type = 'Buy'
+        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
+      else
+        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
+      end
+       if @contract
+        ## found an existing sell offer that could be matched and a contract was created
+        flash[:success] = "There was an existing  offer of #{@contract.price} and #{offer_type} Contract was created at #{@contract.price}"
+        redirect_to offers_path(:gate_id => gate_id)
+       end
+
+    end
     # Use this method to whitelist the permissible parameters. Example:
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.

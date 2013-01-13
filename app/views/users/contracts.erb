@@ -1,4 +1,4 @@
-<h1>My Contracts</h1>
+<h1>My Open Contracts</h1>
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
@@ -14,7 +14,7 @@
     <th></th>
   </tr>
 
-<% @contracts.each do |contract| %>
+<% @open_contracts.each do |contract| %>
   <tr>
     <td><%= contract.contract_type %></td>
     <td><%= contract.price %></td>
@@ -24,13 +24,51 @@
     <td><%= contract.race.name %></td>
     <td><%= contract.gate.horse.name %></td>
     <td><%= contract.number %></td>
-    <td><%= link_to 'Show', contract %></td>
-    <td><%= link_to 'Edit', edit_contract_path(contract) %></td>
-    <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% if user_is_site_manager? %>
+      <td><%= link_to 'Show', contract %></td>
+      <td><%= link_to 'Edit', edit_contract_path(contract) %></td>
+      <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
   </tr>
 <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Contract', new_contract_path %>
+<h1>Other Contracts</h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Contract type</th>
+    <th>Price</th>
+    <th>Status</th>
+    <th>Gate</th>
+    <th>Race</th>
+    <th>Horse</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @other_contracts.each do |contract| %>
+  <tr>
+    <td><%= contract.contract_type %></td>
+    <td><%= contract.price %></td>
+    <td><%= contract.status %></td>
+
+    <td><%= contract.gate.number %></td>
+    <td><%= contract.race.name %></td>
+    <td><%= contract.gate.horse.name %></td>
+    <td><%= contract.number %></td>
+    <% if user_is_site_manager? %>
+      <td><%= link_to 'Show', contract %></td>
+      <td><%= link_to 'Edit', edit_contract_path(contract) %></td>
+      <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

@@ -22,10 +22,10 @@ Myapp::Application.routes.draw do
 
   resources :gates do
       collection do
-        #get ''
+       # get ''
       end
       member do
-        get 'scratch'
+        get 'contracts'
         #get 'credits'
       end 
 

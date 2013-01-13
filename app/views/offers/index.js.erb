@@ -1,0 +1,6 @@
+<%if @race.betting_status == 'Open' %>
+  $('#buy_offers').html("<%= escape_javascript(render(:partial => 'buy_offers'))%>");
+  $('#sell_offers').html("<%= escape_javascript(render(:partial => 'sell_offers'))%>");
+<%else%>
+  $('#offers').html("<%= escape_javascript(@race.status)%>");
+<%end%>

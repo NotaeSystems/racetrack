@@ -17,8 +17,8 @@ class UsersController < ApplicationController
   end
 
   def contracts
-        @contracts= current_user.contracts.where("status = 'Open' ", Time.now)
-        
+        @open_contracts= current_user.contracts.where("status = 'Open' ", Time.now).order('updated_at desc')
+        @other_contracts= current_user.contracts.where("status != 'Open' ", Time.now).order('updated_at desc')        
 
 
     respond_to do |format|

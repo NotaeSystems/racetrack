@@ -1,0 +1,47 @@
+<h1>My Open Contracts for <%=link_to @gate.horse.name, offers_path(:gate_id => @gate.id) %></h1>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Contract type</th>
+    <th>Price</th>
+    <th>Status</th>
+    <th>Gate</th>
+    <th>Race</th>
+    <th>Horse</th>
+    <th>Number</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @contracts.each do |contract| %>
+  <%if contract.status == 'Open' %>
+  <tr class='market'>
+  <%else%>
+  <tr>
+  <%end%>
+    <td><%= contract.contract_type %></td>
+    <td><%= contract.price %></td>
+    <td><%= contract.status %></td>
+
+    <td><%= contract.gate.number %></td>
+    <td><%= contract.race.name %></td>
+    <td><%= contract.gate.horse.name %></td>
+    <td><%= contract.number %></td>
+    <% if user_is_site_manager? %>
+      <td><%= link_to 'Show', contract %></td>
+      <td><%= link_to 'Edit', edit_contract_path(contract) %></td>
+      <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
+  <%if contract.status == 'Open' %>
+    <%if contract.contract_type == 'Buy' %>
+<td><%= link_to 'Sell at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
+    <%elsif contract.contract_type == 'Sell' %>
+<td><%= link_to 'Buy at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
+    <%end%>
+  <%end%>
+  </tr>
+<% end %>
+</table>
+
+<br />

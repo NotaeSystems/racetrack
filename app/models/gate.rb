@@ -12,9 +12,9 @@ class Gate < ActiveRecord::Base
    if open_buy_contract
      open_sell_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Sell' and status = 'Open'", self.id, user.id).first
      if open_sell_contract
-       open_buy_contract.status = 'Canceled'
+       open_buy_contract.status = 'Closed'
        open_buy_contract.save
-       open_sell_contract.status = 'Canceled'
+       open_sell_contract.status = 'Closed'
        open_sell_contract.save
        settle_contracts(user)
      end
@@ -23,12 +23,13 @@ class Gate < ActiveRecord::Base
    end
   end
 
-  def back_odds
-   odds = 2.1
+  def back_odds(user)
+     open_sell_contract = Contract.where("gate_id = ? and user_id != ? and contract_type = 'Sell' and status = 'Open'", self.id, user.id).first
   end
 
-  def lay_odds
-   odds = 2.3
+  def lay_odds(user)
+   open_buy_contract = Contract.where("gate_id = ? and user_id != ? and contract_type = 'Buy' and status = 'Open'", self.id, user.id).first
+   open_buy_contract.price
   end
 
   def back_available

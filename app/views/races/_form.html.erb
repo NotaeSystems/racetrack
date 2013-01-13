@@ -3,33 +3,30 @@
 
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :status, :collection => ['Pending', 'Open','Pending Payout','Canceled','Closed','Trash'],  :selected => @race.status %>
+    <%= f.input :status, :collection => ['Pending', 'Open','Pending Payout','Canceled', 'Finished', 'Closed','Trash'],  :selected => @race.status, as: :radio_buttons  %>
     <%= f.hidden_field :card_id, :value => @card.id %>
     <%= f.hidden_field :meet_id, :value => @meet.id %>
     <%= f.hidden_field :track_id, :value => @track.id %>
-    <%= f.input :start_betting_time %>
-    <%= f.input :post_time %>
+    <%= f.input :start_betting_time , :label => 'Start Betting Time'%>
+    <%= f.input :post_time, :label => 'Stop Betting Time' %>
 
-    <%= f.label 'Win Bet Allowed' %>
-    <%= f.check_box :win, :label => 'Win Bet Allowed' %>
+    <%= f.input :win, label: 'Win Bet Allowed' %>
 
-    <%= f.label 'Place Bet Allowed' %>
-    <%= f.check_box :place, :label => 'Place Bet Allowed' %>
 
-    <%= f.label 'Show Bet Allowed' %>
-    <%= f.check_box :show %>
+    <%= f.input :place, :label => 'Place Bet Allowed' %>
 
-    <%= f.label 'Exacta Bet Allowed' %>
-    <%= f.check_box :exacta %>
+    <%= f.input :show , :label => 'Show Bet Allowed'%>
 
-    <%= f.label 'Trifecta Bet Allowed' %>
-    <%= f.check_box :trifecta %>
+    <%= f.input :exacta, :label => 'Exacta Bet Allowed' %>
 
-    <%= f.label 'Exchange Offers Allowed' %>
-    <%= f.check_box :exchange %>
+    <%= f.input :trifecta, :label => 'Trifecta Bet Allowed' %>
+
+    <%= f.input :exchange, :label => 'Exchange Bet Allowed' %>
+
+    <%= f.input :level, :collection => ['White', 'Red', 'Green'], as: :radio_buttons %>
 
     <%= f.input :description %>
-      <%= f.select :level, ['White', 'Red', 'Green'] %>
+  
     <%= f.input :morning_line %>
     <%= f.input :results %>
   </div>

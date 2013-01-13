@@ -2,6 +2,13 @@ class GatesController < ApplicationController
   # GET /gates
   # GET /gates.json
 
+
+  def contracts
+    @gate = Gate.find(params[:id])
+    @contracts= Contract.where("gate_id = ? and user_id = ?", @gate.id , current_user.id).order('updated_at desc')
+
+  end
+
   def scratch
     @gate = Gate.find(params[:id])
     @gate.scratch
