@@ -25,7 +25,11 @@
     <td><%= credit.level %></td>
     <td><%= credit.credit_type %></td>
     <td><%= credit.created_at.strftime("%B %d at %I:%M %p %Z") %></td>
-
+    <% if user_is_site_manager? %>
+      <td><%= link_to 'Show', credit %></td>
+      <td><%= link_to 'Edit', edit_credut_path(contract) %></td>
+      <td><%= link_to 'Destroy', credit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
   </tr>
 <% end %>
 </table>
