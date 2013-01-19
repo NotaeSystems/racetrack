@@ -5,6 +5,9 @@ class GatesController < ApplicationController
 
   def contracts
     @gate = Gate.find(params[:id])
+    @race = @gate.race
+    @meet = @race.meet
+    @track = @meet.track
     @contracts= Contract.where("gate_id = ? and user_id = ?", @gate.id , current_user.id).order('updated_at desc')
 
   end

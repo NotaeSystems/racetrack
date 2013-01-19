@@ -1,6 +1,20 @@
-<h1>Editing offer</h1>
+<h1>Editing Offer</h1>
+    <td><%= link_to 'Cancel', cancel_offer_path(@offer), :class => 'btn btn-warning' %></td>
+<%= simple_form_for(@offer) do |f| %>
+  <%= f.error_notification %>
 
-<%= render 'form' %>
+  <div class="form-inputs">
+    <%= f.input :offer_type,:collection => ['Buy', 'Sell'], as: :radio_buttons %>
+    <%= f.hidden_field :user_id %>
+    <%= f.input :price %>
+    <%= f.hidden_field :gate_id %>
+    <%= f.input :from_now, :label => 'Expires from now ie in 10 minutes, in 1 day, in 1 hour, Leave blank for post time. etc.' %>
 
-<%= link_to 'Show', @offer %> |
-<%= link_to 'Back', offers_path %>
+    <%#=f.label 'Number Contracts, each contract is 100 units'%>
+    <%= f.hidden_field :number %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit %>
+  </div>
+<% end %>

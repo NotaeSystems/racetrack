@@ -29,10 +29,22 @@ class UsersController < ApplicationController
 
   def clear_user
     @user = User.find(params[:id])
+
     bets = @user.bets
     bets.each do  |bet|
       bet.destroy
     end
+
+    offers = @user.offers
+    offers.each do  |offer|
+      offer.destroy
+    end
+
+    contracts = @user.contracts
+    contracts.each do  |contract|
+      contract.destroy
+    end
+
     rankings = @user.rankings
     rankings.each do |ranking|
       ranking.destroy
@@ -79,7 +91,7 @@ class UsersController < ApplicationController
     end
 
     subscriptions = @user.subscriptions
-    subscriptions.each do |subscriptions|
+    subscriptions.each do |subscription|
       subscription.destroy
     end
     message = "Deleted all records related to #{@user.name}"

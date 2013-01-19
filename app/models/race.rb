@@ -8,6 +8,7 @@ class Race < ActiveRecord::Base
   has_many :winning_bets, :class_name => 'Bet'
   has_many :comments,  :dependent => :destroy 
   has_many :rankings,  :dependent => :destroy
+  has_many :offers, :dependent => :destroy
   
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
@@ -74,7 +75,7 @@ class Race < ActiveRecord::Base
     
     winner = self.gates.where("finish = 1").first
     ### find all buy contracts and create bets  credit 100 points
-    contracts = Contract.where("gate_id = ? and contract_type = 'Buy' and status = 'Open'", winner.id)
+    contracts = Contract.where("gate_id = ? and contract_type = 'Owner' and status = 'Open'", winner.id)
     contracts.each do |contract|
         credit = Credit.create(:user_id => contract.user_id,
                            :meet_id => meet.id,
@@ -93,7 +94,7 @@ class Race < ActiveRecord::Base
            
     end
     ### find all sellers contracts on the winners and deduct the contract amount
-    contracts = Contract.where("gate_id = ? and contract_type = 'Sell' and status = 'Open'", winner.id)
+    contracts = Contract.where("gate_id = ? and contract_type = 'Seller' and status = 'Open'", winner.id)
     contracts.each do |contract|
         credit = Credit.create(:user_id => contract.user_id,
                            :meet_id => meet.id,

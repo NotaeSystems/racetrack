@@ -64,7 +64,7 @@ class RacesController < ApplicationController
   end
 
   def index
-    @races = @site.races
+    @races = @site.races.where(:status => 'Open')
 
     respond_to do |format|
       format.html # index.html.erb

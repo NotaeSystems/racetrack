@@ -34,7 +34,10 @@ class RankingsController < ApplicationController
 
     @league = @site.leagues.find(params[:league_id])
     @rankings = @league.rankings.where(:meet_id => nil).order("amount desc")
-    @myrank = Ranking.where("user_id = ? and league_id = ?", current_user.id, @league.id).first
+    @myrank = nil
+    unless current_user.nil?
+      @myrank = Ranking.where("user_id = ? and league_id = ?", current_user.id, @league.id).first
+    end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
@@ -49,7 +52,10 @@ class RankingsController < ApplicationController
 
     @track = @site.tracks.find(params[:track_id])
     @rankings = @track.rankings.order("amount desc")
-    @myrank = Ranking.where("user_id = ? and track_id = ?", current_user.id, @track.id).first
+    @myrank = nil
+    unless current_user.nil?
+      @myrank = Ranking.where("user_id = ? and track_id = ?", current_user.id, @track.id).first
+    end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
@@ -143,7 +149,10 @@ class RankingsController < ApplicationController
     @meet = Meet.find(params[:meet_id])
     @rankings = @meet.rankings.order("amount desc")
     @track = @meet.track
-    @myrank = Ranking.where("user_id = ? and meet_id = ?", current_user.id, @meet.id).first
+    @myrank = nil
+    unless current_user.nil?
+      @myrank = Ranking.where("user_id = ? and meet_id = ?", current_user.id, @meet.id).first
+    end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @myrank.blank?
@@ -159,7 +168,10 @@ class RankingsController < ApplicationController
     @meet = @card.meet
     @rankings = @card.rankings.order("amount desc")
     @track = @card.meet.track
-    @mycardrank = Ranking.where("user_id = ? and card_id = ?", current_user.id, @card.id).first
+    @mycardrank = nil
+    unless current_user.nil?
+      @mycardrank = Ranking.where("user_id = ? and card_id = ?", current_user.id, @card.id).first
+    end
    # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
     ## this counts the records where amount is greater thant the user
     unless @mycardrank.blank?

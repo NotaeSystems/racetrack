@@ -4,24 +4,52 @@ class ContractsController < ApplicationController
 
   before_filter :check_for_opposing_party, :only => [:buy]
 
+
+  def open_contracts
+    if params[:track_id]
+      @contracts = @track.contracts.where("user_id = ? and status = 'Open'", current_user.id)
+
+
+    end
+  end
+
   def buy
+    @price = nil
     @gate = Gate.where(:id => params[:gate_id]).first
     @market = params[:market]
-    @price = params[:price]
+    if params[:price]
+      @price = params[:price].to_i
+    else
+      @price = nil
+    end
+
     @offer_type = params[:offer_type]
     @number = params[:number]
     offer_id = params[:offer_id]
     @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, offer_id)
     if @contract
-     redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have acquired #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+     if @offer_type == 'Buy'
+       redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+     elsif @offer_type == 'Sell'
+       redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have sold #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+     end
     else
      redirect_to offers_path(:gate_id => @gate.id), :notice => "Sorry! No contract available."
     end
   end
 
   def index
-    @contracts = Contract.all
-
+    if params[:gate_id]
+      @gate = Gate.find(params[:gate_id])
+      if params[:user_id]
+        user = User.find(params[:user_id])
+        @contracts = @gate.contracts.where(:user_id => user.id, :status => 'Open')
+      else
+        @contracts = @gate.contracts.where(:status => 'Open')
+      end
+    else
+      @contracts = @gate.contracts
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @contracts }

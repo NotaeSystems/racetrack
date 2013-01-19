@@ -5,6 +5,16 @@ class OffersController < ApplicationController
   before_filter :check_for_open_race, :only => [:new]
   before_filter :check_for_matching_offer, :only => [:create, :update]
 
+
+  def cancel
+    @offer = Offer.find(params[:id])
+    
+    @offer.status = 'Cancelled'
+    @offer.save
+    flash[:success] = "Offer Cancelled"
+    redirect_to offers_path(:gate_id => @offer.gate_id)
+  end
+
   def index
     if params[:gate_id]
       @gate = Gate.find(params[:gate_id])
@@ -13,11 +23,18 @@ class OffersController < ApplicationController
       @meet = @card.meet
       @track = @meet.track
       #@buy_offers = @gate.offers.where("offer_type = 'Buy' and expires > ?", Time.now).order('price')
-      @buy_offers = @gate.offers.where("offer_type = 'Buy' and status = 'Pending' ", Time.now).order('price desc')
-     # @sell_offers = @gate.offers.where("offer_type = 'Sell' and expires > ?", Time.now).order('price desc')
-      @sell_offers = @gate.offers.where("offer_type = 'Sell' and status = 'Pending'" ).order('price')
-    else
+      @buy_offers = @gate.offers.where("offer_type = 'Buy' and status = 'Pending' and expires > ? ", Time.now).order('price desc')
+      @best_buy_offer =  @gate.offers.where("offer_type = 'Buy' and status = 'Pending' and expires > ?", Time.now, ).order('price desc').first
 
+
+     # @sell_offers = @gate.offers.where("offer_type = 'Sell' and expires > ?", Time.now).order('price desc')
+      @sell_offers = @gate.offers.where("offer_type = 'Sell' and status = 'Pending' and expires > ?", Time.now ).order('price')
+      @best_sell_offer =  @gate.offers.where("offer_type = 'Sell' and status = 'Pending' and expires > ? ", Time.now  ).order('price').first
+
+      @contracts = @gate.contracts.where("user_id = ? and status = 'Open'", current_user.id) 
+      @balance = @gate.contracts.where("user_id = ? ", current_user.id).sum(:price)
+    else
+      @contracts = @site.contracts.where("status = 'Open'") 
     end
 
     respond_to do |format|
@@ -66,7 +83,10 @@ class OffersController < ApplicationController
     @offer = Offer.new(offer_params)
     race = @offer.gate.race 
     @offer.status = 'Pending'
-    
+    @offer.card_id = race.card_id
+    @offer.meet_id = race.meet_id
+    @offer.track_id = race.track_id
+    @offer.site_id = @site.id
     ### determine expiration date of offer
     post_time = race.post_time
     expires = Chronic.parse(params[:offer][:from_now])  
@@ -97,10 +117,22 @@ class OffersController < ApplicationController
   # PATCH/PUT /offers/1.json
   def update
     @offer = Offer.find(params[:id])
-    
+        ### determine expiration date of offer
+    race = @offer.gate.race 
+    post_time = race.post_time
+    expires = Chronic.parse(params[:offer][:from_now])  
+    if expires.blank?
+      @offer.expires = post_time
+    elsif expires > post_time
+      @offer.expires = post_time
+    elsif expires < Time.now
+      @offer.expires = post_time
+    else
+      @offer.expires = expires
+    end
     respond_to do |format|
       if @offer.update_attributes(offer_params)
-        format.html { redirect_to @offer, notice: 'Offer was successfully updated.' }
+        format.html { redirect_to offers_path(:gate_id => @offer.gate_id), notice: 'Offer was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

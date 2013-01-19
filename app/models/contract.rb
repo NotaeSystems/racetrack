@@ -4,26 +4,27 @@ class Contract < ActiveRecord::Base
   belongs_to :gate
   belongs_to :race
 
-  attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price
+  attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price, :card_id, :meet_id, :track_id
 
   def self.buy(gate, number, price, market, user, offer_type, offer_id = nil)
+
     meet = gate.race.card.meet
     race = gate.race
     card = race.card
     track = race.track
     if offer_type == 'Buy' 
-
+    ## user wants to buy an option
         ### find best sell offer
         logger.debug 'inside buy offer'
         if price
-          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' and price < ? ", gate.id, Time.now, price + 1).order('price').first
+          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' and price < ? and user_id != ?", gate.id, Time.now, price + 1, user.id).order('price').first
         else
-          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending' ", gate.id, Time.now).order('price').first 
+          offer = Offer.where("offer_type = 'Sell' and gate_id = ? and expires > ? and status = 'Pending'  and user_id != ?", gate.id, Time.now, user.id).order('price').first 
         end
 
        logger.debug 'cannot find offer' if offer.nil?
         if offer 
-       logger.debug 'found offer' 
+       logger.debug 'found a sell offer' 
           if offer.user_id == user.id
             logger.debug 'checking to see if offer.user_id  equal user.id'
             return
@@ -45,18 +46,21 @@ class Contract < ActiveRecord::Base
           contract = Contract.create( :user_id => user.id,
                            :status => 'Open',
                            :gate_id => gate.id,
-                           :race_id => gate.race_id,
+                           :race_id => race.id,
+                           :card_id => card.id,
+                           :meet_id => meet.id,
+                           :track_id => track.id,
                            :number => number,
-                           :contract_type => 'Buy',
+                           :contract_type => 'Owner',
                            :site_id => race.site_id,
                            :price => -offer.price
                          )
         credit = Credit.create(:user_id =>user.id,
                            :meet_id => meet.id,
                            :amount => -(offer.price),
-                           :description => "Purchased Contract",
+                           :description => "Bought Option",
                            :card_id => card.id,
-                           :credit_type => "Purchase",
+                           :credit_type => "Bought",
                            :track_id => track.id,
                            :site_id => track.site.id,
                            :race_id => race.id,
@@ -66,16 +70,19 @@ class Contract < ActiveRecord::Base
           contract = Contract.create( :user_id => offer.user_id,
                            :status => 'Open',
                            :gate_id => gate.id,
-                           :race_id => gate.race_id,
+                           :race_id => race.id,
+                           :card_id => card.id,
+                           :meet_id => meet.id,
+                           :track_id => track.id,
                            :number => number,
-                           :contract_type => 'Sell',
+                           :contract_type => 'Seller',
                            :site_id => race.site_id,
                            :price => offer.price
                          )
          credit = Credit.create(:user_id =>offer.user.id,
                            :meet_id => meet.id,
                            :amount => offer.price,
-                           :description => "Sold Contract",
+                           :description => "Sold Option",
                            :card_id => card.id,
                            :credit_type => "Sold",
                            :track_id => track.id,
@@ -105,12 +112,12 @@ class Contract < ActiveRecord::Base
 
     ## find best sell offer 
     if offer_type == 'Sell' 
-
+    ## user looking to sell and looking for best buy offer
         ### find best buy offer
         if price
-          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending' and price > ?", gate.id, Time.now, price).order('price').first 
+          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending' and price > ? and user_id != ?", gate.id, Time.now, price -1, user.id).order('price').first 
         else
-          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending'", gate.id, Time.now).order('price').first 
+          offer = Offer.where("offer_type = 'Buy' and gate_id = ? and expires > ? and status = 'Pending' and user_id != ?", gate.id, Time.now, user.id).order('price').first 
         end
         if offer 
           if offer.user_id == user.id
@@ -126,19 +133,27 @@ class Contract < ActiveRecord::Base
           contract = Contract.create( :user_id => user.id,
                            :status => 'Open',
                            :gate_id => gate.id,
-                           :race_id => gate.race_id,
+                           :race_id => race.id,
+                           :card_id => card.id,
+                           :meet_id => meet.id,
+                           :track_id => track.id,
+                           :track_id => track.id,
                            :number => number,
-                           :contract_type => 'Sell',
+                           :contract_type => 'Seller',
                            :price => offer.price
                          )
-          ## create Buyerss contract
+          ## create Buyers contract
           contract = Contract.create( :user_id => offer.user_id,
                            :status => 'Open',
-                           :gate_id => gate.id,
-                           :race_id => gate.race_id,
+                           :gate_id => gate.id,     
+                           :card_id => card.id,
+                           :race_id => race.id,
+                           :card_id => card.id,
+                           :meet_id => meet.id,
+                           :track_id => track.id,
                            :number => number,
-                           :contract_type => 'Buy',
-                           :price => offer.price
+                           :contract_type => 'Owner',
+                           :price => -offer.price
                          )
           buyer = offer.user
           seller = user
@@ -146,9 +161,9 @@ class Contract < ActiveRecord::Base
         Credit.create( :user_id => user.id,
                    :meet_id => gate.race.meet_id,
                    :amount => offer.price,
-                   :credit_type => 'Contract',
+                   :credit_type => 'Option',
                    :card_id => gate.race.card.id,
-                   :description => "Sold Contract: #{gate.horse.name} on #{gate.race.name}",
+                   :description => "Sold Option: #{gate.horse.name} on #{gate.race.name}",
                    :track_id => gate.race.track_id,
                    :site_id => gate.race.site_id, 
                    :level => 'Red',
@@ -160,7 +175,7 @@ class Contract < ActiveRecord::Base
                    :amount => -(offer.price),
                    :credit_type => 'Contract',   
                    :card_id => gate.race.card.id,
-                   :description => "Bought Contract: #{gate.horse.name} on #{gate.race.name}",
+                   :description => "Bought Option: #{gate.horse.name} on #{gate.race.name}",
                    :track_id => gate.race.track_id,
                    :site_id => gate.race.site_id, 
                    :level => 'Red',

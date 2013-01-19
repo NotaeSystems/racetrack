@@ -3,14 +3,32 @@ class Gate < ActiveRecord::Base
   belongs_to :horse
   has_many :offers
   has_many :bets
+  has_many :contracts
   attr_accessible :finish, :horse_id, :number, :race_id, :status
 
+  def best_buy_offer
+    @best_buy_offer = self.offers.where("offer_type = 'Buy' and status = 'Pending' and expires > ?", Time.now).order('price desc').first
+    unless @best_buy_offer.blank?
+      @best_buy_offer
+    else
+     nil
+    end  
+  end
+
+  def best_sell_offer
+    @best_sell_offer = self.offers.where("offer_type = 'Sell' and status = 'Pending' and expires > ? ", Time.now).order('price desc').first
+    unless @best_sell_offer.blank?
+      @best_sell_offer
+    else
+     nil
+    end  
+  end
 
   def settle_contracts(user)
    ## see if there are any open buy and sell contracts for this gate and user
-   open_buy_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Buy' and status = 'Open'", self.id, user.id).first
+   open_buy_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Owner' and status = 'Open'", self.id, user.id).first
    if open_buy_contract
-     open_sell_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Sell' and status = 'Open'", self.id, user.id).first
+     open_sell_contract = Contract.where("gate_id = ? and user_id = ? and contract_type = 'Seller' and status = 'Open'", self.id, user.id).first
      if open_sell_contract
        open_buy_contract.status = 'Closed'
        open_buy_contract.save

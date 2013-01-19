@@ -1,7 +1,14 @@
-<h1>My Open Contracts for <%=link_to @gate.horse.name, offers_path(:gate_id => @gate.id) %></h1>
+
+<strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->
+<strong>  <%= @track.meet_alias%>: <%= link_to @meet.name, @meet,  :class => 'btn btn-mini btn-success' %>
+</strong>->
+<strong><%= @track.card_alias%>: <%= link_to @race.card.name, card_path(:id => @race.card.id),:class => 'btn btn-mini btn-success' %></strong>
+<strong><%= @track.race_alias%>: <%= link_to @race.name, race_path(:id => @race.id),:class => 'btn btn-mini btn-success' %></strong><br /><br />
+<h1>All My Options for <%=link_to @gate.horse.name, offers_path(:gate_id => @gate.id) %></h1>
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
+    <th>Contract ID</th>
     <th>Contract type</th>
     <th>Price</th>
     <th>Status</th>
@@ -20,6 +27,7 @@
   <%else%>
   <tr>
   <%end%>
+    <td><%= contract.id %></td>
     <td><%= contract.contract_type %></td>
     <td><%= contract.price %></td>
     <td><%= contract.status %></td>
@@ -35,9 +43,9 @@
     <%end%>
   <%if contract.status == 'Open' %>
     <%if contract.contract_type == 'Buy' %>
-<td><%= link_to 'Sell at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
+<td><%= link_to 'Sell at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
     <%elsif contract.contract_type == 'Sell' %>
-<td><%= link_to 'Buy at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
+<td><%= link_to 'Buy at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell'), :class => 'btn btn-success', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
     <%end%>
   <%end%>
   </tr>

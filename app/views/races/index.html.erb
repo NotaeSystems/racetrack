@@ -2,8 +2,9 @@
 
 <table class='table table-striped table-bordered table-condensed'>
   <tr>
-    <th>Name</th>
     <th>Card</th>
+    <th>Name</th>
+
     <th>Status</th>
     <th>Start betting time</th>
     <th>Post time</th>
@@ -17,15 +18,16 @@
 
 <% @races.each do |race| %>
   <tr>
-    <td><%= race.name %></td>
-    <td><%= race.card.name %></td>
+    <td><%= link_to race.card.name, race.card, :class => 'btn btn-success' %></td>
+    <td><%= link_to race.name, race, :class => 'btn btn-success' %></td>
+
     <td><%= race.status %></td>
-    <td><%= race.start_betting_time %></td>
-    <td><%= race.post_time %></td>
+    <td><%= race.start_betting_time.strftime("%B %d at %I:%M %p %Z") %></td>
+    <td><%= race.post_time.strftime("%B %d at %I:%M %p %Z") %></td>
     <td><%= race.description %></td>
     <td><%= race.completed %></td>
     <td><%= race.completed_date %></td>
-    <% if user_is_admin? %>
+    <% if user_is_site_manager? %>
       <td><%= link_to 'Show', race %></td>
       <td><%= link_to 'Edit', edit_race_path(race) %></td>
       <td><%= link_to 'Destroy', race, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -36,4 +38,4 @@
 
 <br />
 
-<%= link_to 'New Race', new_race_path %>
+

@@ -10,7 +10,17 @@ Myapp::Application.routes.draw do
       end 
   end
 
-  resources :offers
+  resources :offers do
+      collection do
+       # get ''
+      end
+      member do
+         get 'cancel'
+       # get 'scratch'
+        #get 'credits'
+      end 
+
+  end
 
   resources :transactions
 
@@ -26,6 +36,7 @@ Myapp::Application.routes.draw do
       end
       member do
         get 'contracts'
+        get 'scratch'
         #get 'credits'
       end 
 
