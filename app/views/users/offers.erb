@@ -50,7 +50,7 @@
 
     <td><%= index + 1 %></td>
       
-    <td><%= link_to offer.race.name, offers_path(:gate_id => offer.gate.id), :class => 'btn btn-success' %></td>
+    <td><%= link_to offer.gate.race.name, offers_path(:gate_id => offer.gate.id), :class => 'btn btn-success' %></td>
     <td><%= offer.price %></td>
     <td><%= distance_of_time_in_words_to_now(offer.expires) unless offer.expires.blank? %></td>
 

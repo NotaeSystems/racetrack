@@ -112,7 +112,7 @@ class Race < ActiveRecord::Base
       contract.user.update_race_ranking(self, -100, 'White')        
     end
     #### all other contracts are settled
-    contracts = Contract.where("race_id = ? and status = 'Pending'", self.id)
+    contracts = Contract.where("race_id = ? and status = 'Open'", self.id)
     contracts.update_all(:status => 'Closed')
   end
 
