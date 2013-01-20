@@ -16,13 +16,25 @@ class UsersController < ApplicationController
     end
   end
 
-  def contracts
+  def open_contracts
         @open_contracts= current_user.contracts.where("status = 'Open' ", Time.now).order('updated_at desc')
-        @other_contracts= current_user.contracts.where("status != 'Open' ", Time.now).order('updated_at desc')        
+    #    @other_contracts= current_user.contracts.where("status != 'Open' ", Time.now).order('updated_at desc')        
 
 
     respond_to do |format|
       format.html # index.html.erb
+      format.json { render json: @offers }
+    end
+  end
+
+  def my_open_contracts
+        @open_contracts= current_user.contracts.where("status = 'Open' ", Time.now).order('updated_at desc')
+    #    @other_contracts= current_user.contracts.where("status != 'Open' ", Time.now).order('updated_at desc')        
+
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.js
       format.json { render json: @offers }
     end
   end

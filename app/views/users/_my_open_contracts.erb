@@ -1,0 +1,79 @@
+<h2>My Open Options </h2>
+
+<table class='table table-striped table-bordered table-condensed'>
+  <tr>
+    <th>Option type</th>
+    <th>Gate</th>
+    <th>Price</th>
+    <th>Market </th>
+    <th>Profit Loss </th>
+    <th>Number</th>
+
+
+  </tr>
+
+<% @open_contracts.each do |contract| %>
+  <%if contract.contract_type == 'Owner' %>
+  <tr class='buy'>
+  <%else%>
+  <tr class='sell'>
+  <%end%>
+    <td><%= contract.contract_type %></td>
+    <td><%= link_to "#{contract.race.name}-#{contract.gate.horse.name}", offers_path(:gate_id => contract.gate_id), :class => 'btn' %></td>
+    <td><%= contract.price.abs %></td>
+
+
+    <% if false #user_is_site_manager? %>
+      <td><%= link_to 'Show', contract %>
+      <td><%= link_to 'Edit', edit_contract_path(contract) %>
+      <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <%end%>
+  <%if contract.status == 'Open' %>
+    <%if contract.contract_type == 'Owner' %>
+
+      <%if contract.gate.best_buy_offer.blank? %>
+        <td><%= link_to 'Make Sell Offer', new_offer_path(:gate_id => contract.gate.id, :offer_type => 'Sell'), :class => 'btn btn-seller' %></td>
+        <td>--</td>
+      <%else%>
+        <%if contract.gate.best_buy_offer.user_id == current_user.id %>
+          <td> <%=link_to "Edit My Sell Offer of #{contract.best_buy_offer.price}", edit_offer_path(contract.best_buy_offer), :class => 'btn' %>
+       <%else%>
+        
+
+         <td><%= link_to "Sell Option at #{contract.gate.best_buy_offer.price}", buy_contracts_path(:gate_id => contract.gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell'), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
+
+
+
+
+       <%end%>
+         <td><%= contract.gate.best_buy_offer.price.abs - contract.price.abs  %></td>
+      <%end%>
+
+
+
+    <%elsif contract.contract_type == 'Seller' %>
+
+    <%if contract.gate.best_sell_offer.blank? %>
+        <td><%= link_to 'Make Buy Offer', new_offer_path(:gate_id => contract.gate.id, :offer_type => 'Buy'), :class => 'btn btn-buyer' %></td>
+        <td>--</td>
+    <%else%>
+     <%if contract.gate.best_sell_offer.user_id == current_user.id %>
+      <td> <%=link_to "Edit My Buy Offer of #{contract.gate.best_sell_offer.price}", edit_offer_path(contract.gate.best_sell_offer), :class => 'btn' %>
+     <%else%>
+    
+<td><%= link_to "Buy Option at #{contract.gate.best_sell_offer.price}", buy_contracts_path(:gate_id => contract.gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
+      <%end%>
+      <td><%= contract.price.abs - contract.gate.best_sell_offer.price.abs  %></td>
+    <%end%>
+
+    <%end%>
+  <%end%>
+    <td><%= contract.number %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+
+

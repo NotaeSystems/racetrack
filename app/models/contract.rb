@@ -6,6 +6,9 @@ class Contract < ActiveRecord::Base
 
   attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price, :card_id, :meet_id, :track_id
 
+
+
+
   def self.buy(gate, number, price, market, user, offer_type, offer_id = nil)
 
     meet = gate.race.card.meet

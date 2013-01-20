@@ -1,0 +1,26 @@
+<% content_for :head do %>
+
+    <script>
+function callMeOften()
+ {
+          $.ajax({
+                  method: 'get',
+                  url : '/my_open_contracts.js',
+		  data: "user_id=<%=current_user.id%>", 
+                  success: function(data){data;}
+                   });
+ 
+ };
+ 
+ var holdTheInterval = setInterval(callMeOften, <%=AJAX_CALLS_MILLISECONDS%>);
+
+    </script>
+
+<%end %>
+<div id='my_open_contracts'>
+<%= render :partial => 'my_open_contracts' %>
+</div>
+
+
+
+

@@ -153,7 +153,7 @@ Myapp::Application.routes.draw do
   match "stripeconnect" => "stripe#stripeconnect", :as => :stripeconnect
   match "stripehook" => "stripe#stripehook", :as => :stripehook
 ##############################################
-
+  match 'my_open_contracts' => "users#my_open_contracts", :as => :my_open_contracts
   match "message" => "home#message", :as => :message
   match "privacy1" => "home#privacy", :as => :privacy
   match "terms1" => "home#terms", :as => :terms
