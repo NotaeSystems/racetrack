@@ -33,7 +33,7 @@
     <td><%= contract.status %></td>
 
     <td><%= contract.gate.number %></td>
-    <td><%= contract.race.name %></td>
+    <td><%= link_to contract.race.name, race_path(contract.race) %></td>
     <td><%= contract.gate.horse.name %></td>
     <td><%= contract.number %></td>
     <% if user_is_site_manager? %>

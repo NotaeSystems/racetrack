@@ -176,14 +176,14 @@ class OffersController < ApplicationController
       offer_type = params[:offer][:offer_type] 
       offer_id = nil           
       ## if offer is buy offer and there is an equal or lower priced sell offer then match
-      if offer_type = 'Buy'
+      if offer_type == 'Buy'
         @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
       else
         @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
       end
        if @contract
         ## found an existing sell offer that could be matched and a contract was created
-        flash[:success] = "There was an existing  offer of #{@contract.price} and #{offer_type} Contract was created at #{@contract.price}"
+        flash[:success] = "There was an existing  offer of #{@contract.price} and #{offer_type} Option was created at #{@contract.price}"
         redirect_to offers_path(:gate_id => gate_id)
        end
 
