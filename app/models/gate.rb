@@ -16,7 +16,7 @@ class Gate < ActiveRecord::Base
   end
 
   def best_sell_offer
-    @best_sell_offer = self.offers.where("offer_type = 'Sell' and status = 'Pending' and expires > ? ", Time.now).order('price desc').first
+    @best_sell_offer = self.offers.where("offer_type = 'Sell' and status = 'Pending' and expires > ? ", Time.now).order('price').first
     unless @best_sell_offer.blank?
       @best_sell_offer
     else
