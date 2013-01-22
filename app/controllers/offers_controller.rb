@@ -2,9 +2,10 @@ class OffersController < ApplicationController
   # GET /offers
   # GET /offers.json
 
+    before_filter :login_required_filter
   before_filter :check_for_open_race, :only => [:new]
   before_filter :check_for_matching_offer, :only => [:create, :update]
-
+  
 
   def cancel
     @offer = Offer.find(params[:id])

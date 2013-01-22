@@ -1,7 +1,7 @@
 class BetsController < ApplicationController
   # GET /bets
   # GET /bets.json
-  before_filter :login_required_filter
+  before_filter :login_required_filter, :except => [:show]
   before_filter :check_for_initial_credits, :only => [:new, :exacta]
   before_filter :check_credits_for_zero_balance, :only => [:new, :exacta]
 

@@ -31,7 +31,7 @@
     <td><%= gate.horse.description %></td>
     <td><%= gate.status %></td>
     <td><%= gate.finish %></td>
-    <td><%= gate.race.post_time %></td>
+    <td><%= gate.race.post_time.strftime("%B %d at %I:%M %p %Z") %></td>
   </tr>
 <% end %>
 </table>

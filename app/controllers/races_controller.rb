@@ -1,7 +1,7 @@
 class RacesController < ApplicationController
   # GET /races
   # GET /races.json
-   before_filter :login_required_filter, :except => [:show]
+   before_filter :login_required_filter, :except => [:show, :index]
    before_filter :is_track_manager_filter, :only =>[:edit, :update, :push_message, :close, :cancel, :open, :send_message, :payout]
   before_filter :check_for_winners, :only => [:payout]
   before_filter :check_for_placers, :only => [:payout]

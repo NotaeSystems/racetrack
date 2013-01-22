@@ -71,15 +71,17 @@ class RankingsController < ApplicationController
     @race = Race.find(params[:race_id])
     @rankings = @race.rankings.order("amount desc")
     @track = @race.track
-    @myrank = Ranking.where("user_id = ? and race_id = ?", current_user.id, @race.id).first
-   # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
-    ## this counts the records where amount is greater thant the user
-    unless @myrank.blank?
-      @rank = Ranking.where("amount > ? and user_id =? and race_id = ?", @myrank.amount, current_user.id, @race.id).order("amount desc").count
-    else
-      @rank = Ranking.where("race_id = ?",  @race.id).count
-    end
+    unless current_user.nil?
+      @myrank = Ranking.where("user_id = ? and race_id = ?", current_user.id, @race.id).first
 
+      # @rank = Ranking.count(:order => "amount", :conditions => ['amount > (?)', @myrank.amount])
+      ## this counts the records where amount is greater thant the user
+      unless @myrank.blank?
+        @rank = Ranking.where("amount > ? and user_id =? and race_id = ?", @myrank.amount, current_user.id, @race.id).order("amount desc").count
+      else
+        @rank = Ranking.where("race_id = ?",  @race.id).count
+      end
+    end
   end
 
   def site_ranking
