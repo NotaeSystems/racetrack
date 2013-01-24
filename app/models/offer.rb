@@ -5,7 +5,7 @@ class Offer < ActiveRecord::Base
   belongs_to :card
   belongs_to :meet
   belongs_to :track
-  after_update :update_gates
+  after_commit :update_gates
 
   attr_accessor :from_now
   attr_accessible :expires, :gate_id, :market, :number, :offer_type, :price, :user_id, :from_now, :site_id, :track_id, 
