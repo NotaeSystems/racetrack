@@ -5,7 +5,7 @@ class Gate < ActiveRecord::Base
   has_many :bets
   has_many :contracts
   attr_accessible :finish, :horse_id, :number, :race_id, :status
-  after_update :update_gates
+  after_save :update_gates
 
   def update_gates
     RacesPusher.new(self.race).update_gates(self.race).push
