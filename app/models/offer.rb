@@ -5,6 +5,7 @@ class Offer < ActiveRecord::Base
   belongs_to :card
   belongs_to :meet
   belongs_to :track
+  after_update :update_gates
 
   attr_accessor :from_now
   attr_accessible :expires, :gate_id, :market, :number, :offer_type, :price, :user_id, :from_now, :site_id, :track_id, 
@@ -13,5 +14,9 @@ class Offer < ActiveRecord::Base
   validates_presence_of :price, :offer_type
   validates :price, :numericality => { :greater_than => 0, :less_than => 100 }
 
+  def update_gates
+    RacesPusher.new(self.gate.race).update_gates(self.gate.race).push
+
+  end
  
 end

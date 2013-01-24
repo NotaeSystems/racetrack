@@ -3,7 +3,7 @@
  var pusher = new Pusher('<%= Pusher.key %>')
  var card_channel = pusher.subscribe('<%="card#{@card.id}"%>');
  card_channel.bind('<%="card#{@card.id}"%>', function(data) {
-   alert(data.greeting);
+  alert('An event was triggered with message: ' + data.message);
  });
 
 (function() {

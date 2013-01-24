@@ -1,0 +1,105 @@
+
+
+<%if @race.status == 'Open' || @race.status == 'Pending Payout' %>
+  <table id='horses' class='table table-striped table-bordered table-condensed'>
+
+    <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
+      <% @gates.each do |gate| %>
+
+        <tr id="gate_<%=gate.id%>">
+
+
+          <td><strong><%= gate.number %></strong></td>
+          <td><strong><%= link_to gate.horse.name, horse_path(gate.horse), :class => 'btn btn-block' %></strong></td>
+          <td><%= gate.horse.description %></td>
+          <td><%= gate.horse.finish %></td>
+
+          <%if @race.win? %>
+            <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+          <%end%>
+
+          <% if @race.exchange? %>
+            <td>-</td>
+          <%end%>
+
+          <%if @race.betting_status == 'Open' %>
+            <%if gate.status == 'Open'%>
+
+
+                  <%if @race.win? %>
+
+                    <td><%= link_to 'Bet', new_bet_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+                  <%end%>
+
+                  <%if @race.exchange? %>
+                  <td>
+                    <%if gate.best_sell_offer %>
+
+                        <%= link_to "Buy at #{gate.best_sell_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :price => gate.best_sell_offer.price), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will enter offer to Buy One Option at #{gate.best_sell_offer.price}"}   %>
+                    
+                    <%else %> 
+                      <%= link_to 'Buy Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Buy'), :class => 'btn btn-buyer' %>
+                    <% end %>  
+
+                    <%if gate.best_buy_offer %>
+                      <% if gate.best_buy_offer.user_id == current_user.id %>
+                        <%= link_to "Your Bid: #{gate.best_buy_offer.price}", edit_offer_path(gate.best_buy_offer), :class => 'btn btn-info' %>
+                    <%else%>
+
+                      <%= link_to "Sell at #{gate.best_buy_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell', :price => gate.best_buy_offer.price), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will Sell one Option at Market.'}   %>
+                    <%end%> 
+                  <%else%>
+                    <%= link_to 'Sell Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Sell'), :class => 'btn btn-seller' %>
+                  <% end %>  
+                </td>
+                <td><%= link_to 'Options', offers_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+
+              <%end%>
+
+
+
+        <%elsif gate.status == 'Scratched' %>
+          <td>Scratched</td>
+        <%else%>
+          <td><%= gate.horse.status %></td>   
+
+        <%end%>
+      <%else%>
+         <td><%=@race.betting_status%></td>
+      <%end%>
+
+
+
+    </tr>
+   <% end %>
+ </tbody>
+</table>
+<%end%>
+
+<%if @race.status == 'Canceled' %>
+  <p> Race is canceled.</p>
+<%end%>
+
+
+<%if @race.status == 'Finished' %>
+  <p><%=@race.results %></p>
+  <h4>Results</h4>
+   <table id='horses' class='table table-striped table-bordered table-condensed'>
+
+     <tbody id="races">
+       <% @race.gates.order('finish').each do |gate| %>
+
+        <tr id="gate_<%=gate.id%>">
+
+          <td><%= gate.finish %></td>
+          <td><strong><%= gate.horse.name %></strong></td>
+         <td><%= gate.horse.description %></td>
+         <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+         <br />
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<%end%>
+
+

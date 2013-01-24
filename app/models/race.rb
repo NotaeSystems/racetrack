@@ -9,10 +9,18 @@ class Race < ActiveRecord::Base
   has_many :comments,  :dependent => :destroy 
   has_many :rankings,  :dependent => :destroy
   has_many :offers, :dependent => :destroy
-  
+  after_update :update_gates
+
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
                   :level, :morning_line, :results, :meet_id, :back, :lay, :odds , :exchange
+
+
+  def update_gates
+    RacesPusher.new(self).update_gates(self).push
+
+  end
+
 
   def open?
    betting_status == 'Open'

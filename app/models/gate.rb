@@ -5,6 +5,13 @@ class Gate < ActiveRecord::Base
   has_many :bets
   has_many :contracts
   attr_accessible :finish, :horse_id, :number, :race_id, :status
+  after_update :update_gates
+
+  def update_gates
+    RacesPusher.new(self.race).update_gates(self.race).push
+
+  end
+
 
   def best_buy_offer
     @best_buy_offer = self.offers.where("offer_type = 'Buy' and status = 'Pending' and expires > ?", Time.now).order('price desc').first

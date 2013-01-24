@@ -1,30 +1,17 @@
 <% content_for :head do %>
 
 
-    <script>
-function callMeOften()
- {
-          $.ajax({
-                  method: 'get',
-                  url : '/races/<%=@race.id%>.js',
-		  data: "", 
-                  success: function(data){data;}
-                   });
- 
- };
- 
- var holdTheInterval = setInterval(callMeOften, <%=AJAX_CALLS_MILLISECONDS%>);
 
-    </script>
 
 
 
  <script type="text/javascript">
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) window.console.log(message);
+    };
  var pusher = new Pusher('<%= Pusher.key %>')
- var card_channel = pusher.subscribe('<%="card#{@race.card.id}"%>');
- card_channel.bind('<%="card#{@race.card.id}"%>', function(data) {
-   alert(data.greeting);
- });
+ var channel = pusher.subscribe('<%="race#{@race.id}"%>');
+   channel.bind('race_channel', function(data) {eval( data) });
 
 (function() {
 
@@ -52,12 +39,16 @@ function callMeOften()
 
 <div class='box2'>
 
-<h1><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h1>
+<h1 id='status'><%= @track.race_alias%>: <%=@race.name%>--<%=@race.status%></h1>
+
 <%= render :partial => 'races/credits' %>
+
  <%=link_to "#{@track.race_alias} Leaderboard", rankings_path(:race_id => @race.id), :class => 'btn btn-mini'  %>
 <%if @race.win?%>
+
   <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
 <%end%>
+
  <p> <%= @race.description %></p>
 
 <% if user_signed_in? %>

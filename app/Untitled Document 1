@@ -1,0 +1,16 @@
+require 'action_pusher'
+
+class UsersPusher < ActionPusher
+  def initialize(user)
+    @user = user
+  end
+
+  def channel
+    @user.pusher_key
+  end
+
+  def add_notice(notice = nil)
+    @notice = notice
+    Pushable.new channel, render(template: 'users_pusher/add_notice')
+  end
+end
