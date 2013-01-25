@@ -38,7 +38,7 @@
                       <% if gate.best_sell_offer.user_id == current_user.id %>
                          <%= link_to "Your Bid: #{gate.best_sell_offer.price}", edit_offer_path(gate.best_sell_offer), :class => 'btn btn-info' %>
                       <%else%>
-                        <%= link_to "Buy at #{gate.best_sell_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :price => gate.best_sell_offer.price, :offer_id => gate/best_sell_offer.id), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will enter offer to Buy One Option at #{gate.best_sell_offer.price}"}   %>
+                        <%= link_to "Buy at #{gate.best_sell_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :price => gate.best_sell_offer.price, :offer_id => gate_best_sell_offer.id), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will enter offer to Buy One Option at #{gate.best_sell_offer.price}"}   %>
                       <%end%>
                     <%else %> 
                       <%= link_to 'Buy Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Buy'), :class => 'btn btn-buyer' %>
