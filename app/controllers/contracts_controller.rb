@@ -14,6 +14,7 @@ class ContractsController < ApplicationController
   end
 
   def buy
+    
     @price = nil
     @gate = Gate.where(:id => params[:gate_id]).first
     @market = params[:market]
@@ -26,15 +27,20 @@ class ContractsController < ApplicationController
     @offer_type = params[:offer_type]
     @number = params[:number]
     offer_id = params[:offer_id]
-    @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, offer_id)
-    if @contract
-     if @offer_type == 'Buy'
-       redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
-     elsif @offer_type == 'Sell'
-       redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have sold #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
-     end
+    offer = Offer.find(params[:offer_id])
+    if offer.user_id == current_user.id
+       redirect_to edit_offer_path(offer), :notice => "This is your offer."
     else
-     redirect_to offers_path(:gate_id => @gate.id), :notice => "Sorry! No contract available."
+      @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, offer_id)
+      if @contract
+       if @offer_type == 'Buy'
+         redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+       elsif @offer_type == 'Sell'
+         redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have sold #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+       end
+      else
+       redirect_to offers_path(:gate_id => @gate.id), :notice => "Sorry! No contract available."
+      end
     end
   end
 

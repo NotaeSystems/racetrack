@@ -38,7 +38,7 @@
        <%else%>
         
 
-         <td><%= link_to "Sell Option at #{@best_buy_offer.price}", buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell', :offer_id => @best_buy_offer.id), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
+         <td><%= link_to "Sell Option at #{@best_buy_offer.price}", buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell'), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will sell one contract at Market.'}  %></td>
 
 
 
@@ -59,7 +59,7 @@
       <td> <%=link_to "Edit My Buy Offer of #{@best_sell_offer.price}", edit_offer_path(@best_sell_offer), :class => 'btn' %>
      <%else%>
     
-<td><%= link_to "Buy Option at #{@best_sell_offer.price}", buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :offer_id => @best_sell_offer.id), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
+<td><%= link_to "Buy Option at #{@best_sell_offer.price}", buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'}  %></td>
       <%end%>
       <td><%= contract.price.abs - @best_sell_offer.price.abs  %></td>
     <%end%>

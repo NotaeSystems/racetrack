@@ -3,11 +3,13 @@ class Contract < ActiveRecord::Base
   belongs_to :site
   belongs_to :gate
   belongs_to :race
-
+  after_save :update_open_contracts
   attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price, :card_id, :meet_id, :track_id
 
 
-
+  def update_open_contracts
+    ContractsPusher.new(self).update_open_contracts(self).push
+  end
 
   def self.buy(gate, number, price, market, user, offer_type, offer_id = nil)
 

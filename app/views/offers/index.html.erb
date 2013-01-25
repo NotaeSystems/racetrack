@@ -1,21 +1,15 @@
 <% content_for :head do %>
-  <%unless @gate.blank? %>
     <script>
-function callMeOften()
- {
-          $.ajax({
-                  method: 'get',
-                  url : '/offers.js',
-		  data: "gate_id=<%=@gate.id%>", 
-                  success: function(data){data;}
-                   });
- 
- };
- 
- var holdTheInterval = setInterval(callMeOften, <%=AJAX_CALLS_MILLISECONDS%>);
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) window.console.log(message);
+    };
+ var pusher = new Pusher('<%= Pusher.key %>')
+ var gate_channel = pusher.subscribe('<%="gate#{@gate.id}"%>');
+   gate_channel.bind('offersEvent', function(data) {eval( data) });
+ var user_channel = pusher.subscribe('<%="user_open_contracts#{current_user.id}"%>');
+   user_channel.bind('updateOpenContractsEvent', function(data) {eval( data) });
+</script>
 
-    </script>
-  <%end %>
 <%end %>
 
 <strong> <%= @track.track_alias%>: <%= link_to @track.name, track_path(@track.id),  :class => 'btn btn-mini btn-success'%></strong> ->

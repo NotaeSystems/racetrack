@@ -9,7 +9,7 @@ class Race < ActiveRecord::Base
   has_many :comments,  :dependent => :destroy 
   has_many :rankings,  :dependent => :destroy
   has_many :offers, :dependent => :destroy
-  after_commit :update_gates
+  after_save :update_gates
 
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 

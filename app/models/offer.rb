@@ -16,7 +16,7 @@ class Offer < ActiveRecord::Base
 
   def update_gates
     RacesPusher.new(self.gate.race).update_gates(self.gate.race).push
-
+    OffersPusher.new(self).update_offers(self).push
   end
  
 end

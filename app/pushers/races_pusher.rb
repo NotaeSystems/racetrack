@@ -19,7 +19,7 @@ class RacesPusher < ActionPusher
     @meet = @race.card.meet
     @comments = @race.comments
     channel = "race#{@race.id}"
-    Pushable.new channel, render(template: 'races_pusher/update_gates')
+    Pushable.new channel, 'race_channel', render(template: 'races_pusher/update_gates')
     #Pusher.trigger(channel,'race_channel','help' )
   end
 end

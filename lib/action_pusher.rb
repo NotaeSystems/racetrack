@@ -8,14 +8,15 @@ class ActionPusher < AbstractController::Base
   self.view_paths = "app/views"
 
   class Pushable
-    def initialize(channel, pushtext)
+    def initialize(channel, event, pushtext)
       @channel = channel
       @pushtext = pushtext
+      @event = event
     end
 
     def push
       #PusherChannel.send_message(@channel, @channel, @pushtext)
-       Pusher.trigger(@channel,'race_channel', @pushtext )
+       Pusher.trigger(@channel, @event, @pushtext )
       #Pusher[@channel].trigger('race_channel', {:message => 'hello world'})
     end
   end
