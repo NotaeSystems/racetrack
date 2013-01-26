@@ -347,7 +347,8 @@ class BetsController < ApplicationController
   private
 
   def check_for_initial_credits
-    @race = Race.find(params[:race_id])
+    @gate = Gate.find(params[:gate_id)
+    @race = @gate.race
     @card = @race.card
     @track = @card.meet.track
     ## see if bettor is member of this track
