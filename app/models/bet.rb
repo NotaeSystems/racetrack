@@ -19,8 +19,8 @@ class Bet < ActiveRecord::Base
 
   after_save :update_race
 
-  def update_race
-        RacesPusher.new(self).update_gates(self).push
+  def update_race(self.race)
+    RacesPusher.new(self).update_gates(self).push
 
   end
 end
