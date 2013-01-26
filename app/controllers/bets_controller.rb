@@ -156,9 +156,11 @@ class BetsController < ApplicationController
 
   def new
 
-      @horse = Horse.find(params[:horse_id])
+     # @horse = Horse.find(params[:horse_id])
       @gate = Gate.find(params[:gate_id])
-     @race = Race.find(params[:race_id])
+      @horse = @gate.horse
+      @race = @gate.race
+     #@race = Race.find(params[:race_id])
  
      @card = @race.card
      @meet = @card.meet
@@ -225,7 +227,7 @@ class BetsController < ApplicationController
         format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created." }
         format.json { render json: @bet, status: :created, location: @bet }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to new_bet_path(:gate_id => @gate.id), notice: "Bet was successfully created." }
         format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
