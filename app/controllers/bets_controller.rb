@@ -347,7 +347,7 @@ class BetsController < ApplicationController
   private
 
   def check_for_initial_credits
-    @gate = Gate.find(params[:gate_id)
+    @gate = Gate.find(params[:gate_id])
     @race = @gate.race
     @card = @race.card
     @track = @card.meet.track
