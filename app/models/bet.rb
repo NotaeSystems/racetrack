@@ -1,5 +1,5 @@
 class Bet < ActiveRecord::Base
-  scope :win
+  #scope :win
   belongs_to :user
   belongs_to :horse
   belongs_to :meet
@@ -19,8 +19,8 @@ class Bet < ActiveRecord::Base
 
   after_save :update_race
 
-  def update_race(self.race)
-    RacesPusher.new(self).update_gates(self).push
+  def update_race
+    RacesPusher.new(self.race).update_gates(self.race).push
 
   end
 end
