@@ -374,8 +374,7 @@ class BetsController < ApplicationController
 
 
   def check_for_post_time
-    @gate = Gate.find(params[:gate_id])
-    @race = @gate.race
+    @race = Race.find(params[:bet][:race_id])
     
     post_time = @race.post_time
     return if post_time > Time.zone.now
