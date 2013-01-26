@@ -46,7 +46,8 @@
  <%=link_to "#{@track.race_alias} Leaderboard", rankings_path(:race_id => @race.id), :class => 'btn btn-mini'  %>
 <%if @race.win?%>
 
-  <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini'%>
+  <%= link_to "Total Pool-#{@race.total_bets}", bets_path(:race => @race.id), :class => 'btn btn-mini', :id => 'total_win_pool'%>
+
 <%end%>
 
  <p> <%= @race.description %></p>

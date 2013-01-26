@@ -17,5 +17,10 @@ class Bet < ActiveRecord::Base
                    :win_id, :place_id, :show_id, :fourth_id, :card_id, :gate_id, :level, :back_odds, :odds, :expires
   validates_presence_of :amount, :bet_type
 
+  after_save :update_race
 
+  def update_race
+        RacesPusher.new(self).update_gates(self).push
+
+  end
 end
