@@ -199,7 +199,7 @@ class BetsController < ApplicationController
     @meet = Meet.find(params[:bet][:meet_id])
     @race = Race.find(params[:bet][:race_id])
     @gate = Gate.find(params[:bet][:gate_id])
-    @gate = Card.find(params[:bet][:card_id])
+    @card = Card.find(params[:bet][:card_id])
     @track = Track.find(params[:bet][:track_id])
     @horse = Horse.find(params[:bet][:horse_id])
 
