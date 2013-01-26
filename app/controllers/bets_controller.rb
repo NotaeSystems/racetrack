@@ -227,7 +227,7 @@ class BetsController < ApplicationController
         format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created." }
         format.json { render json: @bet, status: :created, location: @bet }
       else
-        format.html { redirect_to new_bet_path(:gate_id => @race.id), notice: "Could not create bet Errors: #{@bet.errors}." }
+        format.html { redirect_to new_bet_path(:gate_id => @gate.id), notice: "Could not create bet Errors: #{@bet.errors}." }
         format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
