@@ -4,14 +4,15 @@ class Contract < ActiveRecord::Base
   belongs_to :gate
   belongs_to :race
   after_save :update_open_contracts
-  attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price, :card_id, :meet_id, :track_id
+  attr_accessible :contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :status, :price, :card_id, 
+                  :meet_id, :track_id, :level
 
 
   def update_open_contracts
     ContractsPusher.new(self).update_open_contracts(self).push
   end
 
-  def self.buy(gate, number, price, market, user, offer_type, offer_id = nil)
+  def self.buy(gate, number, price, market, user, offer_type, level, offer_id = nil)
 
     meet = gate.race.card.meet
     race = gate.race
@@ -48,6 +49,7 @@ class Contract < ActiveRecord::Base
             offer.status = 'Completed'
             offer.save
           ## create Buyers contract
+
           contract = Contract.create( :user_id => user.id,
                            :status => 'Open',
                            :gate_id => gate.id,
@@ -57,6 +59,7 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :number => number,
                            :contract_type => 'Owner',
+                           :level => level,
                            :site_id => race.site_id,
                            :price => -offer.price
                          )
@@ -69,9 +72,10 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :site_id => track.site.id,
                            :race_id => race.id,
-                           :level => 'White'
+                           :level => level
                              ) 
           ## create Sellers contract
+
           contract = Contract.create( :user_id => offer.user_id,
                            :status => 'Open',
                            :gate_id => gate.id,
@@ -81,6 +85,7 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :number => number,
                            :contract_type => 'Seller',
+                           :level => offer.level,
                            :site_id => race.site_id,
                            :price => offer.price
                          )
@@ -93,7 +98,7 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :site_id => track.site.id,
                            :race_id => race.id,
-                           :level => 'White'
+                           :level => level
                              ) 
 
           seller = offer.user
@@ -145,6 +150,7 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :number => number,
                            :contract_type => 'Seller',
+                           :level => level,
                            :price => offer.price
                          )
           ## create Buyers contract
@@ -158,6 +164,7 @@ class Contract < ActiveRecord::Base
                            :track_id => track.id,
                            :number => number,
                            :contract_type => 'Owner',
+                           :level => offer.level,
                            :price => -offer.price
                          )
           buyer = offer.user

@@ -60,7 +60,8 @@ class OffersController < ApplicationController
   # GET /offers/new.json
   def new
     @gate = Gate.find(params[:gate_id])
-   
+    @race = @gate.race
+    @meet = @race.card.meet
     @offer = Offer.new
     @offer.gate_id = @gate.id
     @offer.user_id = current_user.id
@@ -82,14 +83,15 @@ class OffersController < ApplicationController
   # POST /offers.json
   def create
     @offer = Offer.new(offer_params)
-    race = @offer.gate.race 
+    @race = @offer.gate.race 
     @offer.status = 'Pending'
-    @offer.card_id = race.card_id
-    @offer.meet_id = race.meet_id
-    @offer.track_id = race.track_id
+    @offer.card_id = @race.card_id
+    @offer.meet_id = @race.meet_id
+    @offer.track_id = @race.track_id
     @offer.site_id = @site.id
+    @meet = @race.meet
     ### determine expiration date of offer
-    post_time = race.post_time
+    post_time = @race.post_time
     expires = Chronic.parse(params[:offer][:from_now])  
     if expires.blank?
       @offer.expires = post_time
@@ -175,12 +177,13 @@ class OffersController < ApplicationController
       number = params[:offer][:number].to_i
       price = params[:offer][:price].to_i   
       offer_type = params[:offer][:offer_type] 
+      offer_level = params[:offer][:level] 
       offer_id = nil           
       ## if offer is buy offer and there is an equal or lower priced sell offer then match
       if offer_type == 'Buy'
-        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
+        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_level, offer_id)
       else
-        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_id)
+        @contract = Contract.buy(gate, number, price, 'market', current_user, offer_type, offer_level, offer_id)
       end
        if @contract
         ## found an existing sell offer that could be matched and a contract was created
@@ -193,6 +196,6 @@ class OffersController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def offer_params
-      params.require(:offer).permit(:expires, :gate_id, :market, :number, :offer_type, :price, :user_id, :from_now)
+      params.require(:offer).permit(:expires, :gate_id, :market, :number, :offer_type, :price, :user_id, :from_now, :level)
     end
 end

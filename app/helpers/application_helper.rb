@@ -37,13 +37,13 @@ module ApplicationHelper
   
   def allowed_bets
     allowed_bets_list = []
-    if @horse.race.win?
+    if @gate.race.win?
       allowed_bets_list = allowed_bets_list + ['Win']
     end
-    if @horse.race.place?   
+    if @gate.race.place?   
       allowed_bets_list = allowed_bets_list + ['Place']
     end
-    if @horse.race.show? 
+    if @gate.race.show? 
       allowed_bets_list = allowed_bets_list + ['Show']
     end
     allowed_bets_list

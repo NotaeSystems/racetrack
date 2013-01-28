@@ -1,6 +1,7 @@
 <% if user_signed_in? %>
-  <h4> White <%=@site.credit_alias %> Balance : <%=current_user.white_credits_balance.round %> </h4>
-  <h4> Red <%=@site.credit_alias %> Balance : <%=current_user.red_credits_balance.round %> </h4>
+  <h4> White Balance : <%=current_user.white_credits_balance.round %> </h4>
+  <h4> Red Balance : <%=current_user.red_credits_balance.round %> </h4>
+  <h4> Yellow Balance:Race: <%=current_user.yellow_race_credits_balance(@race).round %>-Card: <%=current_user.yellow_card_credits_balance(@race.card).round %> </h4>
   <%if current_user.meet_balance(@meet) == 0 %>
     <%#= link_to "#{@track.meet_alias.pluralize}", refresh_credits_meet_path(:id => @meet.id) %>
   <%end%>

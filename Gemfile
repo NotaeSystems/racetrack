@@ -70,3 +70,9 @@ gem "therubyracer", ">= 0.10.2", :group => :assets, :platform => :ruby
 gem "hub", ">= 1.10.2", :require => nil, :group => [:development]
 gem "thin", :group => :development
 gem 'letter_opener', :group => :development
+
+
+gem 'better_errors', :group => :development
+gem 'binding_of_caller', :group => :development
+gem 'meta_request', :group => :development
+

@@ -206,10 +206,10 @@ class BetsController < ApplicationController
     @bet.status = 'Pending'
     @bet.card_id = @card.id
     @bet.site_id = @bet.site_id
-    @bet.level = @level
+    #@bet.level = @level
     respond_to do |format|
       if @bet.save
-
+        #check_for_card_bonus
         credit = Credit.create(:user_id => current_user.id,
                            :meet_id => @meet.id,
                            :amount => -@bet.amount,
@@ -227,7 +227,7 @@ class BetsController < ApplicationController
         format.html { redirect_to race_path(:id => @race.id), notice: "Bet was successfully created." }
         format.json { render json: @bet, status: :created, location: @bet }
       else
-        format.html { redirect_to new_bet_path(:gate_id => @gate.id), notice: "Could not create bet Errors: #{@bet.errors}." }
+        format.html { render action: :new}
         format.json { render json: @bet.errors, status: :unprocessable_entity }
       end
     end
@@ -363,6 +363,8 @@ class BetsController < ApplicationController
     #@card.refresh_credits(current_user, 'Initial', @card.initial_credits)
   end
 
+
+
   def check_credits_for_zero_balance
     @gate = Gate.find(params[:gate_id])
     @race = @gate.race
@@ -387,27 +389,37 @@ class BetsController < ApplicationController
   def check_credits_for_sufficient_balance
 
       @amount = params[:bet][:amount].to_i
+      @level = params[:bet][:level]
      @race = Race.find(params[:bet][:race_id])
       @card = @race.card
-      white_balance = current_user.white_credits_balance
-      if white_balance >= 1 && @amount <= white_balance
-        @level = 'White'
-        return
-      end
-     
-      green_balance = current_user.green_credits_balance
-      if green_balance >= 1 && @amount <= green_balance
-        @level = 'Green'
-        return
+
+      if @level == 'Yellow'
+        yellow_balance = current_user.yellow_card_credits_balance(@card)
+        if yellow_balance >= 1 && @amount <= yellow_balance
+          return
+        end
+
+      elsif @level == 'White'
+        white_balance = current_user.white_credits_balance
+        if white_balance >= 1 && @amount <= white_balance
+          return
+        end
+
+      elsif @level == 'Green'   
+        green_balance = current_user.green_credits_balance
+        if green_balance >= 1 && @amount <= green_balance
+          return
+        end
+      elsif @level == 'Red'   
+        red_balance = current_user.red_credits_balance
+        if red_balance >= 1 && @amount <= red_balance
+          return
+        end
+
       end
 
-      red_balance = current_user.red_credits_balance
-      if red_balance >= 1 && @amount <= red_balance
-        @level = 'Red'
-        return
-      end
 
-      flash[:warning] = "Sorry, you do not have enough #{@site.credit_alias}s for this #{@site.bet_alias}. You must use all your White first, then Green, and then Red #{@site.credit_alias}s"
+      flash[:warning] = "Sorry, you do not have enough #{@level} #{@site.credit_alias} for this #{@site.bet_alias}. "
       redirect_to race_path(:id => @race.id)
   end
 

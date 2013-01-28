@@ -9,11 +9,14 @@ class Race < ActiveRecord::Base
   has_many :comments,  :dependent => :destroy 
   has_many :rankings,  :dependent => :destroy
   has_many :offers, :dependent => :destroy
+ 
+  validates_presence_of :name
+  validates :initial_credits, :numericality => true
   after_save :update_gates
 
   attr_accessible :card_id, :completed, :completed_date, :description, :name, :open, :post_time, 
                   :start_betting_time, :status, :track_id, :win, :place, :show, :exacta, :trifecta, 
-                  :level, :morning_line, :results, :meet_id, :back, :lay, :odds , :exchange
+                  :level, :morning_line, :results, :meet_id, :back, :lay, :odds , :exchange, :initial_credits
 
 
   def update_gates
@@ -34,6 +37,7 @@ class Race < ActiveRecord::Base
                            :description => "#{self.name}--Canceled. Returned bet.",
                            :card_id => self.race.card_id,
                            :credit_type => "Race cancelled",
+                           :level => bet.level,
                            :track_id => self.track_id
                              ) 
        bet.status = 'Cancelled'
@@ -86,16 +90,24 @@ class Race < ActiveRecord::Base
     ### find all buy contracts and create bets  credit 100 points
     contracts = Contract.where("gate_id = ? and contract_type = 'Owner' and status = 'Open'", winner.id)
     contracts.each do |contract|
+        if contract.level == 'Yellow'
+          win_level = 'White'
+        elsif contract.level == 'White'
+          win_level = 'Red'
+        elsif contract.level == 'Red'
+          ## TODO add black win level
+          win_level = 'Red'
+        end
         credit = Credit.create(:user_id => contract.user_id,
                            :meet_id => meet.id,
                            :amount => 100,
-                           :description => "Winnings on Contract",
+                           :description => "Winnings on Contract Option",
                            :card_id => card.id,
-                           :credit_type => "Contract Winnings",
+                           :credit_type => "Contract Option Winnings",
                            :track_id => track.id,
                            :site_id => track.site.id,
                            :race_id => self.id,
-                           :level => 'Red'
+                           :level => win_level
                              ) 
       contract.status = 'Settled'
       contract.save
@@ -231,6 +243,14 @@ class Race < ActiveRecord::Base
         won_bet_amount = bet_payoff - bet_amount
         logger.debug "Exacta bet payoff: #{bet_payoff}\n"
         # create Red credit for winnings horse_payoff
+        if bet.level == 'Yellow'
+          win_level = 'White'
+        elsif bet.level == 'White'
+          win_level = 'Red'
+        elsif bet.level == 'Red'
+          ## TODO add black win level
+          win_level = 'Red'
+        end
         Credit.create( :user_id => bet.user_id,
                    :meet_id => bet.meet_id,
                    :amount => won_bet_amount.round,
@@ -239,7 +259,7 @@ class Race < ActiveRecord::Base
                    :description => "Winnings: #{self.name} on #{bet_type}",
                    :track_id => self.track_id,
                    :site_id => self.site_id, 
-                   :level => 'Red',
+                   :level => win_level,
                    :race_id => self.id                
                  )
         ## return winning bet
@@ -297,6 +317,14 @@ class Race < ActiveRecord::Base
         won_bet_amount = bet_payoff - bet_amount
         logger.debug "#{bet_type} bet payoff: #{bet_payoff}\n"
         # create Red credit for winnings horse_payoff
+        if bet.level == 'Yellow'
+          win_level = 'White'
+        elsif bet.level == 'White'
+          win_level = 'Red'
+        elsif bet.level == 'Red'
+          ## TODO add black win level
+          win_level = 'Red'
+        end
         Credit.create( :user_id => bet.user_id,
                    :meet_id => bet.meet_id,
                    :amount => won_bet_amount,
@@ -305,7 +333,7 @@ class Race < ActiveRecord::Base
                    :description => "Winnings: #{self.name} on #{bet_type} on #{gate.horse.name}",
                    :track_id => self.track_id,
                    :site_id => self.site_id,
-                   :level => 'Red',
+                   :level => win_level,
                    :race_id => self.id
                  )
         ## update winnings for site leaderboard
@@ -326,11 +354,11 @@ class Race < ActiveRecord::Base
                  )
         bet.status = 'Paid Out'
         bet.save
-       # if bet.level == 'Red'
+        if win_level == 'Red'
          # bettor.update_card_ranking(gate.race, won_bet_amount)
           logger.debug 'Getting ready to update race rankings'
           bettor.update_race_ranking(gate.race, won_bet_amount, 'Red')
-       # end
+        end
       end
     end
 

@@ -283,6 +283,17 @@ class User < ActiveRecord::Base
     borrowed =  self.credits.where("credit_type IN ('Borrowed', 'Rebuy')").sum(:amount)
   end
 
+  def yellow_race_credits_balance(race)
+
+    borrowed =  self.credits.where("level = 'Yellow' and race_id = ?", race.id).sum(:amount)
+  end
+
+  def yellow_card_credits_balance(card)
+
+    borrowed =  self.credits.where("level = 'Yellow' and card_id = ? and race_id IS NULL", card.id).sum(:amount)
+  end
+
+
   def white_credits_balance
 
     borrowed =  self.credits.where("level = 'White'").sum(:amount)

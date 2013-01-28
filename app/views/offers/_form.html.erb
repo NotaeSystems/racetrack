@@ -1,3 +1,5 @@
+<%= render :partial => 'races/credits' %>
+
 <%= simple_form_for(@offer) do |f| %>
   <%= f.error_notification %>
 
@@ -5,9 +7,11 @@
     <%= f.hidden_field :offer_type %>
     <%= f.hidden_field :user_id %>
     <%= f.input :price %>
+    <%= f.select :level, ['Yellow','White', 'Red', 'Green'] %>
     <%= f.hidden_field :gate_id %>
-    <%= f.input :from_now, :label => 'Expires from now ie in 10 minutes, in 1 day, in 1 hour, Leave blank for post time. etc.' %>
-
+    <%if false %>
+      <%= f.input :from_now, :label => 'Expires from now ie in 10 minutes, in 1 day, in 1 hour, Leave blank for post time. etc.' %>
+    <%end%>
     <%#=f.label 'Number Contracts, each contract is 100 units'%>
     <%= f.hidden_field :number %>
   </div>

@@ -6,6 +6,7 @@ class Gate < ActiveRecord::Base
   has_many :contracts
   attr_accessible :finish, :horse_id, :number, :race_id, :status
   after_save :update_gates
+  validates :number, :numericality => true
 
   def update_gates
     RacesPusher.new(self.race).update_gates(self.race).push

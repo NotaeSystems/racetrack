@@ -110,6 +110,7 @@ class RacesController < ApplicationController
     @race.post_time = Time.now + 2.hours
     @race.level = 'White'
     @race.win = true
+    @race.initial_credits = 0
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @race }
@@ -144,7 +145,9 @@ class RacesController < ApplicationController
   # PUT /races/1.json
   def update
     @race = Race.find(params[:id])
-
+    @card = @race.card
+    @meet = @card.meet
+    @track = @card.meet.track
     respond_to do |format|
       if @race.update_attributes(params[:race])
         format.html { redirect_to @race, notice: 'Race was successfully updated.' }

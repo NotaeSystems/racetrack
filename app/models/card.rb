@@ -14,7 +14,8 @@ class Card < ActiveRecord::Base
                    :card_id => self.id,
                    :meet_id => self.meet_id,
                    :description => 'Refreshed credits',
-                   :track_id => self.meet.track.id
+                   :track_id => self.meet.track.id,  
+                   :level => 'Yellow'      
                  )
    user.update_card_ranking(self, amount)
 
@@ -22,7 +23,7 @@ class Card < ActiveRecord::Base
 
   def close
     ## calculate total credits of all users that bet on card
-    total_rebuy_credits = self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')").sum(:amount)
+    total_rebuy_credits = self.credits.where("credit_type IN ('Borrowed', 'Card Bonus', 'Race Bonus')").sum(:amount)
     logger.debug  "total rebuy_credits = #{total_rebuy_credits}"
     number_of_card_bettors = self.credits.where("credit_type IN ('Initial', 'Borrowed')").count
     logger.debug "total number bettors = #{number_of_card_bettors}"
@@ -34,17 +35,7 @@ class Card < ActiveRecord::Base
       total_user_credits = user.credits.where("card_id = ?", self.id).sum(:amount)
       logger.info "total user credits is #{total_user_credits}"
       ##TO bettor repays borrowed credits
-      borrowed_credits = self.credits.where("credit_type IN ('Rebuy','Initial', 'Borrowed')")
-      borrowed_credits.each do |borrowed|
-        Credit.create( :user_id => borrowed.user_id,
-                   :amount => -borrowed.amount,
-                   :credit_type => 'Paid Back',
-                   :card_id => borrowed.card_id,
-                   :meet_id => borrowed.meet_id,
-                   :track_id => borrowed.track_id,
-                   :description => "Paid back #{borrowed.credit_type} credits. Credit id: #{borrowed.id}",
-                   :track_id => borrowed.track_id
-                 )
+
       end
       ## create ranking record for card
      # Ranking.create( :user_id => user.id,
@@ -53,7 +44,20 @@ class Card < ActiveRecord::Base
      #                 :amount => total_user_credits
      #                 ) 
       ##
-    end
+
+      borrowed_credits = self.credits.where("credit_type IN ('Borrowed', 'Card Bonus', 'Race Bonus')")
+      borrowed_credits.each do |borrowed|
+        Credit.create( :user_id => borrowed.user_id,
+                   :amount => -borrowed.amount,
+                   :credit_type => 'Paid Back',
+                   :card_id => borrowed.card_id,
+                   :level => 'White',
+                   :meet_id => borrowed.meet_id,
+                   :track_id => borrowed.track_id,
+                   :description => "Paid back #{borrowed.credit_type} credits. Credit id: #{borrowed.id}",
+                   :track_id => borrowed.track_id
+                 )
+       end
     ### now calculate the percentile and add to ranking record
    # rankings = Ranking.pluck('amount').where("card_id = ?", self.id)
    # percentile95 = rankings.percentile(95)
