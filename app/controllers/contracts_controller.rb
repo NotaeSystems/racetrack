@@ -144,13 +144,13 @@ class ContractsController < ApplicationController
 
     def check_for_level
     @gate = Gate.where(:id => params[:gate_id]).first
-      if  current_user.yellow_card_credits_balance(@gate.race.card) >= @price
+      if  current_user.yellow_card_credits_balance(@gate.race.card).to_i >= @price.to_i
         @level = 'Yellow'
         return
-      elsif current_user.white_card_credits_balance >= @price
+      elsif current_user.white_card_credits_balance.to_i >= @price.to_i
         @level = 'White'
         return
-      elsif current_user.red_card_credits_balance >= @price
+      elsif current_user.red_card_credits_balance.to_i >= @price.to_i
         @level = 'Red'
         return
       end
