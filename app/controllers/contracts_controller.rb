@@ -3,7 +3,7 @@ class ContractsController < ApplicationController
   # GET /contracts.json
 
   before_filter :check_for_opposing_party, :only => [:buy]
-
+  before_filter :check_for_level, :only => [:buy]
 
   def open_contracts
     if params[:track_id]
@@ -31,7 +31,7 @@ class ContractsController < ApplicationController
     if offer.user_id == current_user.id
        redirect_to edit_offer_path(offer), :notice => "This is your offer."
     else
-      @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, offer_id)
+      @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, @level, offer_id)
       if @contract
        if @offer_type == 'Buy'
          redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
@@ -139,7 +139,22 @@ class ContractsController < ApplicationController
     # params.require(:person).permit(:name, :age)
     # Also, you can specialize this method with per-user checking of permissible attributes.
     def contract_params
-      params.require(:contract).permit(:contract_type, :gate_id, :number, :race_id, :site_id, :user_id)
+      params.require(:contract).permit(:contract_type, :gate_id, :number, :race_id, :site_id, :user_id, :level)
+    end
+
+    def check_for_level
+    @gate = Gate.where(:id => params[:gate_id]).first
+      if  current_user.yellow_card_credits_balance(@gate.race.card) >= @price
+        @level = 'Yellow'
+        return
+      elsif current_user.white_card_credits_balance >= @price
+        @level = 'White'
+ j      return
+      elsif current_user.red_card_credits_balance >= @price
+        @level = 'Red'
+        return
+      end
+      redirect_to race_path(@gate.race) , :notice => "Sorry! Not enought points of one type to conduct purchase."
     end
 
     def check_for_opposing_party
