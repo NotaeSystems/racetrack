@@ -149,7 +149,7 @@ class ContractsController < ApplicationController
         return
       elsif current_user.white_card_credits_balance >= @price
         @level = 'White'
- j      return
+        return
       elsif current_user.red_card_credits_balance >= @price
         @level = 'Red'
         return
