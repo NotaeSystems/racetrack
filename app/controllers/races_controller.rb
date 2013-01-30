@@ -20,11 +20,8 @@ class RacesController < ApplicationController
 
 
  def send_message
-   channel = 'test_channel'
-   id = 'greet'
-   message = "Ready to bet?"
-   PusherChannel.send_message(channel, id, message)
-   #Pusher['test_channel'].trigger('greet', {:greeting => "Hello there!"})
+   @message = params[:messge]
+   RacesPusher.new(@race).alert_message("#{@race.name}: #{@message}.").push
    render :nothing => true
  end
 
@@ -35,7 +32,7 @@ class RacesController < ApplicationController
     @race.status = status
     @race.save
     flash[:notice] = 'Race status was successfully changed.'
- 
+        RacesPusher.new(@race).alert_message("#{@race.name} status is now #{status}.").push
     ## award credits to winners
     ## determine odds
     respond_to do |format|
@@ -49,6 +46,8 @@ class RacesController < ApplicationController
     @race = Race.find(params[:id])
     @race.cancel
     flash[:notice] = 'Race was successfully Cancelled and Bets returned.'
+        RacesPusher.new(@race).flash_message("#{@race.name} was closed.").push
+       RacesPusher.new(@race).flash_message("#{@race.name} was Cancelled and All Bets returned.").push
     redirect_to @race
   end
 
@@ -60,6 +59,7 @@ class RacesController < ApplicationController
     ## payout futures
     @race.settle_contracts
     flash[:notice] = 'Race was successfully Paid Out.'
+    RacesPusher.new(@race).flash_message("#{@race.name} was Paid Out.").push
     redirect_to @race
   end
 

@@ -25,6 +25,27 @@
 }(document, 'script', 'facebook-jssdk'));</script>
 
 
+<script type="text/javascript" >
+
+
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) window.console.log(message);
+    };
+  var pusher = new Pusher('<%= Pusher.key %>')
+
+    <%= yield :pusher %>
+
+   var site_channel = pusher.subscribe('<%="site#{@site.id}"%>');
+     site_channel.bind('flash_message', function(data) {eval( data) });
+     site_channel.bind('alert_message', function(data) {eval( data) });
+
+  <%unless current_user.blank? %>
+   var user_channel = pusher.subscribe('<%="user#{current_user.id}"%>');
+     user_channel.bind('flash_message', function(data) {eval( data) });
+     user_channel.bind('alert_message', function(data) {eval( data) });
+  <%end%>
+</script>
+
       <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
 
     <%= yield :head %>
@@ -54,6 +75,7 @@
             <div class="span12">
              <div id="fb-root"></div>
               <%= render 'layouts/messages' %>
+              <div id='flash_message'></div>
               <%= yield %>
             </div>
           </div>

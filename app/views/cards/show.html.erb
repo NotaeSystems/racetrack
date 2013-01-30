@@ -1,11 +1,13 @@
 <% content_for :head do %>
- <script type="text/javascript">
- var pusher = new Pusher('<%= Pusher.key %>')
- var card_channel = pusher.subscribe('<%="card#{@card.id}"%>');
- card_channel.bind('<%="card#{@card.id}"%>', function(data) {
-  alert('An event was triggered with message: ' + data.message);
- });
 
+ var card_channel = pusher.subscribe('<%="card#{@card.id}"%>');
+   card_channel.bind('card_channel', function(data) {eval( data) });
+
+
+ });
+ <%end%>
+<% content_for :head do %>
+<script>
 (function() {
 
   jQuery(function() {

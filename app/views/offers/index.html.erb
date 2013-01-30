@@ -1,14 +1,13 @@
-<% content_for :head do %>
-    <script>
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) window.console.log(message);
-    };
- var pusher = new Pusher('<%= Pusher.key %>')
+<% content_for :pusher do %>
+
+
+ var channel = pusher.subscribe('<%="race#{@race.id}"%>');
+   channel.bind('race_channel', function(data) {eval( data) });
+   channel.bind('flash_message', function(data) {eval( data) });
  var gate_channel = pusher.subscribe('<%="gate#{@gate.id}"%>');
    gate_channel.bind('offersEvent', function(data) {eval( data) });
  var user_channel = pusher.subscribe('<%="user_open_contracts#{current_user.id}"%>');
    user_channel.bind('updateOpenContractsEvent', function(data) {eval( data) });
-</script>
 
 <%end %>
 
