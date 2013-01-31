@@ -20,7 +20,8 @@ class Bet < ActiveRecord::Base
   after_save :update_race
 
   def update_race
-    RacesPusher.new(self.race).update_gates(self.race).push
+    #RacesPusher.new(self.race).update_gates(self.race).push
+    RacesPusher.new(self.race).update_odds(self.gate).push
     check_for_card_bonus
     check_for_race_bonus
   end

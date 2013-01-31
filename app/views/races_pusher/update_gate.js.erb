@@ -1,0 +1,9 @@
+<%if @offer.offer_type == 'Sell'%>
+  $('#gate<%=@gate.id%>best_sell').html("<%= escape_javascript(render(:partial => 'best_sell'))%>");
+
+   $('#gate<%=@gate.id%>best_sell').hide().fadeIn(2000);
+<%else%>
+  $('#gate<%=@gate.id%>best_buy').html("<%= escape_javascript(render(:partial => 'best_buy'))%>");
+
+   $('#gate<%=@gate.id%>best_buy').hide().fadeIn(2000);
+<%end%>

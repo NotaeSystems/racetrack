@@ -6,7 +6,7 @@
     <tbody id="races" data-update-url="<%= sort_card_url(:id => @card.id) %>">
       <% @gates.each do |gate| %>
 
-        <tr id="gate_<%=gate.id%>">
+        <tr>
 
 
           <td><strong><%= gate.number %></strong></td>
@@ -15,7 +15,7 @@
           <td><%= gate.horse.finish %></td>
 
           <%if @race.win? %>
-            <td>Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
+            <td id="gate_odds<%=gate.id%>">Total <%=@track.bet_alias%>: Win Pot: <%= gate.total_bets('Win') %> Odds: <%=gate.odds('Win')%></td>
           <%end%>
 
           <% if @race.exchange? %>
@@ -33,29 +33,29 @@
                   <%end%>
 
                   <%if @race.exchange? %>
-                  <td>
+                  <td  id="gate<%=gate.id%>" >
                     <%if gate.best_sell_offer %>
                       <% if gate.best_sell_offer.user_id == current_user.id %>
-                         <%= link_to "Your Bid: #{gate.best_sell_offer.price}", edit_offer_path(gate.best_sell_offer), :class => 'btn btn-info' %>
+                         <%= link_to "Your Bid: #{gate.best_sell_offer.price}", edit_offer_path(gate.best_sell_offer), :class => 'btn btn-info',:id => "gate#{gate.id}best_sell" %>
                       <%else%>
-                        <%= link_to "Buy at #{gate.best_sell_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :price => gate.best_sell_offer.price, :offer_id => gate.best_sell_offer.id), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will enter offer to Buy One Option at #{gate.best_sell_offer.price}"}   %>
+                        <%= link_to "Buy at #{gate.best_sell_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :price => gate.best_sell_offer.price, :offer_id => gate.best_sell_offer.id), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will enter offer to Buy One Option at #{gate.best_sell_offer.price}"}, :id => "gate#{gate.id}best_sell"   %>
                       <%end%>
                     <%else %> 
-                      <%= link_to 'Buy Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Buy'), :class => 'btn btn-buyer' %>
+                      <%= link_to 'Buy Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Buy'), :class => 'btn btn-buyer',:id => "gate#{gate.id}best_sell"  %>
                     <% end %>  
 
                     <%if gate.best_buy_offer %>
                       <% if gate.best_buy_offer.user_id == current_user.id %>
-                        <%= link_to "Your Bid: #{gate.best_buy_offer.price}", edit_offer_path(gate.best_buy_offer), :class => 'btn btn-info' %>
+                        <%= link_to "Your Bid: #{gate.best_buy_offer.price}", edit_offer_path(gate.best_buy_offer), :class => 'btn btn-info' , :id => "gate#{gate.id}best_buy" %>
                     <%else%>
 
-                      <%= link_to "Sell at #{gate.best_buy_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell', :price => gate.best_buy_offer.price, :offer_id => gate.best_buy_offer.id), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will Sell one Option at Market.'}   %>
+                      <%= link_to "Sell at #{gate.best_buy_offer.price}", buy_contracts_path(:gate_id => gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell', :price => gate.best_buy_offer.price, :offer_id => gate.best_buy_offer.id), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will Sell one Option at Market.'},  :id => "gate#{gate.id}best_buy"   %>
                     <%end%> 
                   <%else%>
-                    <%= link_to 'Sell Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Sell'), :class => 'btn btn-seller' %>
+                    <%= link_to 'Sell Offer', new_offer_path(:gate_id => gate.id, :offer_type => 'Sell'), :class => 'btn btn-seller', :id => "gate#{gate.id}best_buy"  %>
                   <% end %>  
                 </td>
-                <td><%= link_to 'Options', offers_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success' %></td>
+                <td><%= link_to 'Options', offers_path(:horse_id => gate.horse.id, :race_id => @race.id, :gate_id => gate.id), :class => 'btn btn-success',  :id => "gate#{gate.id}best_buy"  %></td>
 
               <%end%>
             <%else%>

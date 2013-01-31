@@ -1,0 +1,8 @@
+                    <%if @gate.best_buy_offer %>
+
+
+                      <%= link_to "Sell at #{@gate.best_buy_offer.price}", buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Sell', :price => @gate.best_buy_offer.price, :offer_id => @gate.best_buy_offer.id), :class => 'btn btn-seller', data: { confirm: 'Are you sure? This will Sell one Option at Market.'} , :id => "gate#{@gate.id}best_buy" %>
+ 
+                  <%else%>
+                    <%= link_to 'Sell Offer', new_offer_path(:gate_id => @gate.id, :offer_type => 'Sell'), :class => 'btn btn-seller',:id => "gate#{@gate.id}best_buy" %>
+                  <% end %>  

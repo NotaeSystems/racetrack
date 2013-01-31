@@ -1,8 +1,4 @@
-$('#flash_message').css("background-color","yellow"); 
 $('#flash_message').html("<%= escape_javascript(@message)%>");
+$('#flash_message'.effect("highlight", {}, 3000);
 
-   $('#flash_message').delay(500).fadeIn('normal', function() {
-      $(this).delay(5500).fadeOut();
-   });
-alert("<%= escape_javascript(@message)%>");
 

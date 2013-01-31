@@ -6,6 +6,20 @@ class RacesPusher < ActionPusher
     @race = race
   end
 
+  def flash_gate(gate, offer)
+      @gate = gate
+      @offer = offer
+      #@best_buy_offer = gate
+      Pushable.new "race#{@gate.race.id}", 'race_channel', render(template: 'races_pusher/update_gate')
+
+  end
+
+  def update_odds(gate)
+    @gate = gate
+    @track = @gate.race.track
+    Pushable.new "race#{@gate.race.id}", 'race_channel', render(template: 'races_pusher/update_odds')
+  end
+
   def flash_message(message)
     begin
       default_url_options[:host] = @race.card.meet.track.site.domain
@@ -28,7 +42,7 @@ class RacesPusher < ActionPusher
   end
 
   def update_gates(race = nil)
-    begin
+    #begin
       default_url_options[:host] = race.card.meet.track.site.domain
       @race = race
       @card = @race.card
@@ -40,9 +54,9 @@ class RacesPusher < ActionPusher
       @comments = @race.comments
       channel = "race#{@race.id}"
       Pushable.new channel, 'race_channel', render(template: 'races_pusher/update_gates')
-    rescue
-      logger.info 'Pusher failed'
-    end
+    #rescue
+     # logger.info 'Pusher failed'
+    #end
     #Pusher.trigger(channel,'race_channel','help' )
   end
 end

@@ -1,2 +1,3 @@
   $('#races').html("<%= escape_javascript(render(:partial => 'races'))%>");
   $('#status').html("<%= escape_javascript("#{@track.race_alias}: #{@race.name}--#{@race.status}")%>");
+  $('#races').effect("highlight", {}, 3000);

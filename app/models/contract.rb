@@ -104,8 +104,8 @@ class Contract < ActiveRecord::Base
           seller = offer.user
           buyer = user
           ### charge buyer and credit seller
-                  UsersPusher.new(seller).alert_message("#{race.name}: Option sold at #{offer.price}.").push
-                  UsersPusher.new(buyer).alert_message("#{race.name}: Option bought at #{offer.price}.").push
+                  UsersPusher.new(seller).flash_message("#{race.name}: Option sold at #{offer.price}.").push
+                  UsersPusher.new(buyer).flash_message("#{race.name}: Option bought at #{offer.price}.").push
           seller.update_race_ranking(race, offer.price, 'White')
           buyer.update_race_ranking(race, -offer.price, 'White')
 
@@ -199,8 +199,8 @@ class Contract < ActiveRecord::Base
 
           seller.update_race_ranking(race, offer.price, 'White')
           buyer.update_race_ranking(race, -offer.price, 'White')
-                  UsersPusher.new(seller).alert_message("#{race.name}: Option sold at #{offer.price} .").push
-                  UsersPusher.new(buyer).alert_message("#{race.name}: Option bought at #{offer.price} .").push
+                  UsersPusher.new(seller).flash_message("#{race.name}: Option sold at #{offer.price} .").push
+                  UsersPusher.new(buyer).flash_message("#{race.name}: Option bought at #{offer.price} .").push
           gate.settle_contracts(seller)
           gate.settle_contracts(buyer)
           return contract
