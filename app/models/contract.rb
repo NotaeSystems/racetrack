@@ -48,6 +48,7 @@ class Contract < ActiveRecord::Base
           ### close offer
             offer.status = 'Completed'
             offer.save
+           OffersPusher.new(offer).update_offers(offer).push
           ## create Buyers contract
 
           contract = Contract.create( :user_id => user.id,
@@ -141,6 +142,7 @@ class Contract < ActiveRecord::Base
           ### close offer
             offer.status = 'Completed'
             offer.save
+           OffersPusher.new(offer).update_offers(offer).push
           ## create Sellers contract
           contract = Contract.create( :user_id => user.id,
                            :status => 'Open',

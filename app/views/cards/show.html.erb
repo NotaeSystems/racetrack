@@ -1,4 +1,4 @@
-<% content_for :head do %>
+<% content_for :pusher do %>
 
  var card_channel = pusher.subscribe('<%="card#{@card.id}"%>');
    card_channel.bind('card_channel', function(data) {eval( data) });

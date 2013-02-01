@@ -37,8 +37,9 @@ class Offer < ActiveRecord::Base
  
 
   def update_gate
-   if self.status == 'Cancelled'
+   if self.status == 'Cancelled' || self.status == 'Completed'
      RacesPusher.new(self.gate.race).flash_gate(self.gate, self).push
+     OffersPusher.new(self).update_offers(self).push
    else
      # RacesPusher.new(self.gate.race).update_gates(self.gate.race).push
       OffersPusher.new(self).update_offers(self).push
