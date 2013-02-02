@@ -37,11 +37,11 @@
     <td><%= distance_of_time_in_words_to_now(offer.expires) unless offer.expires.blank? %></td>
     <td><%= offer.number %></td>
   <%if offer.user.id != current_user.id %>
-    <td><%= link_to 'Buy', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :offer_id => offer.id, :price => offer.price), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'} %></td>
+    <td><%= link_to 'Buy', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :offer_id => offer.id, :price => offer.price), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'}, :remote => true %></td>
   <%end%>
   <%if offer.user.id == current_user.id %>
   <td>   <%= link_to 'Edit', edit_offer_path(offer), :class => 'btn'%>
-  <%= link_to 'Cancel', cancel_offer_path(offer), :class => 'btn' , data: { confirm: 'Are you sure? This will cancel this offer.'}%></td>
+  <%= link_to 'Cancel', cancel_offer_path(offer), :class => 'btn' , data: { confirm: 'Are you sure? This will cancel this offer.'} %></td>
   <%end%>
 
   </tr>
