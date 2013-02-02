@@ -85,6 +85,7 @@ class OffersController < ApplicationController
   def create
     @offer = Offer.new(offer_params)
     @race = @offer.gate.race 
+    @card = @race.card
     @offer.status = 'Pending'
     @offer.card_id = @race.card_id
     @offer.meet_id = @race.meet_id
