@@ -41,8 +41,9 @@ class ContractsController < ApplicationController
       else
     #   redirect_to race_path(@gate.race), :notice => "Sorry! No contract available."
       end
-    end
     render :nothing => true
+    end
+
   end
 
   def index
