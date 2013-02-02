@@ -394,7 +394,7 @@ class BetsController < ApplicationController
       @card = @race.card
 
       if @level == 'Yellow'
-        yellow_balance = current_user.yellow_card_credits_balance(@card)
+        yellow_balance = current_user.yellow_credits_balance(@card)
         if yellow_balance >= 1 && @amount <= yellow_balance
           return
         end

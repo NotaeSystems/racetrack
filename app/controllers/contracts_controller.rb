@@ -34,14 +34,15 @@ class ContractsController < ApplicationController
       @contract = Contract.buy(@gate, @number, @price, @market, current_user, @offer_type, @level, offer_id)
       if @contract
        if @offer_type == 'Buy'
-         redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+       #  redirect_to race_path(@gate.race), :notice => "Success! You have bought #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
        elsif @offer_type == 'Sell'
-         redirect_to offers_path(:gate_id => @gate.id), :notice => "Success! You have sold #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
+  #       redirect_to race_path(@gate.race), :notice => "Success! You have sold #{@contract.number} #{@offer_type} contract(s) at #{@contract.price}."
        end
       else
-       redirect_to offers_path(:gate_id => @gate.id), :notice => "Sorry! No contract available."
+    #   redirect_to race_path(@gate.race), :notice => "Sorry! No contract available."
       end
     end
+    render :nothing => true
   end
 
   def index

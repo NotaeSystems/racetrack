@@ -4,49 +4,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= content_for?(:title) ? yield(:title) : @site.name %></title>
 
-  <%#= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
-  <%= tag :meta, :name => "stripe-key", :content => Rails.configuration.stripe[:publishable_key] %>
+    <%#= javascript_include_tag "https://js.stripe.com/v1/", "application" %>
+    <%#= tag :meta, :name => "stripe-key", :content => Rails.configuration.stripe[:publishable_key] %>
 
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
 
 
-  <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
+    <script src="http://js.pusher.com/1.12/pusher.min.js" type="text/javascript"></script>
 
-<meta property="fb:app_id" content="<%=@site.facebook_key%>"/>
+    <meta property="fb:app_id" content="<%=@site.facebook_key%>"/>
 
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%=@site.facebook_key%>";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-<script type="text/javascript" >
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=<%=@site.facebook_key%>";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
 
 
-    Pusher.log = function(message) {
-      if (window.console && window.console.log) window.console.log(message);
-    };
-  var pusher = new Pusher('<%= Pusher.key %>')
+    <script type="text/javascript" >
 
-    <%= yield :pusher %>
 
-   var site_channel = pusher.subscribe('<%="site#{@site.id}"%>');
-     site_channel.bind('flash_message', function(data) {eval( data) });
-     site_channel.bind('alert_message', function(data) {eval( data) });
+      Pusher.log = function(message) {
+        if (window.console && window.console.log) window.console.log(message);
+      };
+      var pusher = new Pusher('<%= Pusher.key %>')
 
-  <%unless current_user.blank? %>
-   var user_channel = pusher.subscribe('<%="user#{current_user.id}"%>');
-     user_channel.bind('flash_message', function(data) {eval( data) });
-     user_channel.bind('alert_message', function(data) {eval( data) });
-  <%end%>
-</script>
+      <%= yield :pusher %>
 
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      var site_channel = pusher.subscribe('<%="site#{@site.id}"%>');
+        site_channel.bind('flash_message', function(data) {eval( data) });
+        site_channel.bind('alert_message', function(data) {eval( data) });
+
+     <%unless current_user.blank? %>
+      var user_channel = pusher.subscribe('<%="user#{current_user.id}"%>');
+        user_channel.bind('flash_message', function(data) {eval( data) });
+        user_channel.bind('alert_message', function(data) {eval( data) });
+     <%end%>
+     </script>
+
+     <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+    </script>
 
     <%= yield :head %>
 
@@ -80,7 +82,7 @@
             </div>
           </div>
           <footer class='footer'>
-                        <%= render 'layouts/footer' %>
+            <%= render 'layouts/footer' %>
           </footer>
         </div>
       </div> <!--! end of .container -->

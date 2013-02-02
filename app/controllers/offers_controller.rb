@@ -61,6 +61,7 @@ class OffersController < ApplicationController
   def new
     @gate = Gate.find(params[:gate_id])
     @race = @gate.race
+    @card = @race.card
     @meet = @race.card.meet
     @offer = Offer.new
     @offer.gate_id = @gate.id

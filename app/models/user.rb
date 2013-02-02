@@ -267,6 +267,46 @@ class User < ActiveRecord::Base
     
   end
 
+  def check_for_card_bonus(card)
+    ## see if bettor has been given initial card credits
+    bonus_credits = Credit.where("user_id = ? and credit_type = 'Card Bonus' and card_id = ?", self.id, card.id).first
+    logger.info "Initial card credits = #{bonus_credits.amount unless bonus_credits.blank?}"
+    return if bonus_credits
+    ## TODO check for source of credits later may be from meet
+    logger.info "Awarding Card bonus credits- #{card.initial_credits}\n"
+    Credit.create( :user_id => self.id,
+                   :amount => card.initial_credits.to_i,
+                   :credit_type => "Card Bonus",
+                   :card_id => card.id,
+                   :meet_id => self.meet_id,
+                   :description => "Card Bonus for #{card.name} ",
+                   :track_id => card.meet.track.id,  
+                   :level => 'Yellow'      
+                 )
+
+  end
+
+  def check_for_race_bonus(race)
+    ## see if bettor has been given initial card credits
+    bonus_credits = Credit.where("user_id = ? and credit_type = 'Race Bonus' and race_id = ?", self.id, race.id).first
+    logger.info "Initial race credits = #{bonus_credits.amount unless bonus_credits.blank?}"
+    return if bonus_credits
+    ## TODO check for source of credits later may be from meet
+    logger.info "Awarding race bonus credits- #{race.initial_credits}\n"
+    Credit.create( :user_id => self.id,
+                   :amount => race.initial_credits,
+                   :credit_type => "Race Bonus",
+                   :race_id => race.id,
+                   :card_id => race.card.id,
+                   :meet_id => race.card.meet_id,
+                   :description => "Race Bonus for #{race.name}",
+                   :track_id => race.card.meet.track.id,  
+                   :level => 'Yellow'      
+                 )
+
+  end
+
+
   def meet_balance(meet)
    self.credits.where("meet_id = ?", meet.id).sum(:amount)
 
@@ -293,6 +333,9 @@ class User < ActiveRecord::Base
     borrowed =  self.credits.where("level = 'Yellow' and card_id = ? and race_id IS NULL", card.id).sum(:amount)
   end
 
+  def yellow_credits_balance(card)
+    borrowed =  self.credits.where("level = 'Yellow' and card_id = ? ", card.id).sum(:amount)
+  end
 
   def white_credits_balance
 

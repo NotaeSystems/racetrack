@@ -17,7 +17,7 @@ class Offer < ActiveRecord::Base
 
   def destroy_offer
 
-   # RacesPusher.new(self.gate.race).update_gates(self.gate.race).push
+    RacesPusher.new(self.gate.race).update_gates(self.gate.race).push
     OffersPusher.new(self).update_offers(self).push
 
     if self.offer_type == 'Buy' 
