@@ -278,7 +278,7 @@ class User < ActiveRecord::Base
                    :amount => card.initial_credits.to_i,
                    :credit_type => "Card Bonus",
                    :card_id => card.id,
-                   :meet_id => self.meet_id,
+                   :meet_id => card.meet_id,
                    :description => "Card Bonus for #{card.name} ",
                    :track_id => card.meet.track.id,  
                    :level => 'Yellow'      
