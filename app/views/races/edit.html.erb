@@ -1,4 +1,4 @@
-<h1>Editing <%=@race.name%></h1>
+<h1>Editing <%= link_to @race.name, race_path(@race), :class => 'btn btn-success'%></h1>
 
 <%= render 'form' %>
 
