@@ -32,14 +32,14 @@
 <%if @best_sell_offer.blank? %>
   <p>Best Sell Option Offer: No Market</p>
 <%else%>
-  Best Buy Option Offer: <%=@best_sell_offer.price %></p>
+<p>  Best Buy Option Offer: <%=@best_sell_offer.price %></p>
 <%end%>
 <div id='open_contracts' >
 <%=render :partial => 'open_contracts' %>
 </div>
   
 <% if @race.open? %>
- <div id='offers'>
+
  <div id='buy_offers'>
 <%=render :partial => 'buy_offers' %>
 </div>

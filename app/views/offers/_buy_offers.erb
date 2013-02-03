@@ -2,14 +2,14 @@
 
 
 <h3>Buy Options Market</h3>
-<h5>What it would cost to Buy an Option on <%= "Gate Number: #{@gate.number}: #{@gate.horse.name}" %>
+<h5>What it would cost to Buy an Option on <%= "Gate Number: #{@gate.number}: #{@gate.horse.name}" %></h5>
 <%unless @best_buy_offer.blank? %>
 <%#= link_to 'Buy One Option at Market', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy'), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one Option at Market.'} %>
 <%end%>
 
 
 
-<table class='table table-striped table-bordered table-condensed'id='buy_offers'>
+<table class='table table-striped table-bordered table-condensed'  >
   <tr>
     <th>Position</th>
     <th>Player</th>
@@ -37,7 +37,7 @@
     <td><%= distance_of_time_in_words_to_now(offer.expires) unless offer.expires.blank? %></td>
     <td><%= offer.number %></td>
   <%if offer.user.id != current_user.id %>
-    <td><%= link_to 'Buy', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :offer_id => offer.id, :price => offer.price), :class => 'btn btn-buyer', data: { confirm: 'Are you sure? This will buy one contract at Market.'}, :remote => true %></td>
+    <td><%= link_to 'Buy', buy_contracts_path(:gate_id => @gate.id, :market => 'Market', :number => 1, :offer_type => 'Buy', :offer_id => offer.id, :price => offer.price), :class => 'btn btn-buyer', data: { confirm: "Are you sure? This will buy one contract at #{offer.price}"}, :remote => true %></td>
   <%end%>
   <%if offer.user.id == current_user.id %>
   <td>   <%= link_to 'Edit', edit_offer_path(offer), :class => 'btn'%>
@@ -45,6 +45,7 @@
   <%end%>
 
   </tr>
+
 <% end %>
 
 </table>
