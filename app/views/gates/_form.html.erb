@@ -3,11 +3,12 @@
 
   <div class="form-inputs">
     <%= f.input :number %>
+    <%= f.select :horse_id, stable_list, :label => 'Stable' %>
     <%= f.input :finish %>
  <%= f.input :status, :collection => ['Open', 'Scratched','Pending Payout', 'Closed'],  :selected => @gate.status %>
     <%= f.input :race_id %>
     <%= f.label :horse %>
-    <%= f.select :horse_id, stable_list, :label => 'Stable' %>
+
     <%= f.hidden_field :race_id %>
   </div>
 

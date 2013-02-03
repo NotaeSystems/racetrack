@@ -35,7 +35,7 @@ class Race < ActiveRecord::Base
                            :meet_id => bet.meet_id,
                            :amount => bet.amount,
                            :description => "#{self.name}--Canceled. Returned bet.",
-                           :card_id => self.race.card_id,
+                           :card_id => self.card_id,
                            :credit_type => "Race cancelled",
                            :level => bet.level,
                            :track_id => self.track_id
