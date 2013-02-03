@@ -44,7 +44,7 @@ class Race < ActiveRecord::Base
        bet.amount = 0
 
        bet.save
-       bet.user.update_ranking(self.race.card.meet.id, bet.amount)
+       bet.user.update_ranking(self.card.meet.id, bet.amount)
      end
        self.status = 'Cancelled'
        self.save
