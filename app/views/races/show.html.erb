@@ -99,13 +99,10 @@
 </div>
 
 
-
-
-<h5>Comments on <%=@race.name%></h5>
-
 </div>
+<h5>Comments on <%=@race.name%></h5>
 <fb:comments-count href="<%= j "http://#{@site.domain}races/#{@race.id}/"%>"></fb:comments-count> comments 
 
-<div class="fb-comments" data-href="<%= j "http://#{@site.domain}/cards/#{@race.id}/"%>" data-width="470" data-num-posts="10"></div>
+<div class="fb-comments" data-href="<%= j "http://#{@site.domain}/races/#{@race.id}/"%>" data-width="470" data-num-posts="10"></div>
 
 
