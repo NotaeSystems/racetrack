@@ -19,7 +19,7 @@
   <tr class='sell'>
   <%end%>
     <td><%= contract.contract_type %></td>
-    <td><%= link_to "#{contract.race.name}-#{contract.gate.horse.name unless contract.gate.horse.blank?}", offers_path(:gate_id => contract.gate_id), :class => 'btn' %></td>
+    <td><%= link_to "#{contract.race.name}-#{contract.gate.horse.name unless contract.gate.blank?}", offers_path(:gate_id => contract.gate_id), :class => 'btn' %></td>
     <td><%= contract.price.abs %></td>
 
 
