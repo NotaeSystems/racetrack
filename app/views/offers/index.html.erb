@@ -34,6 +34,8 @@
 <%else%>
 <p>  Best Buy Option Offer: <%=@best_sell_offer.price %></p>
 <%end%>
+<h2>My Open Options for <%=link_to @gate.horse.name, offers_path(:gate_id => @gate.id) %></h2>
+
 <div id='open_contracts' >
 <%=render :partial => 'open_contracts' %>
 </div>

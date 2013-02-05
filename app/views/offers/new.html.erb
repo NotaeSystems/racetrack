@@ -1,5 +1,4 @@
-<h1>New <%=@offer.offer_type %> Offer for <%= "Gate: #{@gate.number}: #{@gate.horse.name}" %></h1>
-
+<h1>New <%=@offer.offer_type %> Offer for <%= link_to "Gate: #{@gate.number}: #{@gate.horse.name}", offers_path(:gate_id => @gate.id), :class => 'btn btn-success' %></h1>
 <%= render 'form' %>
 
 

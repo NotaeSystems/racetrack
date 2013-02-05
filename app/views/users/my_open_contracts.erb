@@ -1,22 +1,9 @@
-<% content_for :head do %>
+<% content_for :pusher do %>
+ var user_channel = pusher.subscribe('<%="my_open_contracts#{current_user.id}"%>');
+   user_channel.bind('updateAllOpenContractsEvent', function(data) {eval( data) });
 
-    <script>
-function callMeOften()
- {
-          $.ajax({
-                  method: 'get',
-                  url : '/my_open_contracts.js',
-		  data: "user_id=<%=current_user.id%>", 
-                  success: function(data){data;}
-                   });
- 
- };
- 
- var holdTheInterval = setInterval(callMeOften, <%=AJAX_CALLS_MILLISECONDS%>);
-
-    </script>
-
-<%end %>
+<%end%>
+<h2>My Open Options </h2>
 <div id='my_open_contracts'>
 <%= render :partial => 'my_open_contracts' %>
 </div>

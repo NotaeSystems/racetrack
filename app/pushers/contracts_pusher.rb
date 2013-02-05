@@ -23,5 +23,9 @@ class ContractsPusher < ActionPusher
       channel = "user_open_contracts#{@user.id}"
       Pushable.new channel, 'updateOpenContractsEvent',  render(template: 'contracts_pusher/open_contracts')
 
+      ## update all Open Options
+      channel = "my_open_contracts#{@user.id}"
+      @open_contracts = Contract.where("user_id = ? and status = 'Open'", @contract.user_id) 
+      Pushable.new channel, 'updateAllOpenContractsEvent',  render(template: 'users/my_open_contracts')
   end
 end

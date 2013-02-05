@@ -1,3 +1,2 @@
-
-  $('#my_open_contracts').html("<%= escape_javascript(render(:partial => 'my_open_contracts'))%>");
-
+$('#my_open_contracts').html("<%= escape_javascript(render(:partial => 'users/my_open_contracts'))%>");
+$('#my_open_contracts').effect("highlight", {}, 3000);
