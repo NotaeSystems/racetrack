@@ -56,7 +56,7 @@ class ContractsController < ApplicationController
         @contracts = @gate.contracts.where(:status => 'Open')
       end
     else
-      @contracts = @gate.contracts
+      @contracts = Contract.all
     end
     respond_to do |format|
       format.html # index.html.erb
