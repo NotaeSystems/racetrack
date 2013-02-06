@@ -9,7 +9,8 @@ class Race < ActiveRecord::Base
   has_many :comments,  :dependent => :destroy 
   has_many :rankings,  :dependent => :destroy
   has_many :offers, :dependent => :destroy
- 
+  has_many :contracts, :dependent => :destroy
+
   validates_presence_of :name
   validates :initial_credits, :numericality => true
   after_save :update_gates

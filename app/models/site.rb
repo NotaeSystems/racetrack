@@ -1,15 +1,15 @@
 class Site < ActiveRecord::Base
   ActiveModel::ForbiddenAttributesProtection
   has_many :meets
-  has_many :tracks
+  has_many :tracks, :dependent => :destroy
   has_many :cards
   has_many :races
   has_many :horses
-  has_many :leagues
-  has_many :users
-  has_many :subscriptions
+  has_many :leagues, :dependent => :destroy
+  has_many :users, :dependent => :destroy
+  has_many :subscriptions, :dependent => :destroy
   has_many :transactions
-  has_many :rankings
+  has_many :rankings, :dependent => :destroy
   belongs_to :owner, :class_name => "User"
 
   default_value_for :track_alias, 'Track' 
