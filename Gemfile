@@ -20,6 +20,10 @@ gem 'will_paginate'
 gem 'acts-as-taggable-on'
 gem 'chronic'
 
+##https://github.com/laserlemon/figaro
+### environmental variables 
+gem "figaro"
+
 #### stripe
 gem 'stripe'
 gem 'omniauth-stripe-connect'

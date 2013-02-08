@@ -102,6 +102,8 @@ GEM
     faraday_middleware (0.9.0)
       faraday (>= 0.7.4, < 0.9)
     ffi (1.1.5)
+    figaro (0.5.3)
+      rails (~> 3.0)
     gherkin (2.11.5)
       json (>= 1.4.6)
     gravatar-ultimate (1.0.3)
@@ -312,6 +314,7 @@ DEPENDENCIES
   email_spec (>= 1.2.1)
   exception_notification!
   factory_girl_rails (>= 4.1.0)
+  figaro
   gravatar-ultimate
   httparty
   hub (>= 1.10.2)
